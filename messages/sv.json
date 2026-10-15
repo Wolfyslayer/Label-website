@@ -91,7 +91,9 @@
     "featuredReleases": "Utvalda utgivningar",
     "relatedReleases": "Relaterade utgivningar",
     "fromLabel": "Mer från bolaget",
-    "upcomingBadge": "Kommande"
+    "upcomingBadge": "Kommande",
+    "artistNavigation": "Navigera på artistsidan",
+    "releaseTotal": "{count, plural, one {# utgivning} other {# utgivningar}}"
   },
   "artistsPage": {
     "metaTitle": "Artister",
@@ -125,7 +127,9 @@
     "allYears": "Alla år",
     "allTypes": "all",
     "releaseCount": "{count, plural, one {# utgivelse} other {# utgivningar}}",
-    "emptyFilters": "Inga utgivningar matchar dina filter."
+    "emptyFilters": "Inga utgivningar matchar dina filter.",
+    "spotifyOnly": "Endast på Spotify",
+    "clearFilters": "Rensa filter"
   },
   "releasePage": {
     "notFound": "Utgivelsen hittades inte",

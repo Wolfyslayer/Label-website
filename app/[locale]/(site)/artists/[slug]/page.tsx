@@ -77,15 +77,27 @@ export default async function ArtistDetailPage({ params }: Props) {
   const { albumsAndEps, singles } = partitionDiscography(discography);
   const latest = getLatestReleaseForArtist(allReleases, artist.id);
   const labelMates = getLabelMateReleases(allReleases, artist, 3);
+  const publishedCount = discography.length;
 
   return (
     <>
       <ArtistHero artist={artist} />
 
+      <Container className="pt-8">
+        <nav aria-label={tDisc("artistNavigation")} className="flex flex-wrap items-center gap-2 border-b border-border-subtle pb-6">
+          <a href="#artist-intro" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("introduction")}</a>
+          {latest ? <a href="#artist-latest-release" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("latestRelease")}</a> : null}
+          {albumsAndEps.length ? <a href="#artist-albums" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("albumsAndEps")}</a> : null}
+          {singles.length ? <a href="#artist-singles" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("singles")}</a> : null}
+          {artist.spotifyArtistUrl ? <a href="#artist-spotify" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">Spotify</a> : null}
+          <span className="ml-auto text-xs text-text-muted">{tDisc("releaseTotal", { count: publishedCount })}</span>
+        </nav>
+      </Container>
+
       <Container className="py-[var(--space-section)]">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-20">
           <div className="space-y-16">
-            <section aria-labelledby="artist-intro">
+            <section id="artist-intro" aria-label={t("introduction")}>
               <SectionHeader
                 eyebrow={tDisc("profileEyebrow")}
                 title={t("introduction")}
@@ -103,7 +115,7 @@ export default async function ArtistDetailPage({ params }: Props) {
             ) : null}
 
             {albumsAndEps.length ? (
-              <section aria-labelledby="artist-albums">
+              <section id="artist-albums" aria-label={t("albumsAndEps")}>
                 <SectionHeader
                   eyebrow={tDisc("discoverEyebrow")}
                   title={t("albumsAndEps")}
@@ -125,7 +137,7 @@ export default async function ArtistDetailPage({ params }: Props) {
             ) : null}
 
             {singles.length ? (
-              <section aria-labelledby="artist-singles">
+              <section id="artist-singles" aria-label={t("singles")}>
                 <SectionHeader eyebrow={tDisc("discoverEyebrow")} title={t("singles")} align="left" />
                 <div className="@container mt-8">
                   <div className="album-grid">
@@ -147,7 +159,7 @@ export default async function ArtistDetailPage({ params }: Props) {
             ) : null}
 
             {artist.spotifyArtistUrl ? (
-              <section aria-labelledby="artist-spotify">
+              <section id="artist-spotify" aria-label={t("spotifyProfile")}>
                 <SectionHeader
                   eyebrow={tDisc("discoverEyebrow")}
                   title={t("spotifyProfile")}

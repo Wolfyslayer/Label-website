@@ -91,7 +91,9 @@
     "featuredReleases": "Featured releases",
     "relatedReleases": "Related releases",
     "fromLabel": "More from the label",
-    "upcomingBadge": "Upcoming"
+    "upcomingBadge": "Upcoming",
+    "artistNavigation": "Artist page navigation",
+    "releaseTotal": "{count, plural, one {# release} other {# releases}}"
   },
   "artistsPage": {
     "metaTitle": "Artists",
@@ -125,7 +127,9 @@
     "allYears": "All years",
     "allTypes": "all",
     "releaseCount": "{count, plural, one {# release} other {# releases}}",
-    "emptyFilters": "No releases match your filters."
+    "emptyFilters": "No releases match your filters.",
+    "spotifyOnly": "Available on Spotify",
+    "clearFilters": "Clear filters"
   },
   "releasePage": {
     "notFound": "Release not found",
