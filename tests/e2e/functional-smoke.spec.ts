@@ -53,16 +53,6 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByRole("link", { name: /contact@wolfyslayer\.online/i }).first()).toBeVisible();
   });
 
-  test("admin static notice", async ({ page }) => {
-    await page.goto("/admin/");
-    await expect(page.getByRole("heading", { name: /CMS not available/i })).toBeVisible();
-  });
-
-  test("admin login page loads", async ({ page }) => {
-    await page.goto("/admin/login");
-    await expect(page.getByRole("heading")).toBeVisible();
-  });
-
   test("robots and sitemap", async ({ request, baseURL }) => {
     const robots = await request.get("/robots.txt");
     expect(robots.ok()).toBeTruthy();

@@ -88,22 +88,16 @@ export function planImportWrites(result: ImportCatalogResult): {
   const keepReleaseFiles = new Set(result.releases.map((r) => releaseFileName(r)));
   const keepTrackFiles = new Set(result.tracks.map((t) => trackFileName(t)));
 
+  // Only known seed placeholders are eligible for automatic deletion.
+  // Manual and previously imported catalog files must be removed by an owner-reviewed PR.
   const removes: string[] = [];
   for (const f of listManagedReleaseFiles()) {
-    if (PLACEHOLDER_RELEASE_FILES.includes(f as (typeof PLACEHOLDER_RELEASE_FILES)[number])) {
-      removes.push(join("content", "releases", f));
-      continue;
-    }
-    if (!keepReleaseFiles.has(f)) {
+    if (PLACEHOLDER_RELEASE_FILES.includes(f as (typeof PLACEHOLDER_RELEASE_FILES)[number]) && !keepReleaseFiles.has(f)) {
       removes.push(join("content", "releases", f));
     }
   }
   for (const f of listManagedTrackFiles()) {
-    if (PLACEHOLDER_TRACK_FILES.includes(f as (typeof PLACEHOLDER_TRACK_FILES)[number])) {
-      removes.push(join("content", "tracks", f));
-      continue;
-    }
-    if (!keepTrackFiles.has(f)) {
+    if (PLACEHOLDER_TRACK_FILES.includes(f as (typeof PLACEHOLDER_TRACK_FILES)[number]) && !keepTrackFiles.has(f)) {
       removes.push(join("content", "tracks", f));
     }
   }

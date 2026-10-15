@@ -160,6 +160,16 @@ export async function importSpotifyCatalog(
     }
   }
 
+  // Preserve catalog items omitted by Spotify until their removal is manually reviewed.
+  for (const previous of source.releases) {
+    if (placeholderIds.has(previous.id) || importedReleaseIds.has(previous.id)) continue;
+    if (previous.importSource !== "spotify" && !extractSpotifyAlbumIdFromRelease(previous)) continue;
+    releases.push(previous);
+    importedReleaseIds.add(previous.id);
+    tracks.push(...source.tracks.filter((track) => track.releaseId === previous.id));
+    reportLines.push(`  REVIEW REQUIRED: Spotify did not return "${previous.title}" (${previous.id}); kept existing release and tracks.`);
+  }
+
   const removedReleaseIds = [...placeholderIds];
   const removedTrackIds = ["track-frostmark-01"];
 

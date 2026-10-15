@@ -2,10 +2,16 @@ name: Import Spotify catalog
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '23 6 * * *'
 
 permissions:
   contents: write
   pull-requests: write
+
+concurrency:
+  group: spotify-catalog-refresh
+  cancel-in-progress: false
 
 jobs:
   import:
@@ -41,6 +47,9 @@ jobs:
 
       - name: Validate content
         run: npm run validate:content
+
+      - name: Spotify importer tests
+        run: npm run test:spotify
 
       - name: Lint
         run: npm run lint
