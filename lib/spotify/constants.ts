@@ -22,6 +22,12 @@ export const SPOTIFY_API_BASE = "https://api.spotify.com/v1";
 /** Prefer Swedish catalog; falls back via API if some items are region-locked. */
 export const SPOTIFY_MARKET = "SE";
 
+/** Spotify Web API max for `GET /artists/{id}/albums` (not 50). */
+export const SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT = 10;
+
+/** Spotify Web API max for `GET /albums/{id}/tracks`. */
+export const SPOTIFY_ALBUM_TRACKS_PAGE_LIMIT = 50;
+
 export const PLACEHOLDER_RELEASE_IDS = [
   "release-frostmark-placeholder-01",
   "release-wolfyslayer-upcoming-01",
