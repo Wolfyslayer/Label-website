@@ -20,7 +20,7 @@ export const siteConfig = {
   fullName: "Wolfyslayer Records",
   tagline: "Independent music. Two voices. One label.",
   description:
-    "WOLFYSLAYER RECORDS is an independent music label representing Frostmark and Wolfyslayer.",
+    "Discover Wolfyslayer Records, an independent music label featuring Frostmark and Wolfyslayer. Explore official artist profiles, music releases, news and contact information.",
   url: resolveSiteUrl(),
   basePath: siteBasePath,
   staticHosting: process.env.NEXT_PUBLIC_STATIC_HOSTING === "1",
