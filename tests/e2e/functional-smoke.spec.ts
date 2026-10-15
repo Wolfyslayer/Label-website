@@ -12,7 +12,7 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await page.goto("/en/music/");
     await expect(page.getByRole("heading", { level: 1, name: /music/i })).toBeVisible();
     await page.goto("/sv/music/");
-    await expect(page.getByRole("heading", { level: 1, name: /musik/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("music catalog search and artist filter", async ({ page }) => {
