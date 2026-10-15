@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "siteName": "Wolfyslayer Records",
+    "defaultDescription": "Wolfyslayer Records är ett independentbolag som representerar Frostmark och Wolfyslayer."
+  },
+  "nav": {
+    "artists": "Artister",
+    "music": "Musik",
+    "upcoming": "Kommande",
+    "news": "Nyheter",
+    "about": "Om oss",
+    "contact": "Kontakt",
+    "listen": "Lyssna",
+    "exploreMusic": "Utforska musik",
+    "openMenu": "Öppna meny",
+    "closeMenu": "Stäng meny",
+    "primary": "Huvudnavigering",
+    "mobilePrimary": "Mobil navigering"
+  },
+  "lang": {
+    "label": "Språk",
+    "en": "English",
+    "sv": "Svenska"
+  },
+  "footer": {
+    "explore": "Utforska",
+    "contact": "Kontakt",
+    "general": "Allmänna förfrågningar",
+    "press": "Press & media",
+    "emailEnv": "E-post konfigureras via miljövariabler",
+    "rights": "Alla rättigheter förbehållna.",
+    "tagline": "Independent label · Frostmark · Wolfyslayer",
+    "socialEnv": "Sociala länkar visas när de konfigurerats i miljövariabler."
+  },
+  "a11y": {
+    "skip": "Hoppa till innehåll"
+  },
+  "home": {
+    "heroTagline": "Independent music. Two voices. One label. Cinematiska utgivningar från Frostmark och Wolfyslayer.",
+    "latestMusic": "Senaste musik",
+    "meetArtists": "Möt artisterna",
+    "rosterEyebrow": "Roster",
+    "rosterTitle": "Artist i fokus",
+    "rosterDesc": "Två distinkta röster under ett independentbolag.",
+    "catalogEyebrow": "Katalog",
+    "catalogTitle": "Senaste utgivningar",
+    "catalogCta": "Hela katalogen",
+    "featuredEyebrow": "Utvalt",
+    "featuredTitle": "Senaste i fokus",
+    "viewRelease": "Visa release",
+    "listenEyebrow": "Lyssna",
+    "listenTitle": "På Spotify",
+    "listenDesc": "Följ Frostmark och Wolfyslayer på Spotify. Inbäddad spelare via Spotifys officiella spelare.",
+    "scheduleEyebrow": "Schema",
+    "scheduleTitle": "Kommande utgivningar",
+    "scheduleCta": "Visa alla",
+    "newsEyebrow": "Nyheter",
+    "newsTitle": "Senaste uppdateringar",
+    "newsCta": "Alla nyheter",
+    "connectTitle": "Håll kontakten",
+    "connectDesc": "Följ Wolfyslayer Records och våra artister på dina plattformar.",
+    "noReleases": "Utgivningar visas här när de publiceras.",
+    "spotifyMissing": "Spotify-URL saknas."
+  },
+  "artist": {
+    "badge": "Artist",
+    "view": "Visa artist",
+    "biography": "Biografi",
+    "discography": "Diskografi",
+    "noReleases": "Inga publicerade utgivningar ännu.",
+    "stream": "Streama",
+    "social": "Socialt",
+    "listenSpotify": "Lyssna på Spotify"
+  },
+  "artistsPage": {
+    "metaTitle": "Artister",
+    "metaDescription": "Artister på Wolfyslayer Records: Frostmark och Wolfyslayer.",
+    "eyebrow": "Roster",
+    "title": "Artister",
+    "description": "Distinkta identiteter, samlade under noggrann kurering."
+  },
+  "musicPage": {
+    "metaTitle": "Musik",
+    "metaDescription": "Utforska katalogen på Wolfyslayer Records.",
+    "eyebrow": "Katalog",
+    "title": "Musik",
+    "description": "Sök och filtrera utgivningar från Frostmark och Wolfyslayer.",
+    "search": "Sök",
+    "searchPlaceholder": "Titel eller artist…",
+    "filterArtist": "Artist",
+    "allArtists": "Alla artister",
+    "format": "Format",
+    "year": "År",
+    "allYears": "Alla år",
+    "allTypes": "all",
+    "releaseCount": "{count, plural, one {# utgivelse} other {# utgivningar}}",
+    "emptyFilters": "Inga utgivningar matchar dina filter."
+  },
+  "releasePage": {
+    "notFound": "Utgivelsen hittades inte",
+    "tracklist": "Spårlista",
+    "credits": "Medverkande",
+    "previewSpotify": "Förhandslyssna på Spotify"
+  },
+  "upcomingPage": {
+    "metaTitle": "Kommande utgivningar",
+    "metaDescription": "Schemalagda utgivningar från Wolfyslayer Records.",
+    "eyebrow": "Schema",
+    "title": "Kommande utgivningar",
+    "description": "Nedräkningar baseras på sparade release-tidsstämplar i UTC.",
+    "empty": "Inga kommande utgivningar schemalagda. Kom tillbaka snart eller bläddra i <catalog>katalogen</catalog>.",
+    "preSave": "Pre-save",
+    "outNow": "Ute nu"
+  },
+  "newsPage": {
+    "metaTitle": "Nyheter",
+    "metaDescription": "Nyheter och uppdateringar från Wolfyslayer Records.",
+    "eyebrow": "Uppdateringar",
+    "title": "Nyheter",
+    "empty": "Inga nyheter publicerade ännu.",
+    "back": "Nyheter",
+    "notFound": "Artikeln hittades inte"
+  },
+  "aboutPage": {
+    "metaTitle": "Om oss",
+    "eyebrow": "Bolag",
+    "title": "Om Wolfyslayer Records",
+    "mission": "Mission",
+    "artistsHeading": "Artister"
+  },
+  "contactPage": {
+    "metaTitle": "Kontakt",
+    "metaDescription": "Kontakta Wolfyslayer Records.",
+    "eyebrow": "Hör av dig",
+    "title": "Kontakt",
+    "description": "Allmänna förfrågningar, licensiering och samarbeten. Vi svarar när vi kan.",
+    "emailLabel": "E-post"
+  },
+  "pressPage": {
+    "metaTitle": "Presskit",
+    "metaDescription": "Godkända pressmaterial och biografier för Wolfyslayer Records.",
+    "eyebrow": "Media",
+    "title": "Presskit",
+    "description": "Ladda ner godkända logotyper och fotografier. Ersätt platshållare innan extern distribution.",
+    "labelContact": "Bolagskontakt",
+    "pressInquiries": "Pressförfrågningar",
+    "configureEmail": "Konfigurera NEXT_PUBLIC_PRESS_EMAIL eller kontakt-e-post",
+    "assets": "Material",
+    "download": "Ladda ner",
+    "downloadMissing": "URL för högupplöst nedladdning saknas",
+    "bios": "Artistbiografier",
+    "short": "Kort",
+    "long": "Lång"
+  },
+  "contactForm": {
+    "name": "Namn",
+    "email": "E-post",
+    "subject": "Ämne",
+    "message": "Meddelande",
+    "send": "Skicka meddelande",
+    "sending": "Skickar…",
+    "success": "Tack — ditt meddelande har mottagits. Vi återkommer när vi kan.",
+    "websiteHoneypot": "Webbplats"
+  },
+  "contactErrors": {
+    "network": "Nätverksfel. Försök igen.",
+    "generic": "Meddelandet kunde inte skickas.",
+    "rateLimit": "För många förfrågningar. Försök igen senare.",
+    "invalidJson": "Ogiltig förfrågan.",
+    "storeFailed": "Meddelandet kunde inte sparas. Försök igen eller maila oss direkt.",
+    "deliveryFailed": "Leveransen misslyckades.",
+    "notConfigured": "Kontaktformuläret är inte konfigurerat. Sätt upp Supabase eller CONTACT_WEBHOOK_URL."
+  },
+  "validation": {
+    "nameMin": "Namnet måste vara minst 2 tecken",
+    "emailInvalid": "Ange en giltig e-postadress",
+    "subjectMin": "Ämne krävs",
+    "messageMin": "Meddelandet måste vara minst 20 tecken"
+  },
+  "streaming": {
+    "empty": "Streaminglänkar visas här när de konfigurerats.",
+    "embedNote": "Lyssning via Spotify-inbäddning. Öppnas i Spotify för full uppspelning där det krävs."
+  },
+  "common": {
+    "placeholderAsset": "Platshållare",
+    "placeholderPhoto": "Tillfällig — officiellt porträtt saknas",
+    "placeholderHero": "Platshållare hero",
+    "notFoundTitle": "Sidan hittades inte",
+    "notFoundDesc": "Sidan du sökte finns inte. Utforska katalogen eller gå till startsidan.",
+    "home": "Startsida",
+    "loading": "Laddar…",
+    "translationFallback": "Översättning saknas ännu — visar engelska."
+  },
+  "countdown": {
+    "days": "Dagar",
+    "hours": "Timmar",
+    "minutes": "Min",
+    "seconds": "Sek",
+    "aria": "Nedräkning till release"
+  },
+  "notFoundArtist": "Artist hittades inte"
+}

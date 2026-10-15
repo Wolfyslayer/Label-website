@@ -4,6 +4,7 @@ import { ReleaseCard } from "@/components/music/release-card";
 import { Input } from "@/components/ui/input";
 import type { Artist, Release } from "@/lib/types/content";
 import { cn } from "@/lib/utils/cn";
+import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
 const typeFilters = ["all", "album", "single", "ep"] as const;
@@ -15,6 +16,7 @@ export function MusicCatalog({
   releases: Release[];
   artists: Artist[];
 }) {
+  const t = useTranslations("musicPage");
   const [query, setQuery] = useState("");
   const [artistId, setArtistId] = useState<string>("all");
   const [type, setType] = useState<(typeof typeFilters)[number]>("all");
@@ -44,23 +46,23 @@ export function MusicCatalog({
     <div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Input
-          label="Search"
+          label={t("search")}
           name="search"
-          placeholder="Title or artist…"
+          placeholder={t("searchPlaceholder")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         <div className="space-y-2">
           <label htmlFor="artist-filter" className="block text-sm text-text-secondary">
-            Artist
+            {t("filterArtist")}
           </label>
           <select
             id="artist-filter"
-            className="w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
+            className="min-h-11 w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
             value={artistId}
             onChange={(e) => setArtistId(e.target.value)}
           >
-            <option value="all">All artists</option>
+            <option value="all">{t("allArtists")}</option>
             {artists.map((a) => (
               <option key={a.id} value={a.id}>
                 {a.name}
@@ -69,36 +71,36 @@ export function MusicCatalog({
           </select>
         </div>
         <div className="space-y-2">
-          <span className="block text-sm text-text-secondary">Format</span>
+          <span className="block text-sm text-text-secondary">{t("format")}</span>
           <div className="flex flex-wrap gap-2">
-            {typeFilters.map((t) => (
+            {typeFilters.map((filterType) => (
               <button
-                key={t}
+                key={filterType}
                 type="button"
-                onClick={() => setType(t)}
+                onClick={() => setType(filterType)}
                 className={cn(
-                  "rounded-sm border px-3 py-2 text-xs uppercase tracking-widest transition-colors",
-                  type === t
+                  "min-h-11 rounded-sm border px-3 py-2 text-xs uppercase tracking-widest transition-colors",
+                  type === filterType
                     ? "border-accent-muted bg-surface-elevated text-text-primary"
                     : "border-border text-text-muted hover:text-text-secondary",
                 )}
               >
-                {t}
+                {filterType === "all" ? t("allTypes") : filterType}
               </button>
             ))}
           </div>
         </div>
         <div className="space-y-2">
           <label htmlFor="year-filter" className="block text-sm text-text-secondary">
-            Year
+            {t("year")}
           </label>
           <select
             id="year-filter"
-            className="w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
+            className="min-h-11 w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
             value={year}
             onChange={(e) => setYear(e.target.value)}
           >
-            <option value="all">All years</option>
+            <option value="all">{t("allYears")}</option>
             {years.map((y) => (
               <option key={y} value={y}>
                 {y}
@@ -109,23 +111,23 @@ export function MusicCatalog({
       </div>
 
       <p className="mt-6 text-sm text-text-muted" aria-live="polite">
-        {filtered.length} release{filtered.length === 1 ? "" : "s"}
+        {t("releaseCount", { count: filtered.length })}
       </p>
 
       {filtered.length ? (
         <div className="@container mt-8">
-        <div className="album-grid">
-          {filtered.map((release) => (
-            <ReleaseCard
-              key={release.id}
-              release={release}
-              artist={artistById.get(release.artistId)}
-            />
-          ))}
-        </div>
+          <div className="album-grid">
+            {filtered.map((release) => (
+              <ReleaseCard
+                key={release.id}
+                release={release}
+                artist={artistById.get(release.artistId)}
+              />
+            ))}
+          </div>
         </div>
       ) : (
-        <p className="mt-12 text-center text-text-secondary">No releases match your filters.</p>
+        <p className="mt-12 text-center text-text-secondary">{t("emptyFilters")}</p>
       )}
     </div>
   );

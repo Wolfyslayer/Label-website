@@ -3,14 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-type FieldErrors = Partial<Record<"name" | "email" | "subject" | "message" | "website", string>>;
+type FieldErrors = Partial<Record<"name" | "email" | "subject" | "message", string>>;
 
 export function ContactForm() {
+  const t = useTranslations("contactForm");
+  const tErr = useTranslations("contactErrors");
+  const tVal = useTranslations("validation");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [serverError, setServerError] = useState<string | null>(null);
+
+  function translateFieldError(code?: string) {
+    if (!code) return undefined;
+    return tVal(code as "nameMin");
+  }
+
+  function translateServerError(code?: string) {
+    if (!code) return tErr("generic");
+    return tErr(code as "network");
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,8 +50,8 @@ export function ContactForm() {
 
       const json = (await res.json()) as {
         ok?: boolean;
-        fieldErrors?: FieldErrors;
-        error?: string;
+        fieldErrorCodes?: Record<string, string>;
+        errorCode?: string;
       };
 
       if (res.ok && json.ok) {
@@ -46,11 +60,17 @@ export function ContactForm() {
         return;
       }
 
-      if (json.fieldErrors) setErrors(json.fieldErrors);
-      setServerError(json.error ?? "Unable to send message.");
+      if (json.fieldErrorCodes) {
+        const mapped: FieldErrors = {};
+        for (const [key, code] of Object.entries(json.fieldErrorCodes)) {
+          mapped[key as keyof FieldErrors] = translateFieldError(code);
+        }
+        setErrors(mapped);
+      }
+      setServerError(translateServerError(json.errorCode));
       setStatus("error");
     } catch {
-      setServerError("Network error. Please try again.");
+      setServerError(tErr("network"));
       setStatus("error");
     }
   }
@@ -61,30 +81,29 @@ export function ContactForm() {
         className="rounded-sm border border-success/30 bg-success/10 p-6 text-sm text-text-primary"
         role="status"
       >
-        Thank you — your message was received. We will respond when possible.
+        {t("success")}
       </div>
     );
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-6" noValidate>
-      {/* Honeypot — hidden from users */}
       <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden>
-        <label htmlFor="website">Website</label>
+        <label htmlFor="website">{t("websiteHoneypot")}</label>
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <Input label="Name" name="name" required autoComplete="name" error={errors.name} />
+      <Input label={t("name")} name="name" required autoComplete="name" error={errors.name} />
       <Input
-        label="Email"
+        label={t("email")}
         name="email"
         type="email"
         required
         autoComplete="email"
         error={errors.email}
       />
-      <Input label="Subject" name="subject" required error={errors.subject} />
-      <Textarea label="Message" name="message" required error={errors.message} />
+      <Input label={t("subject")} name="subject" required error={errors.subject} />
+      <Textarea label={t("message")} name="message" required error={errors.message} />
 
       {serverError ? (
         <p className="text-sm text-danger" role="alert">
@@ -93,7 +112,7 @@ export function ContactForm() {
       ) : null}
 
       <Button type="submit" disabled={status === "submitting"}>
-        {status === "submitting" ? "Sending…" : "Send message"}
+        {status === "submitting" ? t("sending") : t("send")}
       </Button>
     </form>
   );

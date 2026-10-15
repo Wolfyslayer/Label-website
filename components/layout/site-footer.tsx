@@ -1,24 +1,25 @@
 "use client";
 
-import { useLocale } from "@/components/providers/locale-provider";
-import type { Messages } from "@/lib/i18n";
-import { Container } from "@/components/ui/container";
-import { siteConfig } from "@/lib/config/site";
-import Link from "next/link";
 import { SocialLinks } from "@/components/layout/social-links";
+import { Container } from "@/components/ui/container";
+import { Link } from "@/i18n/navigation";
+import { siteConfig } from "@/lib/config/site";
+import { useTranslations } from "next-intl";
 
-const footerHrefs: { href: string; label: (m: Messages) => string }[] = [
-  { href: "/artists", label: (m) => m.nav.artists },
-  { href: "/music", label: (m) => m.nav.music },
-  { href: "/upcoming", label: (m) => m.nav.upcoming },
-  { href: "/news", label: (m) => m.nav.news },
-  { href: "/about", label: (m) => m.nav.about },
-  { href: "/press", label: (m) => m.footer.press },
-  { href: "/contact", label: (m) => m.nav.contact },
+const footerHrefs = [
+  { href: "/artists", labelKey: "artists" as const, ns: "nav" as const },
+  { href: "/music", labelKey: "music" as const, ns: "nav" as const },
+  { href: "/upcoming", labelKey: "upcoming" as const, ns: "nav" as const },
+  { href: "/news", labelKey: "news" as const, ns: "nav" as const },
+  { href: "/about", labelKey: "about" as const, ns: "nav" as const },
+  { href: "/press", labelKey: "press" as const, ns: "footer" as const },
+  { href: "/contact", labelKey: "contact" as const, ns: "nav" as const },
 ];
 
 export function SiteFooter() {
-  const { messages } = useLocale();
+  const tNav = useTranslations("nav");
+  const tFooter = useTranslations("footer");
+  const tMeta = useTranslations("meta");
   const year = new Date().getFullYear();
 
   return (
@@ -30,7 +31,7 @@ export function SiteFooter() {
               {siteConfig.fullName}
             </p>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary">
-              {siteConfig.description}
+              {tMeta("defaultDescription")}
             </p>
             <div className="mt-6">
               <SocialLinks />
@@ -38,16 +39,16 @@ export function SiteFooter() {
           </div>
           <div>
             <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
-              {messages.footer.explore}
+              {tFooter("explore")}
             </h2>
             <ul className="mt-4 space-y-2">
-              {footerHrefs.map(({ href, label }) => (
+              {footerHrefs.map(({ href, labelKey, ns }) => (
                 <li key={href}>
                   <Link
                     href={href}
                     className="inline-flex min-h-11 items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
-                    {label(messages)}
+                    {ns === "footer" ? tFooter(labelKey) : tNav(labelKey)}
                   </Link>
                 </li>
               ))}
@@ -55,17 +56,17 @@ export function SiteFooter() {
           </div>
           <div>
             <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
-              {messages.footer.contact}
+              {tFooter("contact")}
             </h2>
             <ul className="mt-4 space-y-2 text-sm text-text-secondary">
               <li>
                 <Link href="/contact" className="inline-flex min-h-11 items-center hover:text-text-primary">
-                  {messages.footer.general}
+                  {tFooter("general")}
                 </Link>
               </li>
               <li>
                 <Link href="/press" className="inline-flex min-h-11 items-center hover:text-text-primary">
-                  {messages.footer.press}
+                  {tFooter("press")}
                 </Link>
               </li>
               {siteConfig.contactEmail ? (
@@ -78,16 +79,16 @@ export function SiteFooter() {
                   </a>
                 </li>
               ) : (
-                <li className="text-text-muted">{messages.footer.emailEnv}</li>
+                <li className="text-text-muted">{tFooter("emailEnv")}</li>
               )}
             </ul>
           </div>
         </div>
         <div className="mt-12 flex flex-col gap-4 border-t border-border-subtle pt-8 text-xs text-text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {siteConfig.fullName}. {messages.footer.rights}
+            © {year} {siteConfig.fullName}. {tFooter("rights")}
           </p>
-          <p>{messages.footer.tagline}</p>
+          <p>{tFooter("tagline")}</p>
         </div>
       </Container>
     </footer>

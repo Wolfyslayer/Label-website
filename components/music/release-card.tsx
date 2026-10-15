@@ -4,10 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import type { Artist, Release } from "@/lib/types/content";
 import { formatReleaseDate } from "@/lib/utils/date";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export function ReleaseCard({
   release,
@@ -21,6 +22,8 @@ export function ReleaseCard({
   priority?: boolean;
 }) {
   const reduced = useReducedMotion();
+  const locale = useLocale();
+  const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
   return (
     <motion.article
@@ -56,7 +59,9 @@ export function ReleaseCard({
           <h3 className="line-clamp-2 font-display text-base text-text-primary transition-colors group-hover:text-silver @[12rem]:text-lg">
             {release.title}
           </h3>
-          <p className="text-xs text-text-muted">{formatReleaseDate(release.releaseDate)}</p>
+          <p className="text-xs text-text-muted">
+            {formatReleaseDate(release.releaseDate, dateLocale)}
+          </p>
         </div>
       </Link>
     </motion.article>

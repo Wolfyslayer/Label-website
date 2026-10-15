@@ -1,11 +1,22 @@
 import { seedContent } from "@/lib/data/seed";
+import {
+  localizeArtist,
+  localizeLabel,
+  localizeNews,
+  localizePressAsset,
+  localizeRelease,
+} from "@/lib/content/localize";
 import type {
   Artist,
+  LabelInfo,
   NewsArticle,
+  PressAsset,
   Release,
   SiteContent,
+  SiteContentSource,
   Track,
 } from "@/lib/types/content";
+import type { AppLocale } from "@/i18n/routing";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 function published<T extends { status: string }>(items: T[]): T[] {
@@ -16,7 +27,7 @@ function byDateDesc(a: string, b: string) {
   return new Date(b).getTime() - new Date(a).getTime();
 }
 
-async function loadContent(): Promise<SiteContent> {
+async function loadContentSource(): Promise<SiteContentSource> {
   if (isSupabaseConfigured()) {
     try {
       const { fetchContentFromDb } = await import("@/lib/content/db");
@@ -29,48 +40,71 @@ async function loadContent(): Promise<SiteContent> {
   return seedContent;
 }
 
-export async function getSiteContent(): Promise<SiteContent> {
-  return loadContent();
+async function loadContent(locale: AppLocale): Promise<SiteContent> {
+  const source = await loadContentSource();
+  return {
+    artists: source.artists.map((a) => localizeArtist(a, locale)),
+    releases: source.releases.map((r) => localizeRelease(r, locale)),
+    tracks: source.tracks,
+    news: source.news.map((n) => localizeNews(n, locale)),
+    label: localizeLabel(source.label, locale),
+    pressAssets: source.pressAssets.map((p) => localizePressAsset(p, locale)),
+    featuredReleaseId: source.featuredReleaseId,
+    homepageFeaturedNewsIds: source.homepageFeaturedNewsIds,
+  };
 }
 
-export async function getPublishedArtists(): Promise<Artist[]> {
-  const content = await loadContent();
-  return published(content.artists);
+export async function getSiteContent(locale: AppLocale): Promise<SiteContent> {
+  return loadContent(locale);
 }
 
-export async function getArtistBySlug(slug: string): Promise<Artist | null> {
-  const artists = await getPublishedArtists();
+export async function getPublishedArtists(locale: AppLocale): Promise<Artist[]> {
+  const source = await loadContentSource();
+  return published(source.artists).map((a) => localizeArtist(a, locale));
+}
+
+export async function getArtistBySlug(
+  slug: string,
+  locale: AppLocale,
+): Promise<Artist | null> {
+  const artists = await getPublishedArtists(locale);
   return artists.find((a) => a.slug === slug) ?? null;
 }
 
-export async function getPublishedReleases(): Promise<Release[]> {
-  const content = await loadContent();
-  return published(content.releases).sort((a, b) =>
-    byDateDesc(a.releaseAt, b.releaseAt),
-  );
+export async function getPublishedReleases(locale: AppLocale): Promise<Release[]> {
+  const source = await loadContentSource();
+  return published(source.releases)
+    .map((r) => localizeRelease(r, locale))
+    .sort((a, b) => byDateDesc(a.releaseAt, b.releaseAt));
 }
 
-export async function getReleaseBySlug(slug: string): Promise<Release | null> {
-  const releases = await getPublishedReleases();
+export async function getReleaseBySlug(
+  slug: string,
+  locale: AppLocale,
+): Promise<Release | null> {
+  const releases = await getPublishedReleases(locale);
   return releases.find((r) => r.slug === slug) ?? null;
 }
 
 export async function getTracksForRelease(releaseId: string): Promise<Track[]> {
-  const content = await loadContent();
-  return content.tracks
+  const source = await loadContentSource();
+  return source.tracks
     .filter((t) => t.releaseId === releaseId)
     .sort((a, b) => a.trackNumber - b.trackNumber);
 }
 
-export async function getPublishedNews(): Promise<NewsArticle[]> {
-  const content = await loadContent();
-  return published(content.news).sort((a, b) =>
-    byDateDesc(a.publishedAt, b.publishedAt),
-  );
+export async function getPublishedNews(locale: AppLocale): Promise<NewsArticle[]> {
+  const source = await loadContentSource();
+  return published(source.news)
+    .map((n) => localizeNews(n, locale))
+    .sort((a, b) => byDateDesc(a.publishedAt, b.publishedAt));
 }
 
-export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
-  const news = await getPublishedNews();
+export async function getNewsBySlug(
+  slug: string,
+  locale: AppLocale,
+): Promise<NewsArticle | null> {
+  const news = await getPublishedNews(locale);
   return news.find((n) => n.slug === slug) ?? null;
 }
 
@@ -78,46 +112,46 @@ export function isReleaseUpcoming(release: Release, now = new Date()): boolean {
   return new Date(release.releaseAt).getTime() > now.getTime();
 }
 
-export async function getUpcomingReleases(): Promise<Release[]> {
-  const releases = await getPublishedReleases();
+export async function getUpcomingReleases(locale: AppLocale): Promise<Release[]> {
+  const releases = await getPublishedReleases(locale);
   const now = new Date();
   return releases
     .filter((r) => isReleaseUpcoming(r, now))
     .sort((a, b) => new Date(a.releaseAt).getTime() - new Date(b.releaseAt).getTime());
 }
 
-export async function getReleasedCatalog(): Promise<Release[]> {
-  const releases = await getPublishedReleases();
+export async function getReleasedCatalog(locale: AppLocale): Promise<Release[]> {
+  const releases = await getPublishedReleases(locale);
   const now = new Date();
   return releases.filter((r) => !isReleaseUpcoming(r, now));
 }
 
-export async function getFeaturedRelease(): Promise<Release | null> {
-  const content = await loadContent();
-  const releases = await getPublishedReleases();
-  if (content.featuredReleaseId) {
-    const featured = releases.find((r) => r.id === content.featuredReleaseId);
+export async function getFeaturedRelease(locale: AppLocale): Promise<Release | null> {
+  const source = await loadContentSource();
+  const releases = await getPublishedReleases(locale);
+  if (source.featuredReleaseId) {
+    const featured = releases.find((r) => r.id === source.featuredReleaseId);
     if (featured) return featured;
   }
   return releases[0] ?? null;
 }
 
-export async function getLabelInfo() {
-  const content = await loadContent();
-  return content.label;
+export async function getLabelInfo(locale: AppLocale): Promise<LabelInfo> {
+  const source = await loadContentSource();
+  return localizeLabel(source.label, locale);
 }
 
-export async function getPressAssets() {
-  const content = await loadContent();
-  return content.pressAssets;
+export async function getPressAssets(locale: AppLocale): Promise<PressAsset[]> {
+  const source = await loadContentSource();
+  return source.pressAssets.map((p) => localizePressAsset(p, locale));
 }
 
-export async function getHomepageNews(limit = 3) {
-  const content = await loadContent();
-  const all = await getPublishedNews();
-  const featured = content.homepageFeaturedNewsIds
+export async function getHomepageNews(locale: AppLocale, limit = 3) {
+  const source = await loadContentSource();
+  const all = await getPublishedNews(locale);
+  const featured = source.homepageFeaturedNewsIds
     .map((id) => all.find((n) => n.id === id))
     .filter(Boolean) as NewsArticle[];
-  const rest = all.filter((n) => !content.homepageFeaturedNewsIds.includes(n.id));
+  const rest = all.filter((n) => !source.homepageFeaturedNewsIds.includes(n.id));
   return [...featured, ...rest].slice(0, limit);
 }

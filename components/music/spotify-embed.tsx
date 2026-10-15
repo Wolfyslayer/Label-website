@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils/cn";
 import { spotifyArtistEmbedUrl, spotifyEmbedUrl } from "@/lib/utils/streaming";
+import { getTranslations } from "next-intl/server";
 
-export function SpotifyEmbed({
+export async function SpotifyEmbed({
   url,
   title,
   className,
@@ -12,6 +13,7 @@ export function SpotifyEmbed({
   className?: string;
   height?: number;
 }) {
+  const t = await getTranslations("streaming");
   const embed = spotifyEmbedUrl(url) ?? spotifyArtistEmbedUrl(url);
 
   if (!embed) return null;
@@ -36,9 +38,7 @@ export function SpotifyEmbed({
         title={title}
         className="h-[min(380px,70dvh)] w-full sm:h-[352px]"
       />
-      <p className="mt-2 px-0.5 text-xs leading-relaxed text-text-muted">
-        Listening via Spotify embed. Opens in Spotify for full playback where required.
-      </p>
+      <p className="mt-2 px-0.5 text-xs leading-relaxed text-text-muted">{t("embedNote")}</p>
     </div>
   );
 }
