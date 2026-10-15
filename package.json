@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "STATIC_EXPORT=1 NEXT_PUBLIC_STATIC_HOSTING=1 next build",
+    "build:pages": "NEXT_PUBLIC_SITE_URL=https://wolfyslayer.online NEXT_PUBLIC_BASE_PATH= npm run build",
     "build:node": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "sync-artist-images": "node scripts/sync-artist-images.mjs",
+    "generate-brand-icons": "node scripts/generate-brand-icons.mjs",
     "test:e2e": "playwright test",
     "test:e2e:responsive": "playwright test tests/e2e/responsive-overflow.spec.ts",
     "audit:lighthouse": "node scripts/lighthouse-audit.mjs"

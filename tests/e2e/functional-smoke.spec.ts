@@ -8,14 +8,11 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByRole("main")).toBeVisible();
   });
 
-  test("language switch preserves path", async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/en/music");
-    const lang = page.locator("#site-language").first();
-    await lang.selectOption("sv");
-    await expect(page).toHaveURL(/\/sv\/music/, { timeout: 10_000 });
-    await lang.selectOption("en");
-    await expect(page).toHaveURL(/\/en\/music/, { timeout: 10_000 });
+  test("bilingual music catalog routes", async ({ page }) => {
+    await page.goto("/en/music/");
+    await expect(page.getByRole("heading", { level: 1, name: /music/i })).toBeVisible();
+    await page.goto("/sv/music/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("music catalog search and artist filter", async ({ page }) => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { LabelLogo } from "@/components/layout/label-logo";
 import { SocialLinks } from "@/components/layout/social-links";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
@@ -28,9 +29,7 @@ export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks })
       <Container className="py-[var(--space-section)]">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <p className="font-display text-sm tracking-[0.28em] text-silver sm:text-base">
-              {siteConfig.fullName}
-            </p>
+            <LabelLogo variant="footer" className="max-w-full" />
             <p className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary">
               {tMeta("defaultDescription")}
             </p>

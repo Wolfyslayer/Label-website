@@ -2,13 +2,27 @@
 
 The default **`npm run build`** produces a static site in **`out/`** suitable for free GitHub Pages (no Node server at runtime).
 
-## Custom domain at root
+## Production domain (Wolfyslayer Records)
 
-1. Set repository **Settings → Pages → Custom domain** (e.g. `www.wolfyslayerrecords.com`).
-2. Add a `CNAME` file in `public/` if your DNS provider requires it (optional when configured in GitHub UI).
-3. GitHub Actions env:
-   - `NEXT_PUBLIC_SITE_URL=https://www.yourdomain.com`
-   - `NEXT_PUBLIC_BASE_PATH=` (empty)
+- **Site URL:** `https://wolfyslayer.online`
+- **`public/CNAME`** contains `wolfyslayer.online` (included in `out/` on deploy).
+- CI sets `NEXT_PUBLIC_SITE_URL=https://wolfyslayer.online` and empty `NEXT_PUBLIC_BASE_PATH` in `.github/workflows/deploy-github-pages.yml`.
+
+### Manual GitHub settings
+
+1. **Settings → Pages → Build and deployment:** Source = **GitHub Actions** (not “Deploy from branch”).
+2. **Settings → Pages → Custom domain:** `wolfyslayer.online` (or `www.wolfyslayer.online` if you prefer — then update `public/CNAME` and DNS to match).
+3. Enable **Enforce HTTPS** once DNS is verified.
+4. **Optional repository variables** (Settings → Secrets and variables → Actions → Variables):
+   - `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` — public Formspree (or similar) URL for the contact form.
+   - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — optional build-time CMS read (anon key only).
+5. Do **not** add `SUPABASE_SERVICE_ROLE_KEY` to Actions; it must never appear in the static bundle.
+
+## Custom domain at root (general)
+
+1. Set **Settings → Pages → Custom domain**.
+2. Keep `public/CNAME` in sync with that hostname.
+3. `NEXT_PUBLIC_BASE_PATH` must stay **empty** for apex/custom root domains.
 
 ## Project site (`username.github.io/repo-name`)
 
@@ -18,7 +32,7 @@ The default **`npm run build`** produces a static site in **`out/`** suitable fo
 ## Content updates
 
 - Edit `lib/data/seed.ts` and push (triggers rebuild), **or**
-- Provide Supabase anon URL/key in GitHub Actions **secrets** so content is pulled at **build time** (site remains static after deploy).
+- Optionally set repository **variables** `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` so content is pulled at **build time** (site remains static after deploy). The workflow builds successfully without them (seed data).
 
 ## CMS / API (not on Pages)
 
