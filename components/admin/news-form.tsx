@@ -1,61 +1,131 @@
 "use client";
 
+import { DeleteEntityForm } from "@/components/admin/delete-entity-form";
+import { FormStatus } from "@/components/admin/form-status";
+import { LocalizedFieldGroup } from "@/components/admin/localized-field-group";
+import { MediaUploadField } from "@/components/admin/media-upload-field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { upsertNews } from "@/lib/admin/actions";
+import { deleteNews, upsertNews } from "@/lib/admin/actions";
+import type { LocalizedFormValue } from "@/lib/admin/types";
 import { useState } from "react";
 
-export function NewsAdminForm({ article }: { article?: Record<string, unknown> }) {
+export type NewsFormData = {
+  id?: string;
+  slug?: string;
+  title: LocalizedFormValue;
+  excerpt: LocalizedFormValue;
+  body: LocalizedFormValue;
+  published_at?: string;
+  status?: string;
+  cover: { src: string; alt: LocalizedFormValue; placeholder: boolean };
+  artist_id?: string | null;
+  release_id?: string | null;
+};
+
+export function NewsAdminForm({
+  article,
+  artists,
+  releases,
+}: {
+  article?: NewsFormData;
+  artists: { id: string; name: string }[];
+  releases: { id: string; title: string }[];
+}) {
   const [error, setError] = useState<string | null>(null);
-  const cover = (article?.cover as { src: string; alt: string; placeholder: boolean }) ?? {
-    src: "/placeholders/news-default.svg",
-    alt: "News",
-    placeholder: true,
-  };
+  const [success, setSuccess] = useState<string | null>(null);
 
   async function action(formData: FormData) {
     setError(null);
-    formData.set("cover", JSON.stringify({
-      src: formData.get("cover_src"),
-      alt: formData.get("cover_alt"),
-      placeholder: formData.get("cover_placeholder") === "on",
-    }));
-    try {
-      await upsertNews(formData);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed");
+    setSuccess(null);
+    const result = await upsertNews(formData);
+    if (!result.ok) {
+      setError(result.error);
+      return;
     }
+    setSuccess(result.message);
   }
 
   return (
-    <form action={action} className="space-y-4">
-      {article?.id ? <input type="hidden" name="id" value={String(article.id)} /> : null}
-      <Input label="Title" name="title" defaultValue={String(article?.title ?? "")} required />
-      <Input label="Slug" name="slug" defaultValue={String(article?.slug ?? "")} required />
-      <Input label="Excerpt" name="excerpt" defaultValue={String(article?.excerpt ?? "")} />
-      <Textarea label="Body" name="body" defaultValue={String(article?.body ?? "")} />
+    <form action={action} className="space-y-6">
+      {article?.id ? <input type="hidden" name="id" value={article.id} /> : null}
+      <LocalizedFieldGroup label="Title" name="title" value={article?.title ?? { en: "", sv: "" }} requiredEn />
+      <Input label="Slug" name="slug" defaultValue={article?.slug} required />
+      <LocalizedFieldGroup label="Excerpt" name="excerpt" value={article?.excerpt ?? { en: "", sv: "" }} multiline />
+      <LocalizedFieldGroup label="Body" name="body" value={article?.body ?? { en: "", sv: "" }} multiline />
       <Input
         label="Published at (ISO)"
         name="published_at"
-        defaultValue={String(article?.published_at ?? new Date().toISOString())}
+        defaultValue={article?.published_at ?? new Date().toISOString()}
       />
-      <Input label="Cover URL" name="cover_src" defaultValue={cover.src} />
-      <Input label="Cover alt" name="cover_alt" defaultValue={cover.alt} />
-      <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" name="cover_placeholder" defaultChecked={cover.placeholder} />
+
+      <MediaUploadField
+        label="Cover image"
+        folder={`news/${article?.id ?? "new"}`}
+        urlFieldName="cover_src"
+        defaultUrl={article?.cover.src}
+      />
+      <LocalizedFieldGroup label="Cover alt" name="cover_alt" value={article?.cover.alt ?? { en: "", sv: "" }} />
+      <label className="flex min-h-11 items-center gap-2 text-sm">
+        <input type="checkbox" name="cover_placeholder" defaultChecked={article?.cover.placeholder ?? true} />
         Placeholder cover
       </label>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-2">
+          <label className="block text-sm text-text-secondary">Related artist</label>
+          <select
+            name="artist_id"
+            defaultValue={article?.artist_id ?? ""}
+            className="min-h-11 w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
+          >
+            <option value="">None</option>
+            {artists.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-2">
+          <label className="block text-sm text-text-secondary">Related release</label>
+          <select
+            name="release_id"
+            defaultValue={article?.release_id ?? ""}
+            className="min-h-11 w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
+          >
+            <option value="">None</option>
+            {releases.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.title}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       <select
         name="status"
-        defaultValue={String(article?.status ?? "draft")}
-        className="w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
+        defaultValue={article?.status ?? "draft"}
+        className="min-h-11 w-full rounded-sm border border-border bg-charcoal px-4 py-3 text-sm"
       >
         <option value="draft">Draft</option>
         <option value="published">Published</option>
       </select>
-      {error ? <p className="text-sm text-danger">{error}</p> : null}
-      <Button type="submit">Save article</Button>
+
+      <FormStatus error={error} success={success} />
+      <Button type="submit" className="min-h-12 w-full sm:w-auto">
+        Save article
+      </Button>
+
+      {article?.id && article.slug ? (
+        <DeleteEntityForm
+          entityLabel="article"
+          id={article.id}
+          slug={article.slug}
+          deleteAction={deleteNews}
+        />
+      ) : null}
     </form>
   );
 }

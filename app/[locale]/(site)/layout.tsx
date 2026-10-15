@@ -1,10 +1,12 @@
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { getPublicSocialLinks } from "@/lib/content/site-settings";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   const t = await getTranslations("a11y");
+  const socialLinks = await getPublicSocialLinks();
 
   return (
     <>
@@ -18,7 +20,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <main id="main-content" className="overflow-x-hidden">
         {children}
       </main>
-      <SiteFooter />
+      <SiteFooter socialLinks={socialLinks} />
     </>
   );
 }

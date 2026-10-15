@@ -1,6 +1,7 @@
 import { ReleaseForm } from "@/components/admin/release-form";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function NewReleasePage() {
@@ -12,9 +13,12 @@ export default async function NewReleasePage() {
   const { data: artists } = await supabase!.from("artists").select("id, name");
 
   return (
-    <main className="mx-auto max-w-xl px-5 py-12">
-      <h1 className="font-display text-3xl">New release</h1>
-      <div className="mt-8">
+    <main>
+      <Link href="/admin/releases" className="text-xs text-accent">
+        ← Releases
+      </Link>
+      <h1 className="mt-4 font-display text-3xl">New release</h1>
+      <div className="mt-10 max-w-3xl">
         <ReleaseForm artists={artists ?? []} />
       </div>
     </main>
