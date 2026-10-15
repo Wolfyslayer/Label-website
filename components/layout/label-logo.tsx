@@ -1,8 +1,8 @@
 import { artistMediaPaths } from "@/lib/assets/artist-media";
 import { siteConfig } from "@/lib/config/site";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 
 export function LabelLogo({ className, compact }: { className?: string; compact?: boolean }) {
   return (

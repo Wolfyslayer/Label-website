@@ -2,13 +2,12 @@
 
 import { LabelLogo } from "@/components/layout/label-logo";
 import { LanguageSelector } from "@/components/layout/language-selector";
-import { useLocale } from "@/components/providers/locale-provider";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/cn";
 import { Menu, X } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 const navHrefs = [
@@ -22,7 +21,7 @@ const navHrefs = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { messages } = useLocale();
+  const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -94,7 +93,7 @@ export function SiteHeader() {
       <Container as="div" className="flex h-[var(--header-height)] items-center justify-between gap-3">
         <LabelLogo className="min-w-0 shrink" compact={false} />
 
-        <nav className="hidden items-center gap-6 xl:flex" aria-label={messages.nav.primary}>
+        <nav className="hidden items-center gap-6 xl:flex" aria-label={t("primary")}>
           {navHrefs.map(({ href, key }) => (
             <Link
               key={href}
@@ -106,20 +105,15 @@ export function SiteHeader() {
                   : "text-text-muted hover:text-text-primary",
               )}
             >
-              {messages.nav[key]}
+              {t(key)}
             </Link>
           ))}
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <LanguageSelector className="hidden sm:flex" />
-          <Button
-            href="/music"
-            variant="outline"
-            size="sm"
-            className="hidden min-h-11 md:inline-flex"
-          >
-            {messages.nav.listen}
+          <Button href="/music" variant="outline" size="sm" className="hidden min-h-11 md:inline-flex">
+            {t("listen")}
           </Button>
           <button
             ref={menuButtonRef}
@@ -129,7 +123,7 @@ export function SiteHeader() {
             aria-controls={dialogId}
             onClick={() => setOpen((v) => !v)}
           >
-            <span className="sr-only">{open ? messages.nav.closeMenu : messages.nav.openMenu}</span>
+            <span className="sr-only">{open ? t("closeMenu") : t("openMenu")}</span>
             {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
           </button>
         </div>
@@ -140,7 +134,7 @@ export function SiteHeader() {
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label={messages.nav.mobilePrimary}
+        aria-label={t("mobilePrimary")}
         className={cn(
           "fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-40 overflow-y-auto bg-void/98 backdrop-blur-lg transition-opacity duration-300 xl:hidden",
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
@@ -151,7 +145,7 @@ export function SiteHeader() {
           <div className="mb-6 sm:hidden">
             <LanguageSelector />
           </div>
-          <nav className="flex flex-col gap-0" aria-label={messages.nav.mobilePrimary}>
+          <nav className="flex flex-col gap-0" aria-label={t("mobilePrimary")}>
             {navHrefs.map(({ href, key }) => (
               <Link
                 key={href}
@@ -159,16 +153,16 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 className="border-b border-border-subtle py-4 font-display text-[clamp(1.35rem,5vw,1.75rem)] text-text-primary"
               >
-                {messages.nav[key]}
+                {t(key)}
               </Link>
             ))}
           </nav>
           <div className="mt-auto space-y-3 pt-10">
             <Button href="/music" className="min-h-12 w-full">
-              {messages.nav.exploreMusic}
+              {t("exploreMusic")}
             </Button>
             <Button href="/contact" variant="outline" className="min-h-12 w-full">
-              {messages.nav.contact}
+              {t("contact")}
             </Button>
           </div>
         </Container>

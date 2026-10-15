@@ -1,16 +1,16 @@
 "use client";
 
 import { LabelLogo } from "@/components/layout/label-logo";
-import { useLocale } from "@/components/providers/locale-provider";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/lib/config/site";
 import { motion, useReducedMotion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export function HomeHero() {
   const reduced = useReducedMotion();
-  const { messages } = useLocale();
+  const t = useTranslations("home");
 
   return (
     <section className="relative flex min-h-[100dvh] min-h-[100svh] items-end overflow-hidden pb-[max(4rem,env(safe-area-inset-bottom))] pt-[calc(var(--header-height)+env(safe-area-inset-top)+2rem)] md:items-center md:pb-24">
@@ -19,15 +19,6 @@ export function HomeHero() {
         <div className="hero-light-wolf absolute inset-0" />
         <div className="noise-overlay absolute inset-0 opacity-50" />
         <div className="hero-vignette absolute inset-0" />
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage:
-              "linear-gradient(120deg, transparent 40%, #C9D1D9 50%, transparent 60%)",
-            backgroundSize: "200% 100%",
-          }}
-          aria-hidden
-        />
       </div>
 
       <div className="pointer-events-none absolute inset-0 hidden md:block" aria-hidden>
@@ -64,14 +55,14 @@ export function HomeHero() {
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-balance leading-relaxed text-text-secondary">
-            {messages.home.heroTagline}
+            {t("heroTagline")}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
             <Button href="/music" size="lg" className="min-h-12 w-full sm:w-auto">
-              {messages.home.latestMusic}
+              {t("latestMusic")}
             </Button>
             <Button href="/artists" variant="outline" size="lg" className="min-h-12 w-full sm:w-auto">
-              {messages.home.meetArtists}
+              {t("meetArtists")}
             </Button>
           </div>
         </motion.div>

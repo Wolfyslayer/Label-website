@@ -6,9 +6,11 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingLinks } from "@/components/music/streaming-links";
 import type { Artist, Release } from "@/lib/types/content";
 import { formatReleaseDate } from "@/lib/utils/date";
+import type { AppLocale } from "@/i18n/routing";
+import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 
-export function FeaturedReleaseSection({
+export async function FeaturedReleaseSection({
   release,
   artist,
 }: {
@@ -17,10 +19,14 @@ export function FeaturedReleaseSection({
 }) {
   if (!release) return null;
 
+  const t = await getTranslations("home");
+  const locale = (await getLocale()) as AppLocale;
+  const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
+
   return (
     <section className="border-y border-border-subtle bg-surface/35 py-[var(--space-section)]">
       <Container>
-        <SectionHeader eyebrow="Featured" title="Latest spotlight" align="left" />
+        <SectionHeader eyebrow={t("featuredEyebrow")} title={t("featuredTitle")} align="left" />
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="relative mx-auto aspect-square w-full max-w-md lg:max-w-none">
             {release.cover.placeholder ? <PlaceholderBanner /> : null}
@@ -36,17 +42,19 @@ export function FeaturedReleaseSection({
           <div>
             <div className="flex flex-wrap items-center gap-3">
               <Badge>{release.type}</Badge>
-              {artist ? <Badge variant={artist.theme === "frost" ? "frost" : "wolf"}>{artist.name}</Badge> : null}
+              {artist ? (
+                <Badge variant={artist.theme === "frost" ? "frost" : "wolf"}>{artist.name}</Badge>
+              ) : null}
             </div>
             <h3 className="mt-6 font-display text-4xl text-text-primary md:text-5xl">{release.title}</h3>
             <p className="mt-2 text-sm uppercase tracking-widest text-text-muted">
-              {formatReleaseDate(release.releaseDate)}
+              {formatReleaseDate(release.releaseDate, dateLocale)}
             </p>
             <p className="mt-6 text-base leading-relaxed text-text-secondary">{release.description}</p>
             <div className="mt-8 space-y-4">
               <StreamingLinks links={release.streamingLinks} />
               <Button href={`/music/${release.slug}`} variant="secondary">
-                View release
+                {t("viewRelease")}
               </Button>
             </div>
           </div>

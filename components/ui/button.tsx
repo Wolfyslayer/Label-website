@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils/cn";
-import Link from "next/link";
+import { Link as LocaleLink } from "@/i18n/navigation";
+import NextLink from "next/link";
 import type { ButtonHTMLAttributes, ReactElement, ReactNode } from "react";
 
 type Variant = "primary" | "secondary" | "ghost" | "outline";
@@ -61,10 +62,17 @@ export function Button(props: ButtonProps | LinkButtonProps) {
         </a>
       );
     }
+    if (props.href.startsWith("/admin") || props.href.startsWith("/api")) {
+      return (
+        <NextLink href={props.href} className={classes}>
+          {children}
+        </NextLink>
+      );
+    }
     return (
-      <Link href={props.href} className={classes}>
+      <LocaleLink href={props.href} className={classes}>
         {children}
-      </Link>
+      </LocaleLink>
     );
   }
 

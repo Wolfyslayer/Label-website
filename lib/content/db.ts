@@ -1,8 +1,29 @@
-import type { SiteContent } from "@/lib/types/content";
+import type { ImageAssetSource, LocalizedString, SiteContentSource } from "@/lib/types/content";
 import { createClient } from "@/lib/supabase/server";
 
+function asLocalized(value: unknown): LocalizedString {
+  if (typeof value === "string") return { en: value };
+  if (value && typeof value === "object" && "en" in value) {
+    const v = value as LocalizedString;
+    return { en: v.en ?? "", sv: v.sv };
+  }
+  return { en: "" };
+}
+
+function asImageAsset(value: unknown): ImageAssetSource {
+  if (value && typeof value === "object" && "src" in value) {
+    const v = value as ImageAssetSource & { alt?: unknown };
+    return {
+      src: String(v.src),
+      alt: asLocalized(v.alt),
+      placeholder: Boolean(v.placeholder),
+    };
+  }
+  return { src: "", alt: { en: "" }, placeholder: true };
+}
+
 /** Loads published content from Supabase when tables exist; returns null to fall back to seed. */
-export async function fetchContentFromDb(): Promise<SiteContent | null> {
+export async function fetchContentFromDb(): Promise<SiteContentSource | null> {
   const supabase = await createClient();
   if (!supabase) return null;
 
@@ -30,15 +51,17 @@ export async function fetchContentFromDb(): Promise<SiteContent | null> {
     id: row.id as string,
     slug: row.slug as string,
     name: row.name as string,
-    tagline: (row.tagline as string) ?? "",
-    shortBio: (row.short_bio as string) ?? "",
-    longBio: (row.long_bio as string) ?? "",
+    tagline: asLocalized(row.tagline ?? row.tagline_i18n),
+    shortBio: asLocalized(row.short_bio ?? row.short_bio_i18n),
+    longBio: asLocalized(row.long_bio ?? row.long_bio_i18n),
     theme: (row.theme as "frost" | "wolf") ?? "frost",
-    image: row.image as SiteContent["artists"][0]["image"],
-    heroImage: row.hero_image as SiteContent["artists"][0]["heroImage"],
+    image: asImageAsset(row.image),
+    heroImage: row.hero_image ? asImageAsset(row.hero_image) : undefined,
     spotifyArtistUrl: (row.spotify_artist_url as string) ?? "",
-    streamingLinks: (row.streaming_links as SiteContent["artists"][0]["streamingLinks"]) ?? {},
-    socialLinks: (row.social_links as SiteContent["artists"][0]["socialLinks"]) ?? {},
+    streamingLinks:
+      (row.streaming_links as SiteContentSource["artists"][0]["streamingLinks"]) ?? {},
+    socialLinks:
+      (row.social_links as SiteContentSource["artists"][0]["socialLinks"]) ?? {},
     featuredTrackIds: (row.featured_track_ids as string[]) ?? [],
     status: row.status as "draft" | "published",
   });
@@ -48,13 +71,14 @@ export async function fetchContentFromDb(): Promise<SiteContent | null> {
     slug: row.slug as string,
     title: row.title as string,
     artistId: row.artist_id as string,
-    type: row.type as SiteContent["releases"][0]["type"],
+    type: row.type as SiteContentSource["releases"][0]["type"],
     releaseDate: row.release_date as string,
     releaseAt: row.release_at as string,
-    description: (row.description as string) ?? "",
-    credits: row.credits as string | undefined,
-    cover: row.cover as SiteContent["releases"][0]["cover"],
-    streamingLinks: (row.streaming_links as SiteContent["releases"][0]["streamingLinks"]) ?? {},
+    description: asLocalized(row.description ?? row.description_i18n),
+    credits: row.credits ? asLocalized(row.credits) : undefined,
+    cover: asImageAsset(row.cover),
+    streamingLinks:
+      (row.streaming_links as SiteContentSource["releases"][0]["streamingLinks"]) ?? {},
     spotifyAlbumUrl: row.spotify_album_url as string | undefined,
     trackIds: (row.track_ids as string[]) ?? [],
     featured: Boolean(row.featured),
@@ -64,8 +88,8 @@ export async function fetchContentFromDb(): Promise<SiteContent | null> {
 
   return {
     label: {
-      story: (settingsRes.data?.label_story as string) ?? "",
-      mission: (settingsRes.data?.label_mission as string) ?? "",
+      story: asLocalized(settingsRes.data?.label_story ?? settingsRes.data?.label_story_i18n),
+      mission: asLocalized(settingsRes.data?.label_mission ?? settingsRes.data?.label_mission_i18n),
     },
     featuredReleaseId: (settingsRes.data?.featured_release_id as string) ?? null,
     homepageFeaturedNewsIds:
@@ -85,23 +109,23 @@ export async function fetchContentFromDb(): Promise<SiteContent | null> {
     news: (newsRes.data ?? []).map((row: Record<string, unknown>) => ({
       id: row.id as string,
       slug: row.slug as string,
-      title: row.title as string,
-      excerpt: row.excerpt as string,
-      body: row.body as string,
+      title: asLocalized(row.title ?? row.title_i18n),
+      excerpt: asLocalized(row.excerpt ?? row.excerpt_i18n),
+      body: asLocalized(row.body ?? row.body_i18n),
       publishedAt: row.published_at as string,
       artistId: row.artist_id as string | undefined,
       releaseId: row.release_id as string | undefined,
-      cover: row.cover as SiteContent["news"][0]["cover"],
+      cover: asImageAsset(row.cover),
       status: row.status as "draft" | "published",
     })),
     pressAssets: (pressRes.data ?? []).map((row: Record<string, unknown>) => ({
       id: row.id as string,
-      title: row.title as string,
+      title: asLocalized(row.title ?? row.title_i18n),
       type: row.type as "photo" | "logo" | "epk",
       artistId: row.artist_id as string | undefined,
       downloadUrl: row.download_url as string | undefined,
       src: row.src as string,
-      alt: row.alt as string,
+      alt: asLocalized(row.alt ?? row.alt_i18n),
       placeholder: Boolean(row.placeholder),
     })),
   };

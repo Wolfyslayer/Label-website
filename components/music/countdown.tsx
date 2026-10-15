@@ -1,9 +1,12 @@
 "use client";
 
 import { getCountdownParts } from "@/lib/utils/date";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export function ReleaseCountdown({ releaseAt }: { releaseAt: string }) {
+  const t = useTranslations("countdown");
+  const tUp = useTranslations("upcomingPage");
   const [parts, setParts] = useState(() => getCountdownParts(releaseAt));
 
   useEffect(() => {
@@ -14,25 +17,18 @@ export function ReleaseCountdown({ releaseAt }: { releaseAt: string }) {
   }, [releaseAt]);
 
   if (parts.totalMs <= 0) {
-    return (
-      <p className="text-sm uppercase tracking-widest text-success">Out now</p>
-    );
+    return <p className="text-sm uppercase tracking-widest text-success">{tUp("outNow")}</p>;
   }
 
   const cells = [
-    { label: "Days", value: parts.days },
-    { label: "Hours", value: parts.hours },
-    { label: "Min", value: parts.minutes },
-    { label: "Sec", value: parts.seconds },
+    { label: t("days"), value: parts.days },
+    { label: t("hours"), value: parts.hours },
+    { label: t("minutes"), value: parts.minutes },
+    { label: t("seconds"), value: parts.seconds },
   ];
 
   return (
-    <div
-      className="flex gap-3 sm:gap-4"
-      role="timer"
-      aria-live="polite"
-      aria-label="Release countdown"
-    >
+    <div className="flex flex-wrap gap-3 sm:gap-4" role="timer" aria-live="polite" aria-label={t("aria")}>
       {cells.map(({ label, value }) => (
         <div
           key={label}

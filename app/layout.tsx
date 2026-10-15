@@ -1,7 +1,7 @@
 import { siteConfig } from "@/lib/config/site";
-import { getLocale } from "@/lib/i18n/server";
 import type { Metadata } from "next";
 import { Cinzel, DM_Sans, Source_Serif_4 } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -35,22 +35,6 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.fullName}`,
   },
   description: siteConfig.description,
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: siteConfig.fullName,
-    title: siteConfig.fullName,
-    description: siteConfig.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.fullName,
-    description: siteConfig.description,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
 
 export default async function RootLayout({
@@ -59,6 +43,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
+
   return (
     <html
       lang={locale}

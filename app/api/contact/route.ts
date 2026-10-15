@@ -1,4 +1,4 @@
-import { contactSchema } from "@/lib/validation/contact";
+import { contactSchema, mapContactFieldErrors } from "@/lib/validation/contact";
 import { rateLimit } from "@/lib/rate-limit";
 import { createServiceClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
@@ -12,8 +12,13 @@ export async function POST(request: Request) {
   const rl = rateLimit(`contact:${ip}`, { limit: 5, windowMs: 15 * 60_000 });
   if (!rl.success) {
     return NextResponse.json(
-      { error: "Too many requests. Please try again later." },
-      { status: 429, headers: rl.retryAfterMs ? { "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)) } : {} },
+      { errorCode: "rateLimit" },
+      {
+        status: 429,
+        headers: rl.retryAfterMs
+          ? { "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)) }
+          : {},
+      },
     );
   }
 
@@ -21,19 +26,15 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ errorCode: "invalidJson" }, { status: 400 });
   }
 
   const parsed = contactSchema.safeParse(body);
   if (!parsed.success) {
-    const fieldErrors: Record<string, string> = {};
-    for (const issue of parsed.error.issues) {
-      const key = issue.path[0];
-      if (typeof key === "string" && !fieldErrors[key]) {
-        fieldErrors[key] = issue.message;
-      }
-    }
-    return NextResponse.json({ fieldErrors }, { status: 400 });
+    return NextResponse.json(
+      { fieldErrorCodes: mapContactFieldErrors(parsed.error.issues) },
+      { status: 400 },
+    );
   }
 
   if (parsed.data.website) {
@@ -53,10 +54,7 @@ export async function POST(request: Request) {
     });
     if (error) {
       console.error("contact insert", error);
-      return NextResponse.json(
-        { error: "Message could not be stored. Try again or email us directly." },
-        { status: 503 },
-      );
+      return NextResponse.json({ errorCode: "storeFailed" }, { status: 503 });
     }
     return NextResponse.json({ ok: true });
   }
@@ -73,19 +71,13 @@ export async function POST(request: Request) {
         }),
       });
       if (!res.ok) {
-        return NextResponse.json({ error: "Delivery failed." }, { status: 503 });
+        return NextResponse.json({ errorCode: "deliveryFailed" }, { status: 503 });
       }
       return NextResponse.json({ ok: true });
     } catch {
-      return NextResponse.json({ error: "Delivery failed." }, { status: 503 });
+      return NextResponse.json({ errorCode: "deliveryFailed" }, { status: 503 });
     }
   }
 
-  return NextResponse.json(
-    {
-      error:
-        "Contact delivery is not configured. Set up Supabase (contact_submissions) or CONTACT_WEBHOOK_URL.",
-    },
-    { status: 503 },
-  );
+  return NextResponse.json({ errorCode: "notConfigured" }, { status: 503 });
 }

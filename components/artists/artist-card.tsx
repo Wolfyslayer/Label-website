@@ -1,15 +1,16 @@
 "use client";
 
-import { useLocale } from "@/components/providers/locale-provider";
 import { Badge } from "@/components/ui/badge";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
+import { Link } from "@/i18n/navigation";
 import type { Artist } from "@/lib/types/content";
 import { cn } from "@/lib/utils/cn";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
 
 export function ArtistCard({ artist, className }: { artist: Artist; className?: string }) {
-  const { messages } = useLocale();
+  const t = useTranslations("artist");
+  const tCommon = useTranslations("common");
   const isFrost = artist.theme === "frost";
 
   return (
@@ -23,7 +24,7 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
     >
       <div className="absolute inset-0">
         {artist.heroImage?.placeholder || artist.image.placeholder ? (
-          <PlaceholderBanner label="Temporary — official portrait pending" />
+          <PlaceholderBanner label={tCommon("placeholderPhoto")} />
         ) : null}
         <Image
           src={artist.heroImage?.src ?? artist.image.src}
@@ -45,7 +46,7 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
         />
       </div>
       <div className="relative z-10 p-[clamp(1.5rem,4vw,2.5rem)]">
-        <Badge variant={isFrost ? "frost" : "wolf"}>{messages.artist.badge}</Badge>
+        <Badge variant={isFrost ? "frost" : "wolf"}>{t("badge")}</Badge>
         <h2 className="mt-4 font-display text-[clamp(1.75rem,4vw,3rem)] text-text-primary">
           {artist.name}
         </h2>
@@ -53,7 +54,7 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
           {artist.shortBio}
         </p>
         <span className="mt-6 inline-flex min-h-11 items-center text-xs uppercase tracking-[0.2em] text-silver group-hover:text-text-primary">
-          {messages.artist.view} →
+          {t("view")} →
         </span>
       </div>
     </Link>

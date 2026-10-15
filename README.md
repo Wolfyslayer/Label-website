@@ -84,7 +84,18 @@ Until then, labeled SVG stand-ins are served from `public/artists/*.svg`. Update
 
 ## Design system
 
-Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`. UI chrome supports **English** and **Svenska** via the header language selector (cookie `NEXT_LOCALE`).
+Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`.
+
+## Internationalization (Phase 3)
+
+- **[next-intl](https://next-intl-docs.vercel.app/)** with locale routes **`/en`** and **`/sv`**
+- First visit: browser language detection (unsupported locales → **English**)
+- Manual language choice: **`NEXT_LOCALE` cookie** + switcher (preserves current path)
+- UI strings: `messages/en.json`, `messages/sv.json`
+- Editorial content: `{ en, sv? }` fields in seed/Supabase (`LocalizedString`), resolved in `lib/content/localize.ts` with **English fallback** when Swedish is missing
+- Official **artist / release / track names** are not translated
+- SEO: `alternates.languages`, canonical URLs, localized sitemap
+- Admin: run `supabase/migrations/002_localized_content.sql` for optional `*_i18n` JSON columns
 
 ## Project structure
 

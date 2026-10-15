@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "siteName": "Wolfyslayer Records",
+    "defaultDescription": "Wolfyslayer Records is an independent music label representing Frostmark and Wolfyslayer."
+  },
+  "nav": {
+    "artists": "Artists",
+    "music": "Music",
+    "upcoming": "Upcoming",
+    "news": "News",
+    "about": "About",
+    "contact": "Contact",
+    "listen": "Listen",
+    "exploreMusic": "Explore music",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primary": "Primary navigation",
+    "mobilePrimary": "Mobile navigation"
+  },
+  "lang": {
+    "label": "Language",
+    "en": "English",
+    "sv": "Svenska"
+  },
+  "footer": {
+    "explore": "Explore",
+    "contact": "Contact",
+    "general": "General inquiries",
+    "press": "Press & media",
+    "emailEnv": "Email configured via environment",
+    "rights": "All rights reserved.",
+    "tagline": "Independent label · Frostmark · Wolfyslayer",
+    "socialEnv": "Social links available when configured in environment variables."
+  },
+  "a11y": {
+    "skip": "Skip to content"
+  },
+  "home": {
+    "heroTagline": "Independent music. Two voices. One label. Cinematic releases from Frostmark and Wolfyslayer.",
+    "latestMusic": "Latest music",
+    "meetArtists": "Meet the artists",
+    "rosterEyebrow": "Roster",
+    "rosterTitle": "Artist spotlight",
+    "rosterDesc": "Two distinct voices under one independent label.",
+    "catalogEyebrow": "Catalog",
+    "catalogTitle": "Latest releases",
+    "catalogCta": "Full catalog",
+    "featuredEyebrow": "Featured",
+    "featuredTitle": "Latest spotlight",
+    "viewRelease": "View release",
+    "listenEyebrow": "Listen",
+    "listenTitle": "On Spotify",
+    "listenDesc": "Follow Frostmark and Wolfyslayer on Spotify. Embeds play through Spotify's official player.",
+    "scheduleEyebrow": "Schedule",
+    "scheduleTitle": "Upcoming releases",
+    "scheduleCta": "View all",
+    "newsEyebrow": "News",
+    "newsTitle": "Latest updates",
+    "newsCta": "All news",
+    "connectTitle": "Stay connected",
+    "connectDesc": "Follow Wolfyslayer Records and our artists on your preferred platforms.",
+    "noReleases": "Releases will appear here once published.",
+    "spotifyMissing": "Spotify URL not configured."
+  },
+  "artist": {
+    "badge": "Artist",
+    "view": "View artist",
+    "biography": "Biography",
+    "discography": "Discography",
+    "noReleases": "No published releases yet.",
+    "stream": "Stream",
+    "social": "Social",
+    "listenSpotify": "Listen on Spotify"
+  },
+  "artistsPage": {
+    "metaTitle": "Artists",
+    "metaDescription": "Artists on Wolfyslayer Records: Frostmark and Wolfyslayer.",
+    "eyebrow": "Roster",
+    "title": "Artists",
+    "description": "Distinct identities, unified by independent curation."
+  },
+  "musicPage": {
+    "metaTitle": "Music",
+    "metaDescription": "Explore the Wolfyslayer Records catalog.",
+    "eyebrow": "Catalog",
+    "title": "Music",
+    "description": "Search and filter releases from Frostmark and Wolfyslayer.",
+    "search": "Search",
+    "searchPlaceholder": "Title or artist…",
+    "filterArtist": "Artist",
+    "allArtists": "All artists",
+    "format": "Format",
+    "year": "Year",
+    "allYears": "All years",
+    "allTypes": "all",
+    "releaseCount": "{count, plural, one {# release} other {# releases}}",
+    "emptyFilters": "No releases match your filters."
+  },
+  "releasePage": {
+    "notFound": "Release not found",
+    "tracklist": "Tracklist",
+    "credits": "Credits",
+    "previewSpotify": "Preview on Spotify"
+  },
+  "upcomingPage": {
+    "metaTitle": "Upcoming Releases",
+    "metaDescription": "Scheduled releases from Wolfyslayer Records.",
+    "eyebrow": "Schedule",
+    "title": "Upcoming releases",
+    "description": "Countdowns reflect stored release timestamps in UTC.",
+    "empty": "No upcoming releases scheduled. Check back soon or browse the <catalog>catalog</catalog>.",
+    "preSave": "Pre-save",
+    "outNow": "Out now"
+  },
+  "newsPage": {
+    "metaTitle": "News",
+    "metaDescription": "Announcements and updates from Wolfyslayer Records.",
+    "eyebrow": "Updates",
+    "title": "News",
+    "empty": "No news published yet.",
+    "back": "News",
+    "notFound": "Article not found"
+  },
+  "aboutPage": {
+    "metaTitle": "About",
+    "eyebrow": "Label",
+    "title": "About Wolfyslayer Records",
+    "mission": "Mission",
+    "artistsHeading": "Artists"
+  },
+  "contactPage": {
+    "metaTitle": "Contact",
+    "metaDescription": "Contact Wolfyslayer Records.",
+    "eyebrow": "Reach out",
+    "title": "Contact",
+    "description": "General inquiries, licensing, and collaboration. We respond when we can.",
+    "emailLabel": "Email"
+  },
+  "pressPage": {
+    "metaTitle": "Press Kit",
+    "metaDescription": "Approved assets and bios for Wolfyslayer Records.",
+    "eyebrow": "Media",
+    "title": "Press kit",
+    "description": "Download approved logos and photography. Replace placeholder assets before external distribution.",
+    "labelContact": "Label contact",
+    "pressInquiries": "Press inquiries",
+    "configureEmail": "Configure NEXT_PUBLIC_PRESS_EMAIL or contact email",
+    "assets": "Assets",
+    "download": "Download",
+    "downloadMissing": "High-res download URL not configured",
+    "bios": "Artist bios",
+    "short": "Short",
+    "long": "Long"
+  },
+  "contactForm": {
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "sending": "Sending…",
+    "success": "Thank you — your message was received. We will respond when possible.",
+    "websiteHoneypot": "Website"
+  },
+  "contactErrors": {
+    "network": "Network error. Please try again.",
+    "generic": "Unable to send message.",
+    "rateLimit": "Too many requests. Please try again later.",
+    "invalidJson": "Invalid request.",
+    "storeFailed": "Message could not be stored. Try again or email us directly.",
+    "deliveryFailed": "Delivery failed.",
+    "notConfigured": "Contact delivery is not configured. Set up Supabase or CONTACT_WEBHOOK_URL."
+  },
+  "validation": {
+    "nameMin": "Name must be at least 2 characters",
+    "emailInvalid": "Enter a valid email",
+    "subjectMin": "Subject is required",
+    "messageMin": "Message must be at least 20 characters"
+  },
+  "streaming": {
+    "empty": "Streaming links will appear here once configured.",
+    "embedNote": "Listening via Spotify embed. Opens in Spotify for full playback where required."
+  },
+  "common": {
+    "placeholderAsset": "Placeholder asset",
+    "placeholderPhoto": "Temporary — official portrait pending",
+    "placeholderHero": "Placeholder hero",
+    "notFoundTitle": "Page not found",
+    "notFoundDesc": "The page you requested is not available. Explore the catalog or return home.",
+    "home": "Home",
+    "loading": "Loading…",
+    "translationFallback": "Translation not yet available — showing English."
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Min",
+    "seconds": "Sec",
+    "aria": "Release countdown"
+  },
+  "notFoundArtist": "Artist not found"
+}
