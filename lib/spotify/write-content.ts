@@ -56,7 +56,11 @@ export function planImportWrites(result: ImportCatalogResult): {
   const writes: { path: string; content: string }[] = [];
 
   for (const release of result.releases) {
-    releaseSourceSchema.parse(release);
+    const parsed = releaseSourceSchema.safeParse(release);
+    if (!parsed.success) {
+      const detail = parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+      throw new Error(`Invalid release "${release.title}" (${release.id}): ${detail}`);
+    }
     writes.push({
       path: join("content", "releases", releaseFileName(release)),
       content: stableJson(release),
@@ -64,7 +68,11 @@ export function planImportWrites(result: ImportCatalogResult): {
   }
 
   for (const track of result.tracks) {
-    trackSchema.parse(track);
+    const parsedTrack = trackSchema.safeParse(track);
+    if (!parsedTrack.success) {
+      const detail = parsedTrack.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+      throw new Error(`Invalid track "${track.title}" (${track.id}): ${detail}`);
+    }
     writes.push({
       path: join("content", "tracks", trackFileName(track)),
       content: stableJson(track),

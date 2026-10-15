@@ -7,7 +7,12 @@ import { dedupeSpotifyAlbums } from "@/lib/spotify/dedupe";
 import { parseSpotifyReleaseDate } from "@/lib/spotify/dates";
 import { importSpotifyCatalog } from "@/lib/spotify/import-catalog";
 import { albumBelongsToSpotifyArtist } from "@/lib/spotify/ownership";
-import { mapSpotifyTracksToContent, slugForSpotifyAlbum } from "@/lib/spotify/map-content";
+import {
+  mapSpotifyTracksToContent,
+  slugForSpotifyAlbum,
+  trackSlugForTitle,
+} from "@/lib/spotify/map-content";
+import { isValidContentSlug } from "@/lib/manager/slugs";
 import { planImportWrites } from "@/lib/spotify/write-content";
 import type { SpotifyFullAlbum, SpotifySimplifiedAlbum } from "@/lib/spotify/types";
 import type { ReleaseSource } from "@/lib/types/content";
@@ -163,6 +168,17 @@ function testDeterministicSlug() {
   const s1 = slugForSpotifyAlbum("Hej", "abc123XYZ789");
   const s2 = slugForSpotifyAlbum("Hej", "abc123XYZ789");
   assert.equal(s1, s2);
+}
+
+function testSpotifyIdUppercaseInSlug() {
+  const albumSlug = slugForSpotifyAlbum("Test Release", "4AbCdEfGhIjKlmN");
+  const trackSlug = trackSlugForTitle("Track Name", "1WxYzAbCdEfGhI");
+  assert.ok(isValidContentSlug(albumSlug), albumSlug);
+  assert.ok(isValidContentSlug(trackSlug), trackSlug);
+  assert.match(albumSlug, /^[a-z0-9-]+$/);
+  assert.match(trackSlug, /^[a-z0-9-]+$/);
+  assert.doesNotMatch(albumSlug, /[A-Z]/);
+  assert.doesNotMatch(trackSlug, /[A-Z]/);
 }
 
 async function testImportPaginationAndIdempotency() {
@@ -336,6 +352,7 @@ async function main() {
   testTrackOrdering();
   testFeaturedPick();
   testDeterministicSlug();
+  testSpotifyIdUppercaseInSlug();
   await testImportPaginationAndIdempotency();
   await testRateLimitRetry();
   console.log("Spotify import tests: all passed.");
