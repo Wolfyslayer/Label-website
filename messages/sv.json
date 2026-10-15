@@ -30,7 +30,14 @@
     "emailEnv": "E-post konfigureras via miljövariabler",
     "rights": "Alla rättigheter förbehållna.",
     "tagline": "Independent label · Frostmark · Wolfyslayer",
-    "socialEnv": "Sociala länkar visas när de konfigurerats i miljövariabler."
+    "socialEnv": "Sociala länkar visas när de konfigurerats i miljövariabler.",
+    "socialAria": {
+      "instagram": "Instagram (öppnas i ny flik)",
+      "youtube": "YouTube (öppnas i ny flik)",
+      "spotify": "Spotify (öppnas i ny flik)",
+      "facebook": "Facebook (öppnas i ny flik)",
+      "x": "X (öppnas i ny flik)"
+    }
   },
   "a11y": {
     "skip": "Hoppa till innehåll"

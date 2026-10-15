@@ -30,7 +30,14 @@
     "emailEnv": "Email configured via environment",
     "rights": "All rights reserved.",
     "tagline": "Independent label · Frostmark · Wolfyslayer",
-    "socialEnv": "Social links available when configured in environment variables."
+    "socialEnv": "Social links available when configured in environment variables.",
+    "socialAria": {
+      "instagram": "Instagram (opens in new tab)",
+      "youtube": "YouTube (opens in new tab)",
+      "spotify": "Spotify (opens in new tab)",
+      "facebook": "Facebook (opens in new tab)",
+      "x": "X (opens in new tab)"
+    }
   },
   "a11y": {
     "skip": "Skip to content"

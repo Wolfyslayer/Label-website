@@ -61,6 +61,8 @@ jobs:
       - name: Verify export output
         run: |
           test -f out/CNAME
+          test -f out/404.html
+          grep -q "Page not found" out/404.html
           test -f out/en/index.html
           test -f out/sv/index.html
           test -f out/en/artists/frostmark/index.html

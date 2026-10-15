@@ -15,7 +15,16 @@ const iconMap: Record<string, LucideIcon | null> = {
 
 export function ArtistSocialLinks({ artist, className }: { artist: Artist; className?: string }) {
   const t = useTranslations("artist");
+  const tFooter = useTranslations("footer");
   const entries = Object.entries(artist.socialLinks).filter(([, url]) => url?.trim());
+
+  function socialLabel(key: string) {
+    try {
+      return tFooter(`socialAria.${key}` as "socialAria.instagram");
+    } catch {
+      return `${key} (opens in new tab)`;
+    }
+  }
 
   if (!entries.length) return null;
 
@@ -35,7 +44,7 @@ export function ArtistSocialLinks({ artist, className }: { artist: Artist; class
                   "inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-border",
                   "text-text-secondary transition-colors hover:border-accent-muted hover:text-text-primary",
                 )}
-                aria-label={key}
+                aria-label={socialLabel(key)}
               >
                 {iconMap[key] === null ? (
                   <span className="text-xs font-semibold uppercase">{key.slice(0, 2)}</span>

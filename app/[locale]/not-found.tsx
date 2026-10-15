@@ -2,6 +2,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { getPublicSocialLinks } from "@/lib/content/site-settings";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
@@ -13,11 +14,12 @@ export const metadata: Metadata = {
 export default async function NotFound() {
   const t = await getTranslations("common");
   const tNav = await getTranslations("nav");
+  const socialLinks = await getPublicSocialLinks();
 
   return (
     <>
       <SiteHeader />
-      <Container className="flex min-h-[70vh] flex-col items-center justify-center py-24 text-center">
+      <Container className="page-offset flex min-h-[60vh] flex-col items-center justify-center pb-24 text-center">
         <p className="text-xs uppercase tracking-[0.3em] text-text-muted">404</p>
         <h1 className="mt-4 font-display text-4xl">{t("notFoundTitle")}</h1>
         <p className="mt-4 max-w-md text-sm text-text-secondary">{t("notFoundDesc")}</p>
@@ -28,7 +30,7 @@ export default async function NotFound() {
           </Button>
         </div>
       </Container>
-      <SiteFooter />
+      <SiteFooter socialLinks={socialLinks} />
     </>
   );
 }
