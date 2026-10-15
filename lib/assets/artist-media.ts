@@ -1,8 +1,9 @@
+import { siteBrandPaths } from "@/lib/assets/site-brand";
+
 /**
- * Canonical artist media paths.
- * Portrait/hero JPEGs are synced from Spotify oEmbed thumbnails for the official artist URLs
- * (see scripts/sync-artist-images.mjs). Replace with higher-res supplied photography anytime
- * using the same filenames.
+ * Canonical artist media paths (official raven / Viking artwork in `public/artists/`).
+ * JPEGs may be refreshed from Spotify oEmbed via `scripts/sync-artist-images.mjs`.
+ * Prefer `.jpg` over legacy labeled `.svg` stand-ins in `public/artists/`.
  */
 export const artistMediaPaths = {
   frostmark: {
@@ -17,11 +18,12 @@ export const artistMediaPaths = {
     portraitAlt: "Wolfyslayer — official artist profile",
     heroAlt: "Wolfyslayer — artist hero",
   },
-  labelLogo: "/placeholders/logo-wolfyslayer.svg",
+  labelMonogram: siteBrandPaths.wrRuneMonogram,
 } as const;
 
 export const missingOfficialAssets = [
-  "Optional: higher-resolution frostmark-raven-portrait.webp from label asset package",
-  "Optional: higher-resolution wolfyslayer-viking-portrait.webp from label asset package",
-  "Optional: label logo PNG/SVG from Wolfyslayer Records asset package",
+  "public/assets/brand/wolfyslayer-records-wordmark.svg — full label wordmark for press",
+  "Higher-resolution frostmark-raven-portrait.jpg (current file is 320×320 oEmbed)",
+  "Higher-resolution wolfyslayer-viking-portrait.jpg (current file is 320×320 oEmbed)",
+  "Per-release cover files under public/assets/releases/ when titles are confirmed",
 ] as const;
