@@ -44,7 +44,7 @@ In the repository **Settings → Secrets and variables → Actions**:
 
 ## Trigger import from a phone (GitHub Actions)
 
-1. Open the repo on GitHub (app or browser).
+1. Open the repo on GitHub (app or browser). The workflow also checks daily at 06:23 UTC (GitHub may delay scheduled jobs).
 2. **Actions** → **Import Spotify catalog** → **Run workflow** → **Run workflow**.
 3. Wait for the job to finish (green check).
 4. Open the **pull request** created by the workflow (`automation/spotify-catalog-import`).
@@ -91,4 +91,8 @@ If API access is blocked:
 3. Set `spotifyAlbumUrl`, `streamingLinks.spotify`, and optional `spotifyAlbumId`.
 4. Run `npm run validate:content`.
 
-Use the **Music Manager** at `/manager/` to draft files and export a ZIP for review (Phase 15).
+The public `/manager/` and `/admin/` pages have been removed. Edit JSON/Markdown in a GitHub branch and review a pull request. Never put authentication secrets in a static website.
+
+## Missing Spotify items
+
+Previously imported releases that are absent from a subsequent Spotify response are **preserved**, and the importer prints a REVIEW REQUIRED warning. Removal must be reviewed manually; an API omission must not silently delete music.
