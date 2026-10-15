@@ -29,7 +29,7 @@ export default async function NewsPage({ params }: LocalePageParams) {
   const hasAny = featured.length + articles.length > 0;
 
   return (
-    <div className="pt-24 md:pt-28">
+    <div className="page-offset">
       <Container className="pb-20 md:pb-28">
         <SectionHeader
           eyebrow={t("eyebrow")}

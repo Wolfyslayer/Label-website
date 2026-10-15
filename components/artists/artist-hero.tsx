@@ -67,14 +67,14 @@ export async function ArtistHero({ artist }: { artist: Artist }) {
             ) : null}
           </div>
 
-          <div className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
-            <div className="relative aspect-square overflow-hidden rounded-sm shadow-2xl ring-1 ring-border-subtle">
+          <div className="mx-auto w-full max-w-[min(100%,320px)] lg:mx-0 lg:max-w-none">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-2xl ring-1 ring-border-subtle">
               <Image
                 src={portraitSrc}
                 alt={artist.image.alt}
                 fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 280px, 320px"
+                className="object-cover object-[center_12%]"
+                sizes="(max-width: 1024px) 320px, 360px"
                 priority
               />
             </div>

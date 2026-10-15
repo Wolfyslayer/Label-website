@@ -7,8 +7,10 @@ const PUBLIC_ROUTES = [
   "/sv",
   "/en/artists",
   "/en/artists/frostmark",
+  "/en/artists/wolfyslayer",
   "/en/music",
   "/en/music/frostmark-placeholder-release",
+  "/en/music/wolfyslayer-upcoming-placeholder",
   "/en/releases/frostmark-placeholder-release",
   "/en/upcoming",
   "/en/news",
@@ -53,6 +55,23 @@ test.describe("responsive overflow audit", () => {
     await page.getByRole("button", { name: /open menu/i }).click();
     await expect(page.getByRole("dialog")).toBeVisible();
     await assertNoHorizontalOverflow(page);
+  });
+
+  test("mobile menu backdrop closes at 390px", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/en");
+    await page.getByRole("button", { name: /open menu/i }).click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.getByRole("button", { name: /close menu/i }).first().click();
+    await expect(page.getByRole("dialog")).toBeHidden();
+  });
+
+  test("language switcher visible on narrow viewport", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await page.goto("/en");
+    await expect(page.locator("#site-language")).toBeVisible();
+    await page.selectOption("#site-language", "sv");
+    await expect(page).toHaveURL(/\/sv(\/)?$/);
   });
 
   test("text zoom simulation (125%) on contact form", async ({ page }) => {

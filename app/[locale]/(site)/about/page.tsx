@@ -29,7 +29,7 @@ export default async function AboutPage({ params }: LocalePageParams) {
   const [label, artists] = await Promise.all([getLabelInfo(locale), getPublishedArtists(locale)]);
 
   return (
-    <div className="pt-24 md:pt-28">
+    <div className="page-offset">
       <Container className="max-w-3xl pb-20 md:pb-28">
         <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("intro")} headingLevel={1} />
         <div className="mt-10 space-y-10 text-[length:var(--text-body)] leading-relaxed text-text-secondary">

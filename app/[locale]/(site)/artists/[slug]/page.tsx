@@ -83,7 +83,7 @@ export default async function ArtistDetailPage({ params }: Props) {
           <div className="space-y-16">
             <section>
               <SectionHeader eyebrow={tDisc("profileEyebrow")} title={t("biography")} align="left" />
-              <div className="mt-6 whitespace-pre-line text-base leading-relaxed text-text-secondary md:text-lg">
+              <div className="editorial-prose mt-6 whitespace-pre-line text-text-secondary">
                 {artist.longBio}
               </div>
             </section>
@@ -140,14 +140,16 @@ export default async function ArtistDetailPage({ params }: Props) {
             ) : null}
           </div>
 
-          <aside className="space-y-8 lg:sticky lg:top-[calc(var(--header-height)+1.5rem)] lg:self-start">
-            <div>
+          <aside className="space-y-6 lg:sticky lg:top-[calc(var(--header-height)+1.5rem)] lg:self-start">
+            <div className="surface-panel p-5 sm:p-6">
               <h2 className="text-xs uppercase tracking-widest text-text-muted">{t("stream")}</h2>
-              <div className="mt-3">
+              <div className="mt-4">
                 <StreamingLinks links={artist.streamingLinks} />
               </div>
             </div>
-            <ArtistSocialLinks artist={artist} />
+            <div className="surface-panel p-5 sm:p-6">
+              <ArtistSocialLinks artist={artist} />
+            </div>
           </aside>
         </div>
       </Container>

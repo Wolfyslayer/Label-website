@@ -47,6 +47,7 @@ export function ReleaseCard({
             sizes="(max-width: 480px) 45vw, (max-width: 1024px) 30vw, 22vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
             priority={priority}
+            loading={priority ? undefined : "lazy"}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
           {isUpcoming ? (

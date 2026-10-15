@@ -67,7 +67,7 @@ export default async function NewsArticlePage({ params }: Props) {
   const imageUrl = article.cover.placeholder ? undefined : absoluteAssetUrl(article.cover.src);
 
   return (
-    <article className="pt-24 md:pt-28">
+    <article className="page-offset">
       <Container className="max-w-3xl pb-20 md:pb-28">
         <Link
           href="/news"

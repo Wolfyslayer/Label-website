@@ -80,10 +80,10 @@ export default async function ReleaseDetailPage({ params }: Props) {
 
   return (
     <>
-      <div className="pt-24 md:pt-28">
+      <div className="page-offset">
         <Container className="pb-12 md:pb-16">
-          <div className="grid gap-12 lg:grid-cols-[minmax(min(100%,420px),480px)_1fr] lg:items-start lg:gap-16">
-            <div className="relative mx-auto aspect-square w-full max-w-lg lg:mx-0 lg:max-w-none">
+          <div className="grid gap-10 lg:grid-cols-[minmax(min(100%,380px),520px)_1fr] lg:items-start lg:gap-16">
+            <div className="relative mx-auto aspect-square w-full max-w-[min(100%,520px)] shadow-2xl shadow-void/50 lg:mx-0 lg:max-w-none">
               {release.cover.placeholder ? <PlaceholderBanner /> : null}
               <Image
                 src={release.cover.src}
@@ -134,18 +134,18 @@ export default async function ReleaseDetailPage({ params }: Props) {
           </div>
 
           {tracks.length ? (
-            <section className="mt-16 max-w-3xl">
-              <h2 className="font-display text-2xl md:text-3xl">{t("tracklist")}</h2>
-              <ol className="mt-6 divide-y divide-border-subtle rounded-sm border border-border-subtle bg-charcoal/25">
+            <section className="mt-14 max-w-3xl lg:max-w-none lg:pr-8">
+              <h2 className="type-h3 font-display text-text-primary">{t("tracklist")}</h2>
+              <ol className="surface-panel mt-6 divide-y divide-border-subtle">
                 {tracks.map((track) => (
                   <li
                     key={track.id}
-                    className="flex items-center gap-4 px-4 py-4 text-sm md:px-6"
+                    className="flex min-h-12 items-center gap-3 px-4 py-3 text-sm sm:gap-4 sm:px-5 sm:py-3.5 md:min-h-14 md:px-6"
                   >
-                    <span className="w-8 tabular-nums text-text-muted">{track.trackNumber}</span>
-                    <span className="min-w-0 flex-1 text-text-primary">{track.title}</span>
+                    <span className="w-7 shrink-0 tabular-nums text-text-muted sm:w-8">{track.trackNumber}</span>
+                    <span className="min-w-0 flex-1 font-medium text-text-primary">{track.title}</span>
                     {formatDuration(track.durationSeconds) ? (
-                      <span className="tabular-nums text-text-muted">
+                      <span className="shrink-0 tabular-nums text-xs text-text-muted sm:text-sm">
                         {formatDuration(track.durationSeconds)}
                       </span>
                     ) : null}
@@ -156,9 +156,9 @@ export default async function ReleaseDetailPage({ params }: Props) {
           ) : null}
 
           {spotifyUrl && hasEmbed ? (
-            <section className="mt-16 max-w-3xl">
-              <h2 className="font-display text-2xl md:text-3xl">{t("previewSpotify")}</h2>
-              <div className="mt-6">
+            <section className="mt-14 max-w-3xl lg:max-w-2xl">
+              <h2 className="type-h3 font-display text-text-primary">{t("previewSpotify")}</h2>
+              <div className="mt-6 min-w-0">
                 <SpotifyEmbed url={spotifyUrl} title={`${release.title} on Spotify`} />
               </div>
             </section>

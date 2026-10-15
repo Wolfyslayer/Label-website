@@ -22,8 +22,19 @@ export function HomeHero() {
         <div className="hero-vignette absolute inset-0" />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 hidden md:block" aria-hidden>
-        <div className="absolute right-0 top-0 h-full w-[min(42vw,520px)] opacity-40">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-0 opacity-[0.18] md:hidden">
+          <Image
+            src={siteBrandPaths.labelHeroBanner}
+            alt=""
+            fill
+            className="object-cover object-[70%_20%] mix-blend-luminosity"
+            sizes="100vw"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-void via-void/92 to-void/55" />
+        </div>
+        <div className="absolute right-0 top-0 hidden h-full w-[min(42vw,520px)] opacity-40 md:block">
           <Image
             src={siteBrandPaths.labelHeroBanner}
             alt=""
@@ -51,9 +62,7 @@ export function HomeHero() {
           </p>
           <h1 className="type-display text-balance text-text-primary">
             <span className="block">WOLFY</span>
-            <span className="block bg-gradient-to-r from-silver via-text-primary to-frost-glow bg-clip-text text-transparent">
-              SLAYER
-            </span>
+            <span className="block text-silver">SLAYER</span>
           </h1>
           <p className="mt-6 max-w-xl text-balance leading-relaxed text-text-secondary">
             {t("heroTagline")}

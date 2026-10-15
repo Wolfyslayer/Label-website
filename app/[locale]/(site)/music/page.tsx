@@ -30,7 +30,7 @@ export default async function MusicPage({ params }: LocalePageParams) {
   ]);
 
   return (
-    <div className="pt-24 md:pt-28">
+    <div className="page-offset">
       <Container className="pb-20 md:pb-28">
         <SectionHeader
           eyebrow={t("eyebrow")}

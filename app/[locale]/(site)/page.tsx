@@ -106,10 +106,10 @@ export default async function HomePage({ params }: LocalePageParams) {
           <SectionHeader eyebrow={t("listenEyebrow")} title={t("listenTitle")} description={t("listenDesc")} />
           <div className="grid gap-8 lg:grid-cols-2">
             {artists.map((artist) => (
-              <div key={artist.id} className="min-w-0">
+              <div key={artist.id} className="surface-panel min-w-0 p-5 sm:p-6">
                 <h3 className="type-h3 font-display text-text-primary">{artist.name}</h3>
                 {artist.spotifyArtistUrl ? (
-                  <div className="mt-4 min-w-0">
+                  <div className="mt-5 min-w-0">
                     <SpotifyEmbed url={artist.spotifyArtistUrl} title={`${artist.name} on Spotify`} height={380} />
                   </div>
                 ) : (

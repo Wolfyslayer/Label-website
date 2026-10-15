@@ -29,7 +29,7 @@ export default async function ContactPage({ params }: LocalePageParams) {
   const socialLinks = await getPublicSocialLinks();
 
   return (
-    <div className="pt-24 md:pt-28">
+    <div className="page-offset">
       <Container className="grid gap-16 pb-20 md:grid-cols-2 md:pb-28">
         <div>
           <SectionHeader
