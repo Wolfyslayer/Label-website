@@ -1,0 +1,25 @@
+{
+  "id": "release-frostmark-placeholder-01",
+  "slug": "frostmark-placeholder-release",
+  "title": "[Placeholder Release Title]",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2025-06-01",
+  "releaseAt": "2025-06-01T12:00:00.000Z",
+  "description": {
+    "en": "Placeholder release entry. Replace with official title, artwork, date, and streaming links when confirmed.",
+    "sv": "Platshållare för release. Ersätt med officiell titel, artwork, datum och streaminglänkar när det är bekräftat."
+  },
+  "cover": {
+    "src": "/assets/fallback/release-cover-neutral.svg",
+    "alt": {
+      "en": "Release artwork not yet published — neutral placeholder",
+      "sv": "Release-artwork ej publicerad — neutral platshållare"
+    },
+    "placeholder": true
+  },
+  "streamingLinks": {},
+  "trackIds": ["track-frostmark-01"],
+  "featured": true,
+  "status": "published"
+}
