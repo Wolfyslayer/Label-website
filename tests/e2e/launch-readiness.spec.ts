@@ -1,10 +1,22 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("launch readiness regressions", () => {
-  test("contact page does not offer submit without endpoint", async ({ page }) => {
+  test("contact page has no developer configuration copy", async ({ page }) => {
     await page.goto("/en/contact");
-    await expect(page.getByRole("status")).toContainText(/not connected|inte kopplat/i);
+    await expect(page.getByRole("heading", { level: 1, name: /contact/i })).toBeVisible();
+    await expect(page.getByText(/NEXT_PUBLIC|Supabase|CONTACT_WEBHOOK|environment variable/i)).toHaveCount(0);
     await expect(page.getByRole("button", { name: /send message/i })).toHaveCount(0);
+  });
+
+  test("press page has no developer configuration copy", async ({ page }) => {
+    await page.goto("/en/press");
+    await expect(page.getByRole("heading", { level: 1, name: /press kit/i })).toBeVisible();
+    await expect(page.getByText(/NEXT_PUBLIC|placeholder assets|environment variable|not configured/i)).toHaveCount(
+      0,
+    );
+    await page.goto("/sv/press");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByText(/NEXT_PUBLIC|platshållare|miljövariabel/i)).toHaveCount(0);
   });
 
   test("static export 404.html is branded for unknown URLs", async ({ page }) => {

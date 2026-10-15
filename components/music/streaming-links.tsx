@@ -6,12 +6,18 @@ import type { StreamingLinks as StreamingLinksType } from "@/lib/types/content";
 import { ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-export function StreamingLinks({ links }: { links: StreamingLinksType }) {
+export function StreamingLinks({
+  links,
+  hideIfEmpty = false,
+}: {
+  links: StreamingLinksType;
+  hideIfEmpty?: boolean;
+}) {
   const t = useTranslations("streaming");
   const configured = getConfiguredStreamingLinks(links);
 
   if (!configured.length) {
-    return <p className="text-sm text-text-muted">{t("empty")}</p>;
+    return hideIfEmpty ? null : <p className="text-sm text-text-muted">{t("empty")}</p>;
   }
 
   return (

@@ -27,10 +27,8 @@
     "contact": "Contact",
     "general": "General inquiries",
     "press": "Press & media",
-    "emailEnv": "Email configured via environment",
     "rights": "All rights reserved.",
     "tagline": "Independent label · Frostmark · Wolfyslayer",
-    "socialEnv": "Social links available when configured in environment variables.",
     "socialAria": {
       "instagram": "Instagram (opens in new tab)",
       "youtube": "YouTube (opens in new tab)",
@@ -194,26 +192,27 @@
     "metaDescription": "Contact Wolfyslayer Records.",
     "eyebrow": "Reach out",
     "title": "Contact",
-    "description": "General inquiries, licensing, and collaboration. We respond when we can.",
+    "description": "General inquiries, licensing, and collaboration. We read every message and reply when we can.",
+    "emailHeading": "Email",
     "emailLabel": "Email",
-    "privacyNotice": "We use your name and email only to respond to this message. Submissions may be stored securely when Supabase is configured, or delivered via your CONTACT_WEBHOOK_URL. We do not sell contact data.",
-    "privacyStatic": "Static hosting sends the form only to your configured public endpoint (no server-side storage in this build)."
+    "socialHeading": "Follow the label",
+    "formHeading": "Send a message",
+    "unavailable": "Direct contact details are not listed on this page yet. Please check back soon or follow our artists on Spotify.",
+    "privacyNoticeForm": "We use the information you submit only to respond to your message. We do not sell contact details."
   },
   "pressPage": {
     "metaTitle": "Press Kit",
     "metaDescription": "Approved assets and bios for Wolfyslayer Records.",
     "eyebrow": "Media",
     "title": "Press kit",
-    "description": "Download approved logos and photography. Replace placeholder assets before external distribution.",
-    "labelContact": "Label contact",
-    "pressInquiries": "Press inquiries",
-    "configureEmail": "Configure NEXT_PUBLIC_PRESS_EMAIL or contact email",
+    "description": "Official logos, artist photography, and approved bios for Frostmark and Wolfyslayer.",
+    "labelContact": "Press contact",
+    "pressInquiries": "For interviews, sync requests, and media use of assets:",
     "portraits": "Artist portraits",
     "viewArtist": "Artist profile",
     "logos": "Official logos",
     "assets": "Additional assets",
     "download": "Download",
-    "downloadMissing": "High-res download URL not configured",
     "bios": "Artist bios",
     "short": "Short",
     "long": "Long"
@@ -226,18 +225,15 @@
     "send": "Send message",
     "sending": "Sending…",
     "success": "Thank you — your message was received. We will respond when possible.",
-    "websiteHoneypot": "Website",
-    "disabledStatic": "The contact form is not connected on this static site yet. Configure NEXT_PUBLIC_CONTACT_FORM_ENDPOINT in GitHub Actions variables, or use the email address shown on this page when available."
+    "websiteHoneypot": "Website"
   },
   "contactErrors": {
     "network": "Network error. Please try again.",
     "generic": "Unable to send message.",
     "rateLimit": "Too many requests. Please try again later.",
     "invalidJson": "Invalid request.",
-    "storeFailed": "Message could not be stored. Try again or email us directly.",
-    "deliveryFailed": "Delivery failed.",
-    "notConfigured": "Contact delivery is not configured. Set up Supabase or CONTACT_WEBHOOK_URL.",
-    "staticOnly": "On static hosting, set NEXT_PUBLIC_CONTACT_FORM_ENDPOINT (e.g. Formspree) or email us directly."
+    "storeFailed": "Message could not be sent. Please try again or email us directly.",
+    "deliveryFailed": "We could not send your message. Please try again later or email us directly."
   },
   "validation": {
     "nameMin": "Name must be at least 2 characters",

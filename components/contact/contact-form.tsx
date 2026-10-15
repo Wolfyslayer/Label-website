@@ -67,7 +67,7 @@ export function ContactForm({
     const endpoint = siteConfig.contactFormEndpoint;
 
     if (!endpoint) {
-      setServerError(siteConfig.staticHosting ? tErr("staticOnly") : tErr("notConfigured"));
+      setServerError(tErr("deliveryFailed"));
       setStatus("error");
       return;
     }
@@ -99,11 +99,7 @@ export function ContactForm({
   }
 
   if (!enabled) {
-    return (
-      <div className="surface-panel p-6 text-sm leading-relaxed text-text-secondary" role="status">
-        {t("disabledStatic")}
-      </div>
-    );
+    return null;
   }
 
   if (status === "success") {

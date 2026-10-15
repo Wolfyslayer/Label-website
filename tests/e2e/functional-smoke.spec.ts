@@ -43,10 +43,12 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByText(/no news published|inga nyheter publicerade/i)).toBeVisible();
   });
 
-  test("contact page shows static notice without submit when no endpoint", async ({ page }) => {
+  test("contact page is public-ready without form endpoint", async ({ page }) => {
     await page.goto("/en/contact/");
-    await expect(page.getByText(/not connected|inte kopplat/i)).toBeVisible();
+    await expect(page.getByText(/NEXT_PUBLIC|Supabase|webhook/i)).toHaveCount(0);
     await expect(page.getByRole("button", { name: /send message/i })).toHaveCount(0);
+    await page.goto("/sv/contact/");
+    await expect(page.getByText(/NEXT_PUBLIC|Supabase|miljövariabel/i)).toHaveCount(0);
   });
 
   test("admin static notice", async ({ page }) => {
