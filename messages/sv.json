@@ -226,7 +226,8 @@
     "send": "Skicka meddelande",
     "sending": "Skickar…",
     "success": "Tack — ditt meddelande har mottagits. Vi återkommer när vi kan.",
-    "websiteHoneypot": "Webbplats"
+    "websiteHoneypot": "Webbplats",
+    "disabledStatic": "Kontaktformuläret är inte kopplat på den statiska webbplatsen ännu. Konfigurera NEXT_PUBLIC_CONTACT_FORM_ENDPOINT i GitHub Actions, eller använd e-postadressen på sidan när den är tillgänglig."
   },
   "contactErrors": {
     "network": "Nätverksfel. Försök igen.",

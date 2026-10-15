@@ -10,10 +10,6 @@ export type BuiltExport = {
   zipBlob: Blob | null;
 };
 
-function jsonFile(path: string, data: unknown): { path: string; content: string } {
-  return { path, content: `${JSON.stringify(data, null, 2)}\n` };
-}
-
 export async function buildExportZip(workspace: ManagerWorkspace): Promise<BuiltExport> {
   const issues = validateWorkspace(workspace.releases, workspace.tracks, workspace.artists, workspace.news);
   if (issues.length) {

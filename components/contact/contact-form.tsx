@@ -10,7 +10,14 @@ import { useState } from "react";
 
 type FieldErrors = Partial<Record<"name" | "email" | "subject" | "message", string>>;
 
-export function ContactForm({ privacyDescribedBy }: { privacyDescribedBy?: string }) {
+export function ContactForm({
+  privacyDescribedBy,
+  enabled = true,
+}: {
+  privacyDescribedBy?: string;
+  /** When false (static hosting without endpoint), form submission is not offered. */
+  enabled?: boolean;
+}) {
   const t = useTranslations("contactForm");
   const tErr = useTranslations("contactErrors");
   const tVal = useTranslations("validation");
@@ -89,6 +96,14 @@ export function ContactForm({ privacyDescribedBy }: { privacyDescribedBy?: strin
       setServerError(tErr("network"));
       setStatus("error");
     }
+  }
+
+  if (!enabled) {
+    return (
+      <div className="surface-panel p-6 text-sm leading-relaxed text-text-secondary" role="status">
+        {t("disabledStatic")}
+      </div>
+    );
   }
 
   if (status === "success") {

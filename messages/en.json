@@ -226,7 +226,8 @@
     "send": "Send message",
     "sending": "Sending…",
     "success": "Thank you — your message was received. We will respond when possible.",
-    "websiteHoneypot": "Website"
+    "websiteHoneypot": "Website",
+    "disabledStatic": "The contact form is not connected on this static site yet. Configure NEXT_PUBLIC_CONTACT_FORM_ENDPOINT in GitHub Actions variables, or use the email address shown on this page when available."
   },
   "contactErrors": {
     "network": "Network error. Please try again.",

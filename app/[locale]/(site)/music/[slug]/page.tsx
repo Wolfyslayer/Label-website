@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import { Link } from "@/i18n/navigation";
-import { routing, type AppLocale } from "@/i18n/routing";
+import type { AppLocale } from "@/i18n/routing";
 import { getRelatedReleasesForRelease } from "@/lib/content/discovery";
 import {
   getPublishedArtists,
@@ -14,6 +14,7 @@ import {
   getReleaseBySlug,
   getTracksForRelease,
 } from "@/lib/content";
+import { isStaticExportPlaceholderSlug, localeSlugParams } from "@/lib/content/static-export-params";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { musicAlbumJsonLd } from "@/lib/metadata/json-ld";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -30,7 +31,7 @@ type Props = { params: Promise<{ slug: string; locale: string }> };
 
 export async function generateStaticParams() {
   const slugs = (await getPublishedReleases("en")).map((r) => r.slug);
-  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+  return localeSlugParams(slugs);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -61,6 +62,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
   const tMusic = await getTranslations("musicPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
+  if (isStaticExportPlaceholderSlug(slug)) notFound();
   const release = await getReleaseBySlug(slug, locale);
   if (!release) notFound();
 

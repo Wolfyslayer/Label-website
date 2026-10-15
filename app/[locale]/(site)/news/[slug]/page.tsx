@@ -2,13 +2,14 @@ import { ArticleProse } from "@/components/news/article-prose";
 import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import { Link } from "@/i18n/navigation";
-import { routing, type AppLocale } from "@/i18n/routing";
+import type { AppLocale } from "@/i18n/routing";
 import {
   getArtistById,
   getNewsBySlug,
   getPublishedNews,
   getReleaseById,
 } from "@/lib/content";
+import { isStaticExportPlaceholderSlug, localeSlugParams } from "@/lib/content/static-export-params";
 import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { absoluteAssetUrl, pageOpenGraph } from "@/lib/metadata/open-graph";
@@ -22,7 +23,7 @@ type Props = { params: Promise<{ slug: string; locale: string }> };
 
 export async function generateStaticParams() {
   const slugs = (await getPublishedNews("en")).map((n) => n.slug);
-  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+  return localeSlugParams(slugs);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -55,6 +56,7 @@ export default async function NewsArticlePage({ params }: Props) {
   const t = await getTranslations("newsPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
+  if (isStaticExportPlaceholderSlug(slug)) notFound();
   const article = await getNewsBySlug(slug, locale);
   if (!article) notFound();
 

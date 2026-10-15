@@ -9,8 +9,8 @@
       "sv": "Att släppa musik vi tror på, stödja våra artister med tydlighet och respekt, och presentera deras arbete med samma omsorg som vi bär med oss från studion."
     }
   },
-  "featuredReleaseId": "release-frostmark-placeholder-01",
-  "homepageFeaturedNewsIds": ["news-welcome"],
+  "featuredReleaseId": null,
+  "homepageFeaturedNewsIds": [],
   "pressAssets": [
     {
       "id": "press-logo-label",

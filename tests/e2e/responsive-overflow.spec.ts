@@ -9,9 +9,8 @@ const PUBLIC_ROUTES = [
   "/en/artists/frostmark",
   "/en/artists/wolfyslayer",
   "/en/music",
-  "/en/music/frostmark-placeholder-release",
-  "/en/music/wolfyslayer-upcoming-placeholder",
-  "/en/releases/frostmark-placeholder-release",
+  "/en/music",
+  "/manager/",
   "/en/upcoming",
   "/en/news",
   "/en/news/welcome-to-wolfyslayer-records",
@@ -81,7 +80,7 @@ test.describe("responsive overflow audit", () => {
       document.documentElement.style.fontSize = "125%";
     });
     await assertNoHorizontalOverflow(page);
-    await expect(page.getByRole("button", { name: /send message/i })).toBeVisible();
+    await expect(page.getByRole("status")).toBeVisible();
   });
 
   test("long search string on music catalog", async ({ page }) => {

@@ -1,7 +1,7 @@
 ---
 id: news-welcome
 slug: welcome-to-wolfyslayer-records
-status: published
+status: draft
 publishedAt: 2026-10-01T10:00:00.000Z
 artistId: artist-frostmark
 title:

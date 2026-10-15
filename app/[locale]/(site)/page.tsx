@@ -73,33 +73,29 @@ export default async function HomePage({ params }: LocalePageParams) {
         </Container>
       </section>
 
-      <section className="border-y border-border-subtle bg-charcoal/40 py-[var(--space-section)]">
-        <Container className="@container">
-          <div className="mb-[clamp(2rem,5vw,3.5rem)] flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <SectionHeader eyebrow={t("catalogEyebrow")} title={t("catalogTitle")} className="mb-0" />
-            <Button href="/music" variant="ghost" size="sm" className="min-h-11 shrink-0 self-start sm:self-auto">
-              {t("catalogCta")} →
-            </Button>
-          </div>
-          {latestGrid.length ? (
-            <>
-              <ReleaseCarousel releases={latestGrid} artists={artists} className="md:hidden" />
-              <div className="album-grid hidden md:grid">
-                {latestGrid.map((release, i) => (
-                  <ReleaseCard
-                    key={release.id}
-                    release={release}
-                    artist={artistById.get(release.artistId)}
-                    priority={i < 2}
-                  />
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="text-text-muted">{t("noReleases")}</p>
-          )}
-        </Container>
-      </section>
+      {latestGrid.length > 0 ? (
+        <section className="border-y border-border-subtle bg-charcoal/40 py-[var(--space-section)]">
+          <Container className="@container">
+            <div className="mb-[clamp(2rem,5vw,3.5rem)] flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <SectionHeader eyebrow={t("catalogEyebrow")} title={t("catalogTitle")} className="mb-0" />
+              <Button href="/music" variant="ghost" size="sm" className="min-h-11 shrink-0 self-start sm:self-auto">
+                {t("catalogCta")} →
+              </Button>
+            </div>
+            <ReleaseCarousel releases={latestGrid} artists={artists} className="md:hidden" />
+            <div className="album-grid hidden md:grid">
+              {latestGrid.map((release, i) => (
+                <ReleaseCard
+                  key={release.id}
+                  release={release}
+                  artist={artistById.get(release.artistId)}
+                  priority={i < 2}
+                />
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
 
       <section className="py-[var(--space-section)]">
         <Container>

@@ -22,12 +22,10 @@ test.describe("accessibility smoke", () => {
     await expect(menuBtn).toBeFocused();
   });
 
-  test("contact form fields have labels", async ({ page }) => {
+  test("contact page accessibility when form disabled", async ({ page }) => {
     await page.goto("/en/contact");
-    await expect(page.getByLabel(/^name$/i)).toBeVisible();
-    await expect(page.getByLabel(/^email$/i)).toBeVisible();
-    await expect(page.getByLabel(/^subject$/i)).toBeVisible();
-    await expect(page.getByLabel(/^message$/i)).toBeVisible();
+    await expect(page.getByRole("status")).toContainText(/not connected|inte kopplat/i);
+    await expect(page.locator("#contact-privacy")).toBeVisible();
   });
 
   test("reduced motion preference respected in CSS", async ({ page }) => {
