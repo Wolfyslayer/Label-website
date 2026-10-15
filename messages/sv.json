@@ -138,14 +138,16 @@
     "previewSpotify": "Förhandslyssna på Spotify",
     "listenSpotify": "Lyssna på Spotify",
     "openTrackSpotify": "Öppna {title} på Spotify (öppnas i ny flik)",
-    "smartLink": "Dela release-hub"
+    "smartLink": "Dela release-hub",
+    "shareRelease": "Dela utgivningen",
+    "shareReleaseHint": "Dela en enda länk med omslag och tillgängliga musiktjänster."
   },
   "releaseHub": {
     "notFound": "Utgivelsen hittades inte",
     "statusUpcoming": "Kommande",
     "statusOutNow": "Ute nu",
     "listenNow": "Lyssna nu",
-    "noStreaming": "Streaminglänkar visas här när de konfigurerats i admin.",
+    "noStreaming": "Länkar till musiktjänster visas här när de finns tillgängliga.",
     "shareRelease": "Dela den här releasen",
     "shareHint": "Skicka smart länk till fans — omslag och streamingalternativ ingår.",
     "share": "Dela",
@@ -157,7 +159,8 @@
     "preSaveCta": "Pre-save / pre-add",
     "yourLocalTime": "Din lokala tid",
     "aboutRelease": "Om releasen",
-    "fullReleasePage": "Full releasesida (spårlista & credits)"
+    "fullReleasePage": "Full releasesida (spårlista & credits)",
+    "tracklist": "Spårlista"
   },
   "upcomingPage": {
     "metaTitle": "Kommande utgivningar",
