@@ -6,6 +6,7 @@ export function revalidatePublicContent() {
     "/",
     "/artists",
     "/music",
+    "/releases",
     "/upcoming",
     "/news",
     "/about",

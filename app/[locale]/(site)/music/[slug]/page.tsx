@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: release.title,
     description: release.description,
     alternates: buildAlternates(`/music/${slug}`, locale),
-    ...releaseShareMetadata(release, locale),
+    ...releaseShareMetadata(release, locale, `/releases/${slug}`),
   };
 }
 
@@ -125,6 +125,9 @@ export default async function ReleaseDetailPage({ params }: Props) {
                     <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
                   </Button>
                 ) : null}
+                <Button href={`/releases/${release.slug}`} variant="secondary" size="sm" className="min-h-11">
+                  {t("smartLink")}
+                </Button>
               </div>
             </div>
           </div>
