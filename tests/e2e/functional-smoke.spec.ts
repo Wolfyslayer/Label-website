@@ -4,8 +4,10 @@ test.describe("functional smoke (seed / no Supabase)", () => {
   test("English and Swedish home render", async ({ page }) => {
     await page.goto("/en");
     await expect(page.getByRole("main")).toBeVisible();
+    await expect(page.getByText(/\[Placeholder/i)).toHaveCount(0);
     await page.goto("/sv");
     await expect(page.getByRole("main")).toBeVisible();
+    await expect(page.getByText(/\[Platshållare|\[Placeholder/i)).toHaveCount(0);
   });
 
   test("bilingual music catalog routes", async ({ page }) => {
@@ -15,42 +17,35 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
-  test("music catalog search and artist filter", async ({ page }) => {
+  test("music catalog empty state without placeholder releases", async ({ page }) => {
     await page.goto("/en/music");
-    await page.getByLabel(/^search$/i).fill("Placeholder");
-    await expect(page.getByText(/1 release|release/i).first()).toBeVisible();
-    await page.locator("#artist-filter").selectOption({ label: "Frostmark" });
-    await expect(page.locator("article, li").filter({ hasText: /Frostmark/i }).first()).toBeVisible();
+    await expect(page.getByText(/no released music in the catalog/i)).toBeVisible();
   });
 
   test("artist page and Spotify embed iframe", async ({ page }) => {
     await page.goto("/en/artists/frostmark");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Frostmark");
+    await expect(page.getByText(/\[Placeholder/i)).toHaveCount(0);
     const iframe = page.locator('iframe[title*="Spotify"], iframe[src*="spotify"]');
     await expect(iframe.first()).toBeVisible();
     await expect(iframe.first()).toHaveAttribute("loading", "lazy");
   });
 
-  test("release hub smart link page", async ({ page }) => {
-    await page.goto("/en/releases/frostmark-placeholder-release");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByRole("button", { name: /copy link/i })).toBeVisible();
-  });
-
-  test("upcoming releases page", async ({ page }) => {
+  test("upcoming releases page empty state", async ({ page }) => {
     await page.goto("/en/upcoming");
     await expect(page.getByRole("heading", { level: 1, name: /upcoming releases/i })).toBeVisible();
+    await expect(page.getByText(/no upcoming|inga kommande/i)).toBeVisible();
   });
 
-  test("news article", async ({ page }) => {
-    await page.goto("/en/news/welcome-to-wolfyslayer-records");
-    await expect(page.getByRole("article")).toBeVisible();
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/welcome/i);
+  test("news index empty state", async ({ page }) => {
+    await page.goto("/en/news");
+    await expect(page.getByText(/no news published|inga nyheter publicerade/i)).toBeVisible();
   });
 
-  test("contact page form visible on static hosting", async ({ page }) => {
+  test("contact page shows static notice without submit when no endpoint", async ({ page }) => {
     await page.goto("/en/contact/");
-    await expect(page.getByRole("button", { name: /send message/i })).toBeVisible();
+    await expect(page.getByText(/not connected|inte kopplat/i)).toBeVisible();
+    await expect(page.getByRole("button", { name: /send message/i })).toHaveCount(0);
   });
 
   test("admin static notice", async ({ page }) => {
@@ -73,7 +68,7 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     const sitemap = await request.get("/sitemap.xml");
     expect(sitemap.ok()).toBeTruthy();
     const xml = await sitemap.text();
-    expect(xml).toContain("/en/news/");
-    expect(xml).toContain("/sv/releases/");
+    expect(xml).toContain("/en/artists/");
+    expect(xml).not.toContain("frostmark-placeholder-release");
   });
 });

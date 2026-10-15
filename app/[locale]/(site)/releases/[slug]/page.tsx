@@ -9,6 +9,7 @@ import { ReleaseCountdown } from "@/components/music/countdown";
 import { Link } from "@/i18n/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
 import { getPublishedArtists, getPublishedReleases, getReleaseBySlug } from "@/lib/content";
+import { isStaticExportPlaceholderSlug, localeSlugParams } from "@/lib/content/static-export-params";
 import { isReleaseUpcoming } from "@/lib/content/releases";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { releaseShareMetadata } from "@/lib/metadata/release-share";
@@ -24,7 +25,7 @@ type Props = { params: Promise<{ slug: string; locale: string }> };
 
 export async function generateStaticParams() {
   const slugs = (await getPublishedReleases("en")).map((r) => r.slug);
-  return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
+  return localeSlugParams(slugs);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -55,6 +56,7 @@ export default async function ReleaseHubPage({ params }: Props) {
   const tMusic = await getTranslations("musicPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
+  if (isStaticExportPlaceholderSlug(slug)) notFound();
   const release = await getReleaseBySlug(slug, locale);
   if (!release) notFound();
 

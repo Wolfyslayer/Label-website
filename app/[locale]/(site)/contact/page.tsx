@@ -27,6 +27,7 @@ export default async function ContactPage({ params }: LocalePageParams) {
   await resolvePageLocale(params);
   const t = await getTranslations("contactPage");
   const socialLinks = await getPublicSocialLinks();
+  const formEnabled = Boolean(siteConfig.contactFormEndpoint);
 
   return (
     <div className="page-offset">
@@ -54,7 +55,7 @@ export default async function ContactPage({ params }: LocalePageParams) {
           </p>
         </div>
         <div className="relative">
-          <ContactForm privacyDescribedBy="contact-privacy" />
+          <ContactForm privacyDescribedBy="contact-privacy" enabled={formEnabled} />
         </div>
       </Container>
     </div>
