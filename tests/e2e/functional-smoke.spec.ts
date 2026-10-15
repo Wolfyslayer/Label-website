@@ -53,7 +53,7 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByRole("link", { name: /contact@wolfyslayer\.online/i }).first()).toBeVisible();
   });
 
-  test("robots and sitemap", async ({ request, baseURL }) => {
+  test("robots and sitemap", async ({ request }) => {
     const robots = await request.get("/robots.txt");
     expect(robots.ok()).toBeTruthy();
     const robotsText = await robots.text();
