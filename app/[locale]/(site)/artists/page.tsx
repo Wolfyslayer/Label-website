@@ -25,7 +25,12 @@ export default async function ArtistsPage() {
   return (
     <div className="pt-24 md:pt-28">
       <Container className="pb-20 md:pb-28">
-        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("description")} />
+        <SectionHeader
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          headingLevel={1}
+        />
         <div className="grid gap-6 md:grid-cols-2">
           {artists.map((artist) => (
             <ArtistCard key={artist.id} artist={artist} />

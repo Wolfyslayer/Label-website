@@ -6,13 +6,17 @@ export function SectionHeader({
   description,
   align = "left",
   className,
+  headingLevel = 2,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
   className?: string;
+  /** Use 1 for the primary page title (one h1 per page). */
+  headingLevel?: 1 | 2;
 }) {
+  const TitleTag = headingLevel === 1 ? "h1" : "h2";
   return (
     <div
       className={cn(
@@ -26,7 +30,7 @@ export function SectionHeader({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="type-h2 font-display text-text-primary">{title}</h2>
+      <TitleTag className="type-h2 font-display text-text-primary">{title}</TitleTag>
       {description ? (
         <p className="mt-4 max-w-2xl text-balance text-text-secondary md:text-lg">{description}</p>
       ) : null}

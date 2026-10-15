@@ -31,7 +31,12 @@ export default async function NewsPage() {
   return (
     <div className="pt-24 md:pt-28">
       <Container className="pb-20 md:pb-28">
-        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("listingDescription")} />
+        <SectionHeader
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("listingDescription")}
+          headingLevel={1}
+        />
         {hasAny ? (
           <div className="mt-12 space-y-16">
             {featured.length ? (

@@ -23,6 +23,9 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start`| Production server        |
 | `npm run lint` | ESLint                   |
 | `npm run typecheck` | TypeScript check    |
+| `npm run test:e2e`  | Playwright E2E (build + start server) |
+| `npm run test:e2e:responsive` | Responsive overflow matrix only |
+| `npm run audit:lighthouse` | Mobile Lighthouse (server must be running) |
 
 ## Environment variables
 
@@ -44,6 +47,7 @@ Run migrations **in order** in the Supabase SQL editor (each file is additive; t
 2. `supabase/migrations/002_localized_content.sql`
 3. `supabase/migrations/003_artist_featured_releases.sql`
 4. `supabase/migrations/004_cms_storage_indexes.sql` — creates the `media` bucket and storage RLS policies
+5. `supabase/migrations/005_contact_submissions_insert_rls.sql` — removes anonymous INSERT on contact submissions (Phase 8)
 
 Then:
 

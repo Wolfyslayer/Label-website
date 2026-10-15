@@ -37,7 +37,12 @@ export default async function PressPage() {
   return (
     <div className="pt-24 md:pt-28">
       <Container className="pb-20 md:pb-28">
-        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("description")} />
+        <SectionHeader
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          headingLevel={1}
+        />
 
         <section className="mb-16" aria-labelledby="press-contact-heading">
           <h2 id="press-contact-heading" className="font-display text-2xl">

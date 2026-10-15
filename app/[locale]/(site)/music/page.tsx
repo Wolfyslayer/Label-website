@@ -28,7 +28,12 @@ export default async function MusicPage() {
   return (
     <div className="pt-24 md:pt-28">
       <Container className="pb-20 md:pb-28">
-        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("description")} />
+        <SectionHeader
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          headingLevel={1}
+        />
         <MusicCatalog releases={releases} artists={artists} />
       </Container>
     </div>
