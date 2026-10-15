@@ -12,12 +12,14 @@
 | Footer | “Email configured via environment” |
 | Social links | “Configure in environment variables” when empty |
 
+## Official email
+
+- **`contact@wolfyslayer.online`** — default in `lib/config/contact-email.ts` (static build; override with `NEXT_PUBLIC_CONTACT_EMAIL` if needed).
+
 ## Behavior
 
-- **Press email:** Shown only when `NEXT_PUBLIC_PRESS_EMAIL` or `NEXT_PUBLIC_CONTACT_EMAIL` is set; section hidden otherwise.
-- **Contact form:** Rendered only when `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` is set.
-- **Contact email:** Prominent mailto when `NEXT_PUBLIC_CONTACT_EMAIL` is set.
-- **No form + no email:** Short professional `unavailable` message (en/sv).
+- **Contact & press:** Prominent address + **Send email** / **Skicka mejl** (`mailto:`).
+- **Contact form:** Rendered only when `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` is set (otherwise mailto only).
 - **Privacy:** Form-specific notice only when the form is enabled.
 - **Social:** Icons only when URLs exist; empty state is silent (footer + contact).
 

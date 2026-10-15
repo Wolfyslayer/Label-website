@@ -195,9 +195,28 @@
     "description": "Allmänna förfrågningar, licensiering och samarbeten. Vi läser varje meddelande och återkommer när vi kan.",
     "emailHeading": "E-post",
     "emailLabel": "E-post",
+    "sendEmail": "Skicka mejl",
     "socialHeading": "Följ bolaget",
     "formHeading": "Skicka meddelande",
-    "unavailable": "Direkta kontaktuppgifter listas inte här ännu. Kolla gärna tillbaka snart eller följ våra artister på Spotify.",
+    "topicsHeading": "Så kan vi hjälpa till",
+    "topics": {
+      "general": {
+        "title": "Allmänna förfrågningar",
+        "body": "Frågor om bolaget, releases eller webbplatsen."
+      },
+      "collaborations": {
+        "title": "Samarbeten",
+        "body": "Kreativa eller projektidéer med Frostmark, Wolfyslayer eller bolaget."
+      },
+      "licensing": {
+        "title": "Licensiering",
+        "body": "Sync, kommersiellt bruk och tillstånd för vår musik och vårt material."
+      },
+      "press": {
+        "title": "Press & media",
+        "body": "Intervjuer, bilder, logotyper och godkänt pressmaterial."
+      }
+    },
     "privacyNoticeForm": "Vi använder uppgifterna du skickar in endast för att svara på ditt meddelande. Vi säljer inte kontaktuppgifter."
   },
   "pressPage": {
@@ -207,7 +226,8 @@
     "title": "Presskit",
     "description": "Officiella logotyper, artistfotografier och godkända biografier för Frostmark och Wolfyslayer.",
     "labelContact": "Presskontakt",
-    "pressInquiries": "För intervjuer, synk och mediebruk av material:",
+    "pressInquiries": "För intervjuer, synk och mediebruk av material — använd den officiella bolagsadressen nedan.",
+    "sendEmail": "Skicka mejl",
     "portraits": "Artistporträtt",
     "viewArtist": "Artistsida",
     "logos": "Officiella logotyper",

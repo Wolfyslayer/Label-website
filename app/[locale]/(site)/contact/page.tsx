@@ -1,3 +1,4 @@
+import { ContactEmailCta } from "@/components/contact/contact-email-cta";
 import { ContactForm } from "@/components/contact/contact-form";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -13,6 +14,8 @@ import { pageOpenGraph } from "@/lib/metadata/open-graph";
 import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+
+const INQUIRY_KEYS = ["general", "collaborations", "licensing", "press"] as const;
 
 export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
   const locale = await resolvePageLocale(params);
@@ -54,19 +57,40 @@ export default async function ContactPage({ params }: LocalePageParams) {
               headingLevel={1}
             />
 
-            {contactEmail ? (
-              <div className="surface-panel mb-8 p-5 sm:p-6">
-                <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
-                  {t("emailHeading")}
-                </h2>
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className="mt-3 inline-flex min-h-11 items-center font-display text-lg text-accent transition-colors hover:text-text-primary"
-                >
-                  {contactEmail}
-                </a>
-              </div>
-            ) : null}
+            <div className="surface-panel mb-10 p-5 sm:p-8">
+              <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
+                {t("emailHeading")}
+              </h2>
+              <ContactEmailCta
+                email={contactEmail}
+                sendLabel={t("sendEmail")}
+                className="mt-4"
+              />
+            </div>
+
+            <section className="mb-10" aria-labelledby="contact-topics-heading">
+              <h2
+                id="contact-topics-heading"
+                className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-text-muted"
+              >
+                {t("topicsHeading")}
+              </h2>
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {INQUIRY_KEYS.map((key) => (
+                  <li
+                    key={key}
+                    className="rounded-sm border border-border-subtle bg-charcoal/40 p-4 sm:p-5"
+                  >
+                    <h3 className="font-display text-base text-text-primary">
+                      {t(`topics.${key}.title`)}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                      {t(`topics.${key}.body`)}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </section>
 
             {showSocial ? (
               <div className="mb-8">
@@ -77,12 +101,8 @@ export default async function ContactPage({ params }: LocalePageParams) {
               </div>
             ) : null}
 
-            {!formEnabled && !contactEmail ? (
-              <p className="text-sm leading-relaxed text-text-secondary">{t("unavailable")}</p>
-            ) : null}
-
             {formEnabled ? (
-              <p id="contact-privacy" className="mt-8 text-sm leading-relaxed text-text-muted">
+              <p id="contact-privacy" className="text-sm leading-relaxed text-text-muted">
                 {t("privacyNoticeForm")}
               </p>
             ) : null}

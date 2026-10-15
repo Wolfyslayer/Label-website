@@ -5,6 +5,7 @@ import { SocialLinks } from "@/components/layout/social-links";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
 import type { PublicSocialLinks } from "@/lib/content/site-settings";
+import { getPublicContactEmail } from "@/lib/config/public-contact";
 import { siteConfig } from "@/lib/config/site";
 import { useTranslations } from "next-intl";
 
@@ -23,6 +24,7 @@ export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks })
   const tFooter = useTranslations("footer");
   const tMeta = useTranslations("meta");
   const year = new Date().getFullYear();
+  const contactEmail = getPublicContactEmail();
 
   return (
     <footer className="border-t border-border-subtle bg-charcoal pb-[env(safe-area-inset-bottom)]">
@@ -69,16 +71,14 @@ export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks })
                   {tFooter("press")}
                 </Link>
               </li>
-              {siteConfig.contactEmail ? (
-                <li>
-                  <a
-                    href={`mailto:${siteConfig.contactEmail}`}
-                    className="inline-flex min-h-11 items-center hover:text-text-primary"
-                  >
-                    {siteConfig.contactEmail}
-                  </a>
-                </li>
-              ) : null}
+              <li>
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="inline-flex min-h-11 items-center break-all hover:text-text-primary"
+                >
+                  {contactEmail}
+                </a>
+              </li>
             </ul>
           </div>
         </div>

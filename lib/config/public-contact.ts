@@ -1,7 +1,11 @@
+import { OFFICIAL_CONTACT_EMAIL } from "@/lib/config/contact-email";
 import { siteConfig } from "@/lib/config/site";
 
+export { OFFICIAL_CONTACT_EMAIL };
+
 export function getPublicContactEmail(): string {
-  return siteConfig.contactEmail.trim();
+  const fromEnv = siteConfig.contactEmail.trim();
+  return fromEnv || OFFICIAL_CONTACT_EMAIL;
 }
 
 export function getPublicPressEmail(): string {
@@ -18,4 +22,9 @@ export function hasAnyPublicSocialLink(
   links: Record<string, string | undefined> = siteConfig.social,
 ): boolean {
   return Object.values(links).some((url) => Boolean(url?.trim()));
+}
+
+export function mailtoHref(email: string, subject?: string): string {
+  if (!subject?.trim()) return `mailto:${email}`;
+  return `mailto:${email}?subject=${encodeURIComponent(subject.trim())}`;
 }
