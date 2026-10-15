@@ -1,4 +1,9 @@
-import { SPOTIFY_API_BASE, SPOTIFY_MARKET } from "@/lib/spotify/constants";
+import {
+  SPOTIFY_ALBUM_TRACKS_PAGE_LIMIT,
+  SPOTIFY_API_BASE,
+  SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT,
+  SPOTIFY_MARKET,
+} from "@/lib/spotify/constants";
 import { spotifyGetJson, type SpotifyHttpOptions } from "@/lib/spotify/http";
 import type {
   SpotifyAlbumsPage,
@@ -30,14 +35,14 @@ export async function fetchAllArtistAlbums(
   spotifyArtistId: string,
   options: SpotifyHttpOptions = {},
 ): Promise<SpotifySimplifiedAlbum[]> {
-  const limit = 50;
+  const limit = SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT;
   let offset = 0;
   const all: SpotifySimplifiedAlbum[] = [];
   while (true) {
     const page = await fetchArtistAlbumsPage(accessToken, spotifyArtistId, offset, limit, options);
     all.push(...page.items);
     if (!page.next || page.items.length === 0) break;
-    offset += limit;
+    offset += page.items.length;
     if (offset >= page.total) break;
   }
   return all;
@@ -58,7 +63,7 @@ export async function fetchAllAlbumTracks(
   albumId: string,
   options: SpotifyHttpOptions = {},
 ): Promise<SpotifyFullAlbum["tracks"]["items"]> {
-  const limit = 50;
+  const limit = SPOTIFY_ALBUM_TRACKS_PAGE_LIMIT;
   let offset = 0;
   const items: SpotifyFullAlbum["tracks"]["items"] = [];
   while (true) {
@@ -71,7 +76,7 @@ export async function fetchAllAlbumTracks(
     const page = await spotifyGetJson<SpotifyFullAlbum["tracks"]>(url, accessToken, options);
     items.push(...page.items);
     if (!page.next || page.items.length === 0) break;
-    offset += limit;
+    offset += page.items.length;
     if (offset >= page.total) break;
   }
   return items;

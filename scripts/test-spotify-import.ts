@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { pickFeaturedReleaseId } from "@/lib/content/featured-release";
+import { SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT } from "@/lib/spotify/constants";
+import { fetchArtistAlbumsPage } from "@/lib/spotify/api";
 import { SpotifyAuthError, requireSpotifyCredentials } from "@/lib/spotify/auth";
 import { dedupeSpotifyAlbums } from "@/lib/spotify/dedupe";
 import { parseSpotifyReleaseDate } from "@/lib/spotify/dates";
@@ -303,7 +305,30 @@ async function testRateLimitRetry() {
   assert.ok(result.releases.some((r) => r.spotifyAlbumId === "retryAlb"));
 }
 
+function testArtistAlbumsPageLimitConstant() {
+  assert.equal(SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT, 10);
+  assert.ok(SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT <= 10);
+}
+
+async function testArtistAlbumsRequestUsesValidLimit() {
+  let capturedLimit = "";
+  const fetchImpl: typeof fetch = async (input) => {
+    const url = String(input);
+    capturedLimit = new URL(url).searchParams.get("limit") ?? "";
+    return new Response(
+      JSON.stringify({ items: [], total: 0, limit: 10, offset: 0, next: null }),
+      { status: 200 },
+    );
+  };
+  await fetchArtistAlbumsPage("token", "0edDVF0bL7PFu2Sc3ijDrP", 0, SPOTIFY_ARTIST_ALBUMS_PAGE_LIMIT, {
+    fetchImpl,
+  });
+  assert.equal(capturedLimit, "10");
+}
+
 async function main() {
+  testArtistAlbumsPageLimitConstant();
+  await testArtistAlbumsRequestUsesValidLimit();
   testAuthMissing();
   testDates();
   testDedupe();

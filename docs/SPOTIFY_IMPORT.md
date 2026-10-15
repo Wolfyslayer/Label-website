@@ -8,7 +8,7 @@ Wolfyslayer Records loads release and track metadata from **Spotify’s Web API*
 2. **Fetch albums** for the fixed artist IDs:
    - Frostmark — `0edDVF0bL7PFu2Sc3ijDrP`
    - Wolfyslayer — `4B4kHkS5D9gK6Q3lNbDPml`
-3. **Paginate** `GET /v1/artists/{id}/albums` (`include_groups=album,single`, market `SE`).
+3. **Paginate** `GET /v1/artists/{id}/albums` (`include_groups=album,single`, market `SE`, **limit 10** per page — Spotify’s maximum for this endpoint).
 4. **Load each album** via `GET /v1/albums/{id}` and track pages via `GET /v1/albums/{id}/tracks` when needed.
 5. **Filter** releases where the label artist is credited; skip `appears_on` / `compilation` groups.
 6. **Dedupe** by Spotify album ID.
@@ -78,6 +78,7 @@ Re-run the workflow or `npm run import:spotify`. Stable IDs (`release-spotify-{a
 | Missing secrets | Add `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` in Actions secrets |
 | 401/403 from API | Confirm the app is active, credentials match, and the app can access catalog endpoints |
 | Empty catalog | Verify artist IDs; check market availability (`SE`) |
+| `Invalid limit` (400) on import | Artist albums must use **limit ≤ 10** (fixed in `lib/spotify/api.ts`) |
 | Validation fails on cover | Ensure cover URLs are `https://` from Spotify CDN |
 | Workflow did not open PR | No file changes (catalog already up to date) or `create-pull-request` permissions |
 
