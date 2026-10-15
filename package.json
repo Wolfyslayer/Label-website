@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "sync-artist-images": "node scripts/sync-artist-images.mjs"
+    "sync-artist-images": "node scripts/sync-artist-images.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:responsive": "playwright test tests/e2e/responsive-overflow.spec.ts",
+    "audit:lighthouse": "node scripts/lighthouse-audit.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
@@ -26,12 +29,14 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.51.1",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^15.1.0",
+    "lighthouse": "^12.6.0",
     "tailwindcss": "^4.0.0",
     "typescript": "^5"
   }

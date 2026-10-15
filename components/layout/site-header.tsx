@@ -134,12 +134,12 @@ export function SiteHeader() {
         ref={panelRef}
         role="dialog"
         aria-modal="true"
+        aria-hidden={!open}
         aria-label={t("mobilePrimary")}
         className={cn(
           "fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-40 overflow-y-auto bg-void/98 backdrop-blur-lg transition-opacity duration-300 xl:hidden",
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
-        hidden={!open}
       >
         <Container className="flex min-h-full flex-col py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           <div className="mb-6 sm:hidden">

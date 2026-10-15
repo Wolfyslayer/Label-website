@@ -31,7 +31,7 @@ export default async function AboutPage() {
   return (
     <div className="pt-24 md:pt-28">
       <Container className="max-w-3xl pb-20 md:pb-28">
-        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("intro")} />
+        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("intro")} headingLevel={1} />
         <div className="mt-10 space-y-10 text-[length:var(--text-body)] leading-relaxed text-text-secondary">
           <section aria-labelledby="about-story">
             <h2 id="about-story" className="sr-only">

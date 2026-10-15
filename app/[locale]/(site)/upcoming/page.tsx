@@ -39,7 +39,12 @@ export default async function UpcomingPage() {
   return (
     <div className="pt-24 md:pt-28">
       <Container className="pb-20 md:pb-28">
-        <SectionHeader eyebrow={t("eyebrow")} title={t("title")} description={t("description")} />
+        <SectionHeader
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          headingLevel={1}
+        />
         {upcoming.length ? (
           <ul className="space-y-10">
             {upcoming.map((release) => {

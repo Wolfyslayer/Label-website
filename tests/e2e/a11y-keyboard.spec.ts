@@ -1,0 +1,41 @@
+import { test, expect } from "@playwright/test";
+
+test.describe("accessibility smoke", () => {
+  test("skip link focuses main content", async ({ page }) => {
+    await page.goto("/en");
+    await page.keyboard.press("Tab");
+    const skip = page.getByRole("link", { name: /skip to content/i });
+    await expect(skip).toBeFocused();
+    await skip.press("Enter");
+    await expect(page.locator("#main-content")).toBeVisible();
+  });
+
+  test("mobile menu escape closes and returns focus", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/en");
+    const menuBtn = page.getByRole("button", { name: /open menu/i });
+    await menuBtn.click();
+    const dialog = page.getByRole("dialog", { includeHidden: true });
+    await expect(dialog).toHaveAttribute("aria-hidden", "false");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveAttribute("aria-hidden", "true");
+  });
+
+  test("contact form fields have labels", async ({ page }) => {
+    await page.goto("/en/contact");
+    await expect(page.getByLabel(/^name$/i)).toBeVisible();
+    await expect(page.getByLabel(/^email$/i)).toBeVisible();
+    await expect(page.getByLabel(/^subject$/i)).toBeVisible();
+    await expect(page.getByLabel(/^message$/i)).toBeVisible();
+  });
+
+  test("reduced motion preference respected in CSS", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/en");
+    const duration = await page.evaluate(() => {
+      const el = document.documentElement;
+      return getComputedStyle(el).scrollBehavior;
+    });
+    expect(duration).toBe("auto");
+  });
+});

@@ -36,6 +36,7 @@ export default async function ContactPage() {
             title={t("title")}
             description={t("description")}
             className="mb-8"
+            headingLevel={1}
           />
           <SocialLinks links={socialLinks} />
           {siteConfig.contactEmail ? (
