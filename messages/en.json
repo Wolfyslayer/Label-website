@@ -160,14 +160,25 @@
     "metaDescription": "Announcements and updates from Wolfyslayer Records.",
     "eyebrow": "Updates",
     "title": "News",
+    "listingDescription": "Official announcements for Frostmark, Wolfyslayer, and the label.",
+    "featuredHeading": "Featured stories",
+    "moreNews": "More news",
+    "readArticle": "Read article",
+    "relatedHeading": "Related",
+    "relatedArtist": "Artist",
+    "relatedRelease": "Release",
     "empty": "No news published yet.",
     "back": "News",
     "notFound": "Article not found"
   },
   "aboutPage": {
     "metaTitle": "About",
+    "metaDescription": "Wolfyslayer Records is an independent label for Frostmark and Wolfyslayer.",
     "eyebrow": "Label",
     "title": "About Wolfyslayer Records",
+    "intro": "Independent curation for two distinct artists under one roof.",
+    "relationshipHeading": "Label, artists & names",
+    "relationshipBody": "Wolfyslayer Records is the independent label that releases and presents music from Frostmark and Wolfyslayer. Frostmark and Wolfyslayer are separate artist projects with their own music and identities; the label provides shared infrastructure — this website, release planning, and press materials — without blending those identities into one act.",
     "mission": "Mission",
     "artistsHeading": "Artists"
   },
@@ -177,7 +188,8 @@
     "eyebrow": "Reach out",
     "title": "Contact",
     "description": "General inquiries, licensing, and collaboration. We respond when we can.",
-    "emailLabel": "Email"
+    "emailLabel": "Email",
+    "privacyNotice": "We use your name and email only to respond to this message. Submissions may be stored securely when Supabase is configured, or delivered via your CONTACT_WEBHOOK_URL. We do not sell contact data."
   },
   "pressPage": {
     "metaTitle": "Press Kit",
@@ -188,7 +200,10 @@
     "labelContact": "Label contact",
     "pressInquiries": "Press inquiries",
     "configureEmail": "Configure NEXT_PUBLIC_PRESS_EMAIL or contact email",
-    "assets": "Assets",
+    "portraits": "Artist portraits",
+    "viewArtist": "Artist profile",
+    "logos": "Official logos",
+    "assets": "Additional assets",
     "download": "Download",
     "downloadMissing": "High-res download URL not configured",
     "bios": "Artist bios",

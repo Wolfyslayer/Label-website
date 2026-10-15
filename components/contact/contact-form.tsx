@@ -8,7 +8,7 @@ import { useState } from "react";
 
 type FieldErrors = Partial<Record<"name" | "email" | "subject" | "message", string>>;
 
-export function ContactForm() {
+export function ContactForm({ privacyDescribedBy }: { privacyDescribedBy?: string }) {
   const t = useTranslations("contactForm");
   const tErr = useTranslations("contactErrors");
   const tVal = useTranslations("validation");
@@ -87,7 +87,12 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6" noValidate>
+    <form
+      onSubmit={onSubmit}
+      className="space-y-6"
+      noValidate
+      aria-describedby={privacyDescribedBy}
+    >
       <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden>
         <label htmlFor="website">{t("websiteHoneypot")}</label>
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />

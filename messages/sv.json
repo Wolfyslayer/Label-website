@@ -160,14 +160,25 @@
     "metaDescription": "Nyheter och uppdateringar från Wolfyslayer Records.",
     "eyebrow": "Uppdateringar",
     "title": "Nyheter",
+    "listingDescription": "Officiella meddelanden för Frostmark, Wolfyslayer och bolaget.",
+    "featuredHeading": "Utvalda artiklar",
+    "moreNews": "Fler nyheter",
+    "readArticle": "Läs artikel",
+    "relatedHeading": "Relaterat",
+    "relatedArtist": "Artist",
+    "relatedRelease": "Utgivning",
     "empty": "Inga nyheter publicerade ännu.",
     "back": "Nyheter",
     "notFound": "Artikeln hittades inte"
   },
   "aboutPage": {
     "metaTitle": "Om oss",
+    "metaDescription": "Wolfyslayer Records är ett independentbolag för Frostmark och Wolfyslayer.",
     "eyebrow": "Bolag",
     "title": "Om Wolfyslayer Records",
+    "intro": "Independent kurering för två distinkta artister under samma tak.",
+    "relationshipHeading": "Bolag, artister och namn",
+    "relationshipBody": "Wolfyslayer Records är independentbolaget som släpper och presenterar musik från Frostmark och Wolfyslayer. Frostmark och Wolfyslayer är separata artistprojekt med egen musik och identitet; bolaget tillhandahåller gemensam infrastruktur — den här webbplatsen, releaseplanering och pressmaterial — utan att blanda ihop identiteterna till en enda akt.",
     "mission": "Mission",
     "artistsHeading": "Artister"
   },
@@ -177,7 +188,8 @@
     "eyebrow": "Hör av dig",
     "title": "Kontakt",
     "description": "Allmänna förfrågningar, licensiering och samarbeten. Vi svarar när vi kan.",
-    "emailLabel": "E-post"
+    "emailLabel": "E-post",
+    "privacyNotice": "Vi använder ditt namn och din e-post endast för att svara på det här meddelandet. Inskick kan lagras säkert när Supabase är konfigurerat, eller levereras via er CONTACT_WEBHOOK_URL. Vi säljer inte kontaktuppgifter."
   },
   "pressPage": {
     "metaTitle": "Presskit",
@@ -188,7 +200,10 @@
     "labelContact": "Bolagskontakt",
     "pressInquiries": "Pressförfrågningar",
     "configureEmail": "Konfigurera NEXT_PUBLIC_PRESS_EMAIL eller kontakt-e-post",
-    "assets": "Material",
+    "portraits": "Artistporträtt",
+    "viewArtist": "Artistsida",
+    "logos": "Officiella logotyper",
+    "assets": "Övrigt material",
     "download": "Ladda ner",
     "downloadMissing": "URL för högupplöst nedladdning saknas",
     "bios": "Artistbiografier",

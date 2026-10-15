@@ -159,4 +159,18 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
+
+  .editorial-prose {
+    font-family: var(--font-editorial);
+    max-width: 65ch;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 48rem) {
+    .editorial-prose {
+      font-size: clamp(1.0625rem, 0.15vw + 1rem, 1.125rem);
+      line-height: 1.8;
+    }
+  }
 }

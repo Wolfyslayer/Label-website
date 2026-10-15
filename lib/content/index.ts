@@ -72,6 +72,14 @@ export async function getArtistBySlug(
   return artists.find((a) => a.slug === slug) ?? null;
 }
 
+export async function getArtistById(
+  id: string,
+  locale: AppLocale,
+): Promise<Artist | null> {
+  const artists = await getPublishedArtists(locale);
+  return artists.find((a) => a.id === id) ?? null;
+}
+
 export async function getPublishedReleases(locale: AppLocale): Promise<Release[]> {
   const source = await loadContentSource();
   return published(source.releases)
@@ -85,6 +93,14 @@ export async function getReleaseBySlug(
 ): Promise<Release | null> {
   const releases = await getPublishedReleases(locale);
   return releases.find((r) => r.slug === slug) ?? null;
+}
+
+export async function getReleaseById(
+  id: string,
+  locale: AppLocale,
+): Promise<Release | null> {
+  const releases = await getPublishedReleases(locale);
+  return releases.find((r) => r.id === id) ?? null;
 }
 
 export async function getTracksForRelease(releaseId: string): Promise<Track[]> {
