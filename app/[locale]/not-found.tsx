@@ -2,19 +2,13 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { buildAlternates } from "@/lib/metadata/alternates";
-import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
-  const t = await getTranslations({ locale, namespace: "common" });
-  return {
-    title: t("notFoundTitle"),
-    alternates: buildAlternates("/404", locale),
-  };
-}
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: false },
+};
 
 export default async function NotFound() {
   const t = await getTranslations("common");

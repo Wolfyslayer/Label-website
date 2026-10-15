@@ -12,15 +12,18 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000/en/](http://localhost:3000/en/) after `npm run dev` (or serve `out/` after `npm run build`).
+
+**GitHub Pages:** see [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md).
 
 ## Scripts
 
 | Command        | Description              |
 |----------------|--------------------------|
 | `npm run dev`  | Development server       |
-| `npm run build`| Production build         |
-| `npm run start`| Production server        |
+| `npm run build`| Static export to `out/` (GitHub Pages) |
+| `npm run build:node`| Node server build (CMS in `server-routes/`) |
+| `npm run start`| Serve Node build (`build:node` only) |
 | `npm run lint` | ESLint                   |
 | `npm run typecheck` | TypeScript check    |
 | `npm run test:e2e`  | Playwright E2E (build + start server) |
@@ -142,6 +145,15 @@ Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`.
 - Draft / published on artists, releases, news
 - Secure image upload, delete confirmations (type slug to confirm)
 - Upcoming releases = releases with `release_at` in the future
+
+## Phase 8 — QA & production readiness
+
+Documentation in `docs/`:
+
+- `RESPONSIVE_AUDIT.md` — Playwright viewport matrix
+- `TEST_RESULTS.md` — E2E, a11y smoke, Lighthouse lab metrics (honest CWV gaps)
+- `SECURITY_AUDIT.md` — RLS, headers, contact/upload review
+- `DEPLOYMENT_GUIDE.md` — hosting, env, domain, HTTPS, manual go-live steps
 
 ## Project structure
 

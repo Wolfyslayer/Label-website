@@ -1,4 +1,6 @@
+import { absolutePublicPath } from "@/lib/metadata/alternates";
 import { siteConfig } from "@/lib/config/site";
+import type { AppLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 
 export function absoluteAssetUrl(src: string): string {
@@ -23,8 +25,7 @@ export function pageOpenGraph({
   imageAlt?: string;
   type?: "website" | "article";
 }): Pick<Metadata, "openGraph" | "twitter"> {
-  const base = siteConfig.url.replace(/\/$/, "");
-  const url = `${base}/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
+  const url = absolutePublicPath(locale as AppLocale, pathname);
   const imageUrl = image ? absoluteAssetUrl(image) : undefined;
 
   return {

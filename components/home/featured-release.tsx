@@ -7,20 +7,21 @@ import { StreamingLinks } from "@/components/music/streaming-links";
 import type { Artist, Release } from "@/lib/types/content";
 import { formatReleaseDate } from "@/lib/utils/date";
 import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 export async function FeaturedReleaseSection({
   release,
   artist,
+  locale,
 }: {
   release: Release | null;
   artist: Artist | null;
+  locale: AppLocale;
 }) {
   if (!release) return null;
 
   const t = await getTranslations("home");
-  const locale = (await getLocale()) as AppLocale;
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
   return (

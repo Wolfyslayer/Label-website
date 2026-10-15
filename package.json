@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "STATIC_EXPORT=1 NEXT_PUBLIC_STATIC_HOSTING=1 next build",
+    "build:node": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",

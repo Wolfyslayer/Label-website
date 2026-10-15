@@ -189,7 +189,8 @@
     "title": "Contact",
     "description": "General inquiries, licensing, and collaboration. We respond when we can.",
     "emailLabel": "Email",
-    "privacyNotice": "We use your name and email only to respond to this message. Submissions may be stored securely when Supabase is configured, or delivered via your CONTACT_WEBHOOK_URL. We do not sell contact data."
+    "privacyNotice": "We use your name and email only to respond to this message. Submissions may be stored securely when Supabase is configured, or delivered via your CONTACT_WEBHOOK_URL. We do not sell contact data.",
+    "privacyStatic": "Static hosting sends the form only to your configured public endpoint (no server-side storage in this build)."
   },
   "pressPage": {
     "metaTitle": "Press Kit",
@@ -227,7 +228,8 @@
     "invalidJson": "Invalid request.",
     "storeFailed": "Message could not be stored. Try again or email us directly.",
     "deliveryFailed": "Delivery failed.",
-    "notConfigured": "Contact delivery is not configured. Set up Supabase or CONTACT_WEBHOOK_URL."
+    "notConfigured": "Contact delivery is not configured. Set up Supabase or CONTACT_WEBHOOK_URL.",
+    "staticOnly": "On static hosting, set NEXT_PUBLIC_CONTACT_FORM_ENDPOINT (e.g. Formspree) or email us directly."
   },
   "validation": {
     "nameMin": "Name must be at least 2 characters",

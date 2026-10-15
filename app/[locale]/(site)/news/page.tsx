@@ -4,12 +4,12 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { getNewsListing } from "@/lib/content/news-listing";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
-import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "newsPage" });
   const title = t("metaTitle");
   const description = t("metaDescription");
@@ -21,8 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function NewsPage() {
-  const locale = (await getLocale()) as AppLocale;
+export default async function NewsPage({ params }: LocalePageParams) {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations("newsPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
   const { featured, articles } = await getNewsListing(locale);

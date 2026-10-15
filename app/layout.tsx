@@ -1,7 +1,6 @@
 import { siteConfig } from "@/lib/config/site";
 import type { Metadata } from "next";
 import { Cinzel, DM_Sans, Source_Serif_4 } from "next/font/google";
-import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -42,11 +41,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-
   return (
     <html
-      lang={locale}
+      lang="en"
+      suppressHydrationWarning
       className={`${cinzel.variable} ${dmSans.variable} ${sourceSerif.variable}`}
     >
       <body className="min-h-dvh bg-void text-text-primary antialiased">{children}</body>

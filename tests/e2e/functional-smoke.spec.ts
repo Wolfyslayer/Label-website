@@ -51,26 +51,14 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/welcome/i);
   });
 
-  test("contact form rejects without backend (503)", async ({ request }) => {
-    const res = await request.post("/api/contact", {
-      data: {
-        name: "QA Bot",
-        email: "qa@example.com",
-        subject: "Phase 8 smoke test",
-        message: "Automated test message for contact API validation path.",
-        website: "",
-      },
-    });
-    expect([503, 429]).toContain(res.status());
-    if (res.status() === 503) {
-      const body = await res.json();
-      expect(body.errorCode).toBe("notConfigured");
-    }
+  test("contact page form visible on static hosting", async ({ page }) => {
+    await page.goto("/en/contact/");
+    await expect(page.getByRole("button", { name: /send message/i })).toBeVisible();
   });
 
-  test("admin status requires auth", async ({ request }) => {
-    const res = await request.get("/api/admin/status");
-    expect(res.status()).toBe(401);
+  test("admin static notice", async ({ page }) => {
+    await page.goto("/admin/");
+    await expect(page.getByRole("heading", { name: /CMS not available/i })).toBeVisible();
   });
 
   test("admin login page loads", async ({ page }) => {

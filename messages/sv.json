@@ -189,7 +189,8 @@
     "title": "Kontakt",
     "description": "Allmänna förfrågningar, licensiering och samarbeten. Vi svarar när vi kan.",
     "emailLabel": "E-post",
-    "privacyNotice": "Vi använder ditt namn och din e-post endast för att svara på det här meddelandet. Inskick kan lagras säkert när Supabase är konfigurerat, eller levereras via er CONTACT_WEBHOOK_URL. Vi säljer inte kontaktuppgifter."
+    "privacyNotice": "Vi använder ditt namn och din e-post endast för att svara på det här meddelandet. Inskick kan lagras säkert när Supabase är konfigurerat, eller levereras via er CONTACT_WEBHOOK_URL. Vi säljer inte kontaktuppgifter.",
+    "privacyStatic": "Statisk hosting skickar formuläret endast till er konfigurerade publika endpoint (ingen serverside-lagring i den här builden)."
   },
   "pressPage": {
     "metaTitle": "Presskit",
@@ -227,7 +228,8 @@
     "invalidJson": "Ogiltig förfrågan.",
     "storeFailed": "Meddelandet kunde inte sparas. Försök igen eller maila oss direkt.",
     "deliveryFailed": "Leveransen misslyckades.",
-    "notConfigured": "Kontaktformuläret är inte konfigurerat. Sätt upp Supabase eller CONTACT_WEBHOOK_URL."
+    "notConfigured": "Kontaktformuläret är inte konfigurerat. Sätt upp Supabase eller CONTACT_WEBHOOK_URL.",
+    "staticOnly": "På statisk hosting: sätt NEXT_PUBLIC_CONTACT_FORM_ENDPOINT (t.ex. Formspree) eller maila oss direkt."
   },
   "validation": {
     "nameMin": "Namnet måste vara minst 2 tecken",

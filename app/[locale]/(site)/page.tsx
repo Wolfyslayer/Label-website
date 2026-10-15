@@ -18,16 +18,16 @@ import {
   getUpcomingReleases,
 } from "@/lib/content";
 import { buildAlternates } from "@/lib/metadata/alternates";
-import type { AppLocale } from "@/i18n/routing";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
 import { formatReleaseDate } from "@/lib/utils/date";
 import { Link } from "@/i18n/navigation";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "meta" });
   return {
     title: t("siteName"),
@@ -36,8 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function HomePage() {
-  const locale = (await getLocale()) as AppLocale;
+export default async function HomePage({ params }: LocalePageParams) {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations("home");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
@@ -56,7 +56,7 @@ export default async function HomePage() {
   return (
     <>
       <HomeHero />
-      <FeaturedReleaseSection release={featured} artist={featuredArtist ?? null} />
+      <FeaturedReleaseSection release={featured} artist={featuredArtist ?? null} locale={locale} />
 
       <section className="py-[var(--space-section)]">
         <Container>
