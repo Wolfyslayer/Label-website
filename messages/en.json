@@ -195,9 +195,28 @@
     "description": "General inquiries, licensing, and collaboration. We read every message and reply when we can.",
     "emailHeading": "Email",
     "emailLabel": "Email",
+    "sendEmail": "Send email",
     "socialHeading": "Follow the label",
     "formHeading": "Send a message",
-    "unavailable": "Direct contact details are not listed on this page yet. Please check back soon or follow our artists on Spotify.",
+    "topicsHeading": "How we can help",
+    "topics": {
+      "general": {
+        "title": "General inquiries",
+        "body": "Questions about the label, releases, or this website."
+      },
+      "collaborations": {
+        "title": "Collaborations",
+        "body": "Creative or project ideas involving Frostmark, Wolfyslayer, or the label."
+      },
+      "licensing": {
+        "title": "Licensing",
+        "body": "Sync, commercial use, and permissions for our music and assets."
+      },
+      "press": {
+        "title": "Press & media",
+        "body": "Interviews, photos, logos, and approved press materials."
+      }
+    },
     "privacyNoticeForm": "We use the information you submit only to respond to your message. We do not sell contact details."
   },
   "pressPage": {
@@ -207,7 +226,8 @@
     "title": "Press kit",
     "description": "Official logos, artist photography, and approved bios for Frostmark and Wolfyslayer.",
     "labelContact": "Press contact",
-    "pressInquiries": "For interviews, sync requests, and media use of assets:",
+    "pressInquiries": "For interviews, sync requests, and media use of assets, reach us at the official label address below.",
+    "sendEmail": "Send email",
     "portraits": "Artist portraits",
     "viewArtist": "Artist profile",
     "logos": "Official logos",

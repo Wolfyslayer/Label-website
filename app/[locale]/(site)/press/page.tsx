@@ -4,6 +4,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingLinks } from "@/components/music/streaming-links";
 import { Link } from "@/i18n/navigation";
 import { getPressAssets, getPublishedArtists } from "@/lib/content";
+import { ContactEmailCta } from "@/components/contact/contact-email-cta";
 import { getPublicPressEmail } from "@/lib/config/public-contact";
 import { pressAssetDownloadHref } from "@/lib/press/downloads";
 import { buildAlternates } from "@/lib/metadata/alternates";
@@ -44,20 +45,15 @@ export default async function PressPage({ params }: LocalePageParams) {
           headingLevel={1}
         />
 
-        {pressEmail ? (
-          <section className="mb-14 surface-panel p-5 sm:p-6" aria-labelledby="press-contact-heading">
-            <h2 id="press-contact-heading" className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
-              {t("labelContact")}
-            </h2>
-            <p className="mt-3 text-sm text-text-secondary">{t("pressInquiries")}</p>
-            <a
-              href={`mailto:${pressEmail}`}
-              className="mt-2 inline-flex min-h-11 items-center font-display text-lg text-accent transition-colors hover:text-text-primary"
-            >
-              {pressEmail}
-            </a>
-          </section>
-        ) : null}
+        <section className="mb-14 surface-panel p-5 sm:p-8" aria-labelledby="press-contact-heading">
+          <h2 id="press-contact-heading" className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
+            {t("labelContact")}
+          </h2>
+          <p className="mt-3 max-w-prose text-sm leading-relaxed text-text-secondary">
+            {t("pressInquiries")}
+          </p>
+          <ContactEmailCta email={pressEmail} sendLabel={t("sendEmail")} className="mt-5" />
+        </section>
 
         <section className="mb-16" aria-labelledby="press-portraits-heading">
           <h2 id="press-portraits-heading" className="mb-8 font-display text-2xl">

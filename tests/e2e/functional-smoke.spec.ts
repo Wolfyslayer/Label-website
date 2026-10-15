@@ -43,12 +43,12 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByText(/no news published|inga nyheter publicerade/i)).toBeVisible();
   });
 
-  test("contact page is public-ready without form endpoint", async ({ page }) => {
+  test("contact page shows official mailto", async ({ page }) => {
     await page.goto("/en/contact/");
-    await expect(page.getByText(/NEXT_PUBLIC|Supabase|webhook/i)).toHaveCount(0);
-    await expect(page.getByRole("button", { name: /send message/i })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /contact@wolfyslayer\.online/i }).first()).toBeVisible();
+    await expect(page.locator('a[href="mailto:contact@wolfyslayer.online"]').first()).toBeVisible();
     await page.goto("/sv/contact/");
-    await expect(page.getByText(/NEXT_PUBLIC|Supabase|miljövariabel/i)).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /contact@wolfyslayer\.online/i }).first()).toBeVisible();
   });
 
   test("admin static notice", async ({ page }) => {

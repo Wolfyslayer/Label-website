@@ -1,3 +1,5 @@
+import { OFFICIAL_CONTACT_EMAIL } from "@/lib/config/contact-email";
+
 const rawBasePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
 const rawSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
@@ -22,7 +24,7 @@ export const siteConfig = {
   url: resolveSiteUrl(),
   basePath: siteBasePath,
   staticHosting: process.env.NEXT_PUBLIC_STATIC_HOSTING === "1",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || OFFICIAL_CONTACT_EMAIL,
   /** Public form endpoint (Formspree, etc.) for static hosting — no secrets. */
   contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT ?? "",
   social: {
