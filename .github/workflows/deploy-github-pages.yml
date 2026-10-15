@@ -18,24 +18,49 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
-      - run: npm ci
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Build static site
         env:
           STATIC_EXPORT: "1"
           GITHUB_PAGES: "1"
           NEXT_PUBLIC_STATIC_HOSTING: "1"
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://example.github.io' }}
-          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || '' }}
-          NEXT_PUBLIC_CONTACT_FORM_ENDPOINT: ${{ vars.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT || '' }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SITE_URL: https://wolfyslayer.online
+          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_CONTACT_FORM_ENDPOINT: ${{ vars.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT }}
+          # Optional: pull CMS content at build time (anon key only — never service role)
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Verify export output
+        run: |
+          test -f out/CNAME
+          test -f out/en/index.html
+          test -f out/sv/index.html
+          test -f out/en/artists/frostmark/index.html
+          test -f out/sitemap.xml
+          grep -q "wolfyslayer.online" out/sitemap.xml
+          ! grep -rq "SERVICE_ROLE" out/ || (echo "Service role leaked in out/" && exit 1)
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: out
 
@@ -46,5 +71,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4

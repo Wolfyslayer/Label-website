@@ -13,9 +13,9 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await page.goto("/en/music");
     const lang = page.locator("#site-language").first();
     await lang.selectOption("sv");
-    await expect(page).toHaveURL(/\/sv\/music/, { timeout: 10_000 });
+    await expect(page).toHaveURL(/\/sv\/music\/?/, { timeout: 10_000 });
     await lang.selectOption("en");
-    await expect(page).toHaveURL(/\/en\/music/, { timeout: 10_000 });
+    await expect(page).toHaveURL(/\/en\/music\/?/, { timeout: 10_000 });
   });
 
   test("music catalog search and artist filter", async ({ page }) => {

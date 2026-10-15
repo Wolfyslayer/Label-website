@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "STATIC_EXPORT=1 NEXT_PUBLIC_STATIC_HOSTING=1 next build",
+    "build:pages": "NEXT_PUBLIC_SITE_URL=https://wolfyslayer.online NEXT_PUBLIC_BASE_PATH= npm run build",
     "build:node": "next build",
     "start": "next start",
     "lint": "next lint",
