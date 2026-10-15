@@ -18,6 +18,7 @@ import {
   getUpcomingReleases,
 } from "@/lib/content";
 import { buildAlternates } from "@/lib/metadata/alternates";
+import { pageOpenGraph } from "@/lib/metadata/open-graph";
 import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
 import { formatReleaseDate } from "@/lib/utils/date";
 import { Link } from "@/i18n/navigation";
@@ -29,10 +30,13 @@ import type { Metadata } from "next";
 export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
   const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "meta" });
+  const title = t("siteName");
+  const description = t("defaultDescription");
   return {
-    title: t("siteName"),
-    description: t("defaultDescription"),
+    title,
+    description,
     alternates: buildAlternates("/", locale),
+    ...pageOpenGraph({ title, description, locale, pathname: "/" }),
   };
 }
 

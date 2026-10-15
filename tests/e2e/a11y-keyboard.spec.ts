@@ -15,10 +15,11 @@ test.describe("accessibility smoke", () => {
     await page.goto("/en");
     const menuBtn = page.getByRole("button", { name: /open menu/i });
     await menuBtn.click();
-    const dialog = page.getByRole("dialog", { includeHidden: true });
-    await expect(dialog).toHaveAttribute("aria-hidden", "false");
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
     await page.keyboard.press("Escape");
-    await expect(dialog).toHaveAttribute("aria-hidden", "true");
+    await expect(dialog).toBeHidden();
+    await expect(menuBtn).toBeFocused();
   });
 
   test("contact form fields have labels", async ({ page }) => {

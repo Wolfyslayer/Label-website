@@ -49,7 +49,8 @@
 
 ## Fixes applied during audit
 
-1. **Mobile navigation:** Removed HTML `hidden={!open}` on the menu panel. In HTML, `hidden="false"` still hides the element; replaced with `aria-hidden={!open}` so open state is visible to users and tests.
+1. **Mobile navigation:** Menu panel renders in a `document.body` portal only while open (avoids `backdrop-blur` fixed-position trap on the header). Header uses `z-[100]`; hero decorative layers use `pointer-events-none`.
+2. **Earlier fix:** Removed HTML `hidden={!open}` on the menu panel (`hidden="false"` still hides in HTML).
 2. **Page titles:** Added `headingLevel={1}` on primary `SectionHeader` instances (music, artists list, upcoming, news, about, contact, press) for semantics without changing visual styles.
 
 ## Visual design

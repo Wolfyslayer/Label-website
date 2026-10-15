@@ -12,7 +12,7 @@ The default **`npm run build`** produces a static site in **`out/`** suitable fo
 
 1. **Settings → Pages → Build and deployment:** Source = **GitHub Actions** (not “Deploy from branch”).
 2. **Settings → Pages → Custom domain:** `wolfyslayer.online` (or `www.wolfyslayer.online` if you prefer — then update `public/CNAME` and DNS to match).
-3. Enable **Enforce HTTPS** once DNS is verified.
+3. Enable **Enforce HTTPS** once DNS is verified (see **`docs/PRODUCTION_SEO.md`** for verification steps — do not assume SSL is live without checking).
 4. **Optional repository variables** (Settings → Secrets and variables → Actions → Variables):
    - `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` — public Formspree (or similar) URL for the contact form.
    - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — optional build-time CMS read (anon key only).

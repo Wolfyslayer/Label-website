@@ -14,8 +14,9 @@ import {
   getReleaseBySlug,
   getTracksForRelease,
 } from "@/lib/content";
-import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
+import { musicAlbumJsonLd } from "@/lib/metadata/json-ld";
+import { JsonLd } from "@/components/seo/json-ld";
 import { releaseShareMetadata } from "@/lib/metadata/release-share";
 import { formatReleaseDate } from "@/lib/utils/date";
 import { spotifyEmbedUrl } from "@/lib/utils/streaming";
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: release.title,
     description: release.description,
     alternates: buildAlternates(`/music/${slug}`, locale),
-    ...releaseShareMetadata(release, locale, `/releases/${slug}`),
+    ...releaseShareMetadata(release, locale, `/music/${slug}`),
   };
 }
 
@@ -167,27 +168,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
 
       <RelatedReleasesSection releases={related} artists={artists} />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "MusicAlbum",
-            name: release.title,
-            datePublished: release.releaseDate,
-            url: `${siteConfig.url}/${locale}/music/${release.slug}`,
-            image: release.cover.src.startsWith("http")
-              ? release.cover.src
-              : `${siteConfig.url.replace(/\/$/, "")}${release.cover.src}`,
-            byArtist: artist ? { "@type": "MusicGroup", name: artist.name } : undefined,
-            track: tracks.map((tr) => ({
-              "@type": "MusicRecording",
-              name: tr.title,
-              trackNumber: tr.trackNumber,
-            })),
-          }),
-        }}
-      />
+      <JsonLd data={musicAlbumJsonLd(release, locale, artist, tracks)} />
     </>
   );
 }

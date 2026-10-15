@@ -18,8 +18,10 @@ import {
   getPublishedReleases,
   isReleaseUpcoming,
 } from "@/lib/content";
-import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
+import { pageOpenGraph } from "@/lib/metadata/open-graph";
+import { musicGroupJsonLd } from "@/lib/metadata/json-ld";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -39,24 +41,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const t = await getTranslations({ locale });
     return { title: t("notFoundArtist") };
   }
-  const imageUrl = artist.image.src.startsWith("http")
-    ? artist.image.src
-    : `${siteConfig.url.replace(/\/$/, "")}${artist.image.src}`;
   return {
     title: artist.name,
     description: artist.shortBio,
     alternates: buildAlternates(`/artists/${slug}`, locale),
-    openGraph: {
+    ...pageOpenGraph({
       title: artist.name,
       description: artist.shortBio,
-      images: [{ url: imageUrl, alt: artist.image.alt }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: artist.name,
-      description: artist.shortBio,
-      images: [imageUrl],
-    },
+      locale,
+      pathname: `/artists/${slug}`,
+      image: artist.image.src,
+      imageAlt: artist.image.alt,
+    }),
   };
 }
 
@@ -162,23 +158,7 @@ export default async function ArtistDetailPage({ params }: Props) {
         titleKey="fromLabel"
       />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "MusicGroup",
-            name: artist.name,
-            description: artist.shortBio,
-            url: `${siteConfig.url}/${locale}/artists/${artist.slug}`,
-            image: `${siteConfig.url.replace(/\/$/, "")}${artist.image.src}`,
-            sameAs: [
-              artist.spotifyArtistUrl,
-              ...Object.values(artist.socialLinks).filter(Boolean),
-            ].filter(Boolean),
-          }),
-        }}
-      />
+      <JsonLd data={musicGroupJsonLd(artist, locale)} />
     </>
   );
 }

@@ -57,7 +57,13 @@ jobs:
           test -f out/en/artists/frostmark/index.html
           test -f out/sitemap.xml
           grep -q "wolfyslayer.online" out/sitemap.xml
+          test -f out/og-default.png
           ! grep -rq "SERVICE_ROLE" out/ || (echo "Service role leaked in out/" && exit 1)
+
+      - name: Validate SEO export
+        env:
+          NEXT_PUBLIC_SITE_URL: https://wolfyslayer.online
+        run: npm run validate:seo
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

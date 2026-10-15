@@ -2,8 +2,9 @@ import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Link } from "@/i18n/navigation";
 import { getLabelInfo, getPublishedArtists } from "@/lib/content";
-import { siteConfig } from "@/lib/config/site";
-import { buildAlternates } from "@/lib/metadata/alternates";
+import { JsonLd } from "@/components/seo/json-ld";
+import { absolutePublicPath, buildAlternates } from "@/lib/metadata/alternates";
+import { labelOrganizationJsonLd } from "@/lib/metadata/json-ld";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
 import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
 import { getTranslations } from "next-intl/server";
@@ -26,7 +27,6 @@ export default async function AboutPage({ params }: LocalePageParams) {
   const locale = await resolvePageLocale(params);
   const t = await getTranslations("aboutPage");
   const [label, artists] = await Promise.all([getLabelInfo(locale), getPublishedArtists(locale)]);
-  const base = siteConfig.url.replace(/\/$/, "");
 
   return (
     <div className="pt-24 md:pt-28">
@@ -68,21 +68,15 @@ export default async function AboutPage({ params }: LocalePageParams) {
           </section>
         </div>
       </Container>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: siteConfig.name,
-            url: `${base}/${locale}/about`,
-            description: label.story,
-            member: artists.map((artist) => ({
-              "@type": "MusicGroup",
-              name: artist.name,
-              url: `${base}/${locale}/artists/${artist.slug}`,
-            })),
-          }),
+      <JsonLd
+        data={{
+          ...labelOrganizationJsonLd(locale),
+          description: label.story,
+          member: artists.map((artist) => ({
+            "@type": "MusicGroup",
+            name: artist.name,
+            url: absolutePublicPath(locale, `/artists/${artist.slug}`),
+          })),
         }}
       />
     </div>

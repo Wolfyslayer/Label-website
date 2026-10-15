@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/config/site";
+import { siteDefaultOpenGraph } from "@/lib/metadata/open-graph";
 import type { Metadata } from "next";
 import { Cinzel, DM_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
@@ -34,6 +35,11 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.fullName}`,
   },
   description: siteConfig.description,
+  ...siteDefaultOpenGraph(),
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],

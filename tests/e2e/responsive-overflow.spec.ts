@@ -51,7 +51,7 @@ test.describe("responsive overflow audit", () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/en");
     await page.getByRole("button", { name: /open menu/i }).click();
-    await expect(page.getByRole("dialog")).toHaveAttribute("aria-hidden", "false");
+    await expect(page.getByRole("dialog")).toBeVisible();
     await assertNoHorizontalOverflow(page);
   });
 

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils/cn";
 import { Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const navHrefs = [
   { href: "/artists", key: "artists" as const },
@@ -24,9 +25,14 @@ export function SiteHeader() {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const dialogId = useId();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -82,9 +88,10 @@ export function SiteHeader() {
   }, [open, closeMenu]);
 
   return (
+    <>
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-[background,box-shadow,border-color] duration-500",
+        "fixed inset-x-0 top-0 z-[100] pt-[env(safe-area-inset-top)] transition-[background,box-shadow,border-color] duration-500",
         scrolled || open
           ? "border-b border-border-subtle bg-void/92 shadow-[0_1px_0_0_rgba(201,209,217,0.06)] backdrop-blur-md"
           : "border-b border-transparent bg-gradient-to-b from-void/90 via-void/50 to-transparent",
@@ -128,45 +135,49 @@ export function SiteHeader() {
           </button>
         </div>
       </Container>
-
-      <div
-        id={dialogId}
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-hidden={!open}
-        aria-label={t("mobilePrimary")}
-        className={cn(
-          "fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-40 overflow-y-auto bg-void/98 backdrop-blur-lg transition-opacity duration-300 xl:hidden",
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
-        )}
-      >
-        <Container className="flex min-h-full flex-col py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-          <div className="mb-6 sm:hidden">
-            <LanguageSelector />
-          </div>
-          <nav className="flex flex-col gap-0" aria-label={t("mobilePrimary")}>
-            {navHrefs.map(({ href, key }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setOpen(false)}
-                className="border-b border-border-subtle py-4 font-display text-[clamp(1.35rem,5vw,1.75rem)] text-text-primary"
-              >
-                {t(key)}
-              </Link>
-            ))}
-          </nav>
-          <div className="mt-auto space-y-3 pt-10">
-            <Button href="/music" className="min-h-12 w-full">
-              {t("exploreMusic")}
-            </Button>
-            <Button href="/contact" variant="outline" className="min-h-12 w-full">
-              {t("contact")}
-            </Button>
-          </div>
-        </Container>
-      </div>
     </header>
+
+      {/* Portal + mount only when open: avoids backdrop-filter containing block and stray hit targets. */}
+      {mounted && open
+        ? createPortal(
+            <div
+              id={dialogId}
+              ref={panelRef}
+              role="dialog"
+              aria-modal="true"
+              aria-hidden={false}
+              aria-label={t("mobilePrimary")}
+              className="fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-[90] overflow-y-auto bg-void/98 backdrop-blur-lg xl:hidden"
+            >
+              <Container className="flex min-h-full flex-col py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+                <div className="mb-6 sm:hidden">
+                  <LanguageSelector />
+                </div>
+                <nav className="flex flex-col gap-0" aria-label={t("mobilePrimary")}>
+                  {navHrefs.map(({ href, key }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setOpen(false)}
+                      className="border-b border-border-subtle py-4 font-display text-[clamp(1.35rem,5vw,1.75rem)] text-text-primary"
+                    >
+                      {t(key)}
+                    </Link>
+                  ))}
+                </nav>
+                <div className="mt-auto space-y-3 pt-10">
+                  <Button href="/music" className="min-h-12 w-full">
+                    {t("exploreMusic")}
+                  </Button>
+                  <Button href="/contact" variant="outline" className="min-h-12 w-full">
+                    {t("contact")}
+                  </Button>
+                </div>
+              </Container>
+            </div>,
+            document.body,
+          )
+        : null}
+    </>
   );
 }

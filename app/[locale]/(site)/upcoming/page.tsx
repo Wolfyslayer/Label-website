@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { getPublishedArtists, getUpcomingReleases } from "@/lib/content";
 import { getReleaseHubPreSaveUrl } from "@/lib/releases/hub-streaming";
 import { buildAlternates } from "@/lib/metadata/alternates";
+import { pageOpenGraph } from "@/lib/metadata/open-graph";
 import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
 import { formatReleaseDate, formatReleaseTimestampUtc } from "@/lib/utils/date";
 import { getTranslations } from "next-intl/server";
@@ -18,10 +19,13 @@ import Image from "next/image";
 export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
   const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "upcomingPage" });
+  const title = t("metaTitle");
+  const description = t("metaDescription");
   return {
-    title: t("metaTitle"),
-    description: t("metaDescription"),
+    title,
+    description,
     alternates: buildAlternates("/upcoming", locale),
+    ...pageOpenGraph({ title, description, locale, pathname: "/upcoming" }),
   };
 }
 

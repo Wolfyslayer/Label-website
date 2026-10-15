@@ -45,6 +45,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: absolutePublicPath(locale, `/artists/${artist.slug}`),
         changeFrequency: "monthly",
         priority: 0.7,
+        alternates: {
+          languages: Object.fromEntries(
+            routing.locales.map((l) => [
+              l,
+              absolutePublicPath(l as AppLocale, `/artists/${artist.slug}`),
+            ]),
+          ),
+        },
       });
     }
     for (const release of releases) {
@@ -52,6 +60,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: absolutePublicPath(locale, `/music/${release.slug}`),
         changeFrequency: "monthly",
         priority: 0.7,
+        alternates: {
+          languages: Object.fromEntries(
+            routing.locales.map((l) => [
+              l,
+              absolutePublicPath(l as AppLocale, `/music/${release.slug}`),
+            ]),
+          ),
+        },
       });
       entries.push({
         url: absolutePublicPath(locale, `/releases/${release.slug}`),

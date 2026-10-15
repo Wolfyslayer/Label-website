@@ -10,6 +10,9 @@ function resolveSiteUrl() {
   return `${rawSiteUrl}${siteBasePath}`;
 }
 
+/** Default Open Graph / Twitter preview (1200×630). */
+export const defaultOgImagePath = "/og-default.png";
+
 export const siteConfig = {
   name: "WOLFYSLAYER",
   fullName: "Wolfyslayer Records",
