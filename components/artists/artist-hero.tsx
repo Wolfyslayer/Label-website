@@ -1,0 +1,77 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
+import type { Artist } from "@/lib/types/content";
+import { cn } from "@/lib/utils/cn";
+import { ExternalLink } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+
+export async function ArtistHero({ artist }: { artist: Artist }) {
+  const t = await getTranslations("artist");
+  const isFrost = artist.theme === "frost";
+  const heroSrc = artist.heroImage?.src ?? artist.image.src;
+
+  return (
+    <section className="relative min-h-[min(92dvh,920px)] overflow-hidden pt-[calc(var(--header-height)+env(safe-area-inset-top))]">
+      <div className="absolute inset-0">
+        <Image
+          src={heroSrc}
+          alt=""
+          fill
+          priority
+          className={cn(
+            "object-cover scale-105",
+            isFrost ? "object-[center_25%]" : "object-[center_20%]",
+          )}
+          sizes="100vw"
+        />
+        <div
+          className={cn(
+            "absolute inset-0",
+            isFrost
+              ? "bg-gradient-to-t from-void via-void/88 to-frost/20"
+              : "bg-gradient-to-t from-void via-void/88 to-wolf/15",
+          )}
+        />
+        <div className="hero-vignette absolute inset-0 opacity-80" />
+        <div className="noise-overlay absolute inset-0 opacity-30" />
+      </div>
+
+      <Container className="relative z-10 flex min-h-[min(78dvh,780px)] flex-col justify-end pb-[max(2.5rem,env(safe-area-inset-bottom))] md:pb-16">
+        <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_min(320px,28vw)] lg:gap-16">
+          <div className="max-w-3xl">
+            <Badge variant={isFrost ? "frost" : "wolf"}>{t("badge")}</Badge>
+            <h1 className="mt-5 font-display text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.95] text-text-primary">
+              {artist.name}
+            </h1>
+            <p className="mt-5 max-w-xl text-balance text-lg leading-relaxed text-text-secondary md:text-xl">
+              {artist.tagline}
+            </p>
+            {artist.spotifyArtistUrl ? (
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Button href={artist.spotifyArtistUrl} external size="lg" className="min-h-12">
+                  {t("listenSpotify")}
+                  <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
+                </Button>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
+            <div className="relative aspect-square overflow-hidden rounded-sm shadow-2xl ring-1 ring-border-subtle">
+              <Image
+                src={artist.image.src}
+                alt={artist.image.alt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 280px, 320px"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}

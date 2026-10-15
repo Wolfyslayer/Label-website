@@ -41,19 +41,20 @@ export const seedContent: SiteContentSource = {
       image: {
         src: artistMediaPaths.frostmark.portrait,
         alt: L(
-          "Frostmark — raven portrait (temporary placeholder)",
-          "Frostmark — korporträtt (tillfällig platshållare)",
+          "Frostmark — official artist profile photo",
+          "Frostmark — officiellt artistfoto",
         ),
-        placeholder: true,
+        placeholder: false,
       },
       heroImage: {
         src: artistMediaPaths.frostmark.hero,
         alt: L(
-          "Frostmark — atmospheric hero (temporary placeholder)",
-          "Frostmark — atmosfäriskt hero (tillfällig platshållare)",
+          "Frostmark — artist hero image",
+          "Frostmark — hero-bild",
         ),
-        placeholder: true,
+        placeholder: false,
       },
+      featuredReleaseIds: ["release-frostmark-placeholder-01"],
       spotifyArtistUrl: "https://open.spotify.com/artist/0edDVF0bL7PFu2Sc3ijDrP",
       streamingLinks: {
         spotify: "https://open.spotify.com/artist/0edDVF0bL7PFu2Sc3ijDrP",
@@ -82,19 +83,20 @@ export const seedContent: SiteContentSource = {
       image: {
         src: artistMediaPaths.wolfyslayer.portrait,
         alt: L(
-          "Wolfyslayer — Viking portrait (temporary placeholder)",
-          "Wolfyslayer — vikingaporträtt (tillfällig platshållare)",
+          "Wolfyslayer — official artist profile photo",
+          "Wolfyslayer — officiellt artistfoto",
         ),
-        placeholder: true,
+        placeholder: false,
       },
       heroImage: {
         src: artistMediaPaths.wolfyslayer.hero,
         alt: L(
-          "Wolfyslayer — hero imagery (temporary placeholder)",
-          "Wolfyslayer — hero-bild (tillfällig platshållare)",
+          "Wolfyslayer — artist hero image",
+          "Wolfyslayer — hero-bild",
         ),
-        placeholder: true,
+        placeholder: false,
       },
+      featuredReleaseIds: ["release-wolfyslayer-upcoming-01"],
       spotifyArtistUrl: "https://open.spotify.com/artist/4B4kHkS5D9gK6Q3lNbDPml",
       streamingLinks: {
         spotify: "https://open.spotify.com/artist/4B4kHkS5D9gK6Q3lNbDPml",

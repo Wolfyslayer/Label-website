@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sync-artist-images": "node scripts/sync-artist-images.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",

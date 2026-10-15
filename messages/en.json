@@ -72,6 +72,14 @@
     "social": "Social",
     "listenSpotify": "Listen on Spotify"
   },
+  "musicDiscovery": {
+    "discoverEyebrow": "Discover",
+    "profileEyebrow": "Profile",
+    "featuredReleases": "Featured releases",
+    "relatedReleases": "Related releases",
+    "fromLabel": "More from the label",
+    "upcomingBadge": "Upcoming"
+  },
   "artistsPage": {
     "metaTitle": "Artists",
     "metaDescription": "Artists on Wolfyslayer Records: Frostmark and Wolfyslayer.",
@@ -86,7 +94,17 @@
     "title": "Music",
     "description": "Search and filter releases from Frostmark and Wolfyslayer.",
     "search": "Search",
-    "searchPlaceholder": "Title or artist…",
+    "searchPlaceholder": "Release title…",
+    "sort": "Sort",
+    "sortNewest": "Newest first",
+    "sortOldest": "Oldest first",
+    "emptyCatalog": "No released music in the catalog yet. Upcoming titles appear on the schedule until release day.",
+    "viewUpcoming": "View upcoming",
+    "releaseTypes": {
+      "album": "Album",
+      "single": "Single",
+      "ep": "EP"
+    },
     "filterArtist": "Artist",
     "allArtists": "All artists",
     "format": "Format",

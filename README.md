@@ -86,6 +86,13 @@ Until then, labeled SVG stand-ins are served from `public/artists/*.svg`. Update
 
 Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`.
 
+## Music discovery (Phase 4)
+
+- **Artist profiles** (`/en|sv/artists/[slug]`): cinematic hero, official profile JPEGs (from Spotify oEmbed for the configured artist URLs — refresh with `node scripts/sync-artist-images.mjs`), localized bios, Spotify link + embed, featured + full discography, label-mate picks
+- **Catalog** (`/music`): search by **release title**, filter artist/year/type, sort by date, skeleton loading + empty states
+- **Release pages**: artwork, tracklist, localized copy, official Spotify embed when URL supports it, streaming buttons, related releases, Open Graph / Twitter cards
+- Catalog data remains **seed/admin managed** (no Spotify API scraping)
+
 ## Internationalization (Phase 3)
 
 - **[next-intl](https://next-intl-docs.vercel.app/)** with locale routes **`/en`** and **`/sv`**

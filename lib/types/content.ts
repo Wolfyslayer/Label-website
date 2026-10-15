@@ -48,6 +48,8 @@ export interface ArtistSource {
     Record<"instagram" | "youtube" | "facebook" | "x" | "tiktok", string>
   >;
   featuredTrackIds: string[];
+  /** Highlighted on artist profile (managed order) */
+  featuredReleaseIds?: string[];
   status: ContentStatus;
 }
 
@@ -67,6 +69,7 @@ export interface Artist {
     Record<"instagram" | "youtube" | "facebook" | "x" | "tiktok", string>
   >;
   featuredTrackIds: string[];
+  featuredReleaseIds?: string[];
   status: ContentStatus;
 }
 
