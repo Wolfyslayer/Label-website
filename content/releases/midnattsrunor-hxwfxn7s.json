@@ -1,0 +1,67 @@
+{
+  "id": "release-spotify-2H2TQd8Yde6OzFhXWFXn7S",
+  "slug": "midnattsrunor-hxwfxn7s",
+  "title": "Midnattsrunor",
+  "artistId": "artist-frostmark",
+  "type": "album",
+  "releaseDate": "2026-09-25",
+  "releaseAt": "2026-09-25T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27321b62ea5245ed7906174b931",
+    "alt": {
+      "en": "Midnattsrunor — cover artwork",
+      "sv": "Midnattsrunor — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/2H2TQd8Yde6OzFhXWFXn7S"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/2H2TQd8Yde6OzFhXWFXn7S",
+  "spotifyAlbumId": "2H2TQd8Yde6OzFhXWFXn7S",
+  "trackIds": [
+    "track-spotify-5RXn9tdQMMPcRDe93kukla",
+    "track-spotify-0QpZiHM9tlg7ROvLc9xqvb",
+    "track-spotify-5HFEi2cm8XGjom0vKTyvv4",
+    "track-spotify-41zhi78qYBs6EG2qBHBvLF",
+    "track-spotify-1RXiVLbezmgmdLjauuHOuS",
+    "track-spotify-4fxRUjONIYib2VB44ncn4U",
+    "track-spotify-2Gw3xqxOQ6b2PAfPFmGmkG",
+    "track-spotify-2VlMXAJGiMipMqTqIRyylW",
+    "track-spotify-7ul5Ca5hpUanYrYfDTcv0B",
+    "track-spotify-1pG0ahoRlNzqZSBXcznd2X",
+    "track-spotify-1I4H0bnTNjWRtAhKGs6KqC",
+    "track-spotify-127QLV3mUUl4T2gW330Qxn",
+    "track-spotify-12aaPte0epwtvtcgKNLdrm",
+    "track-spotify-3WRftTHj1xHMVOCloONuzQ",
+    "track-spotify-1odM2wrcUJ2yXvorLyFHad",
+    "track-spotify-2p7wsuecccc8GtV6ebQM8d",
+    "track-spotify-1u26BZ7OPgw9kujONxajNw",
+    "track-spotify-3OsTxOtNkUiFprCfD2FSgl",
+    "track-spotify-4DkHHuHQ9FqyTnJHcV2ETy",
+    "track-spotify-29pSX3MiziWLdqwL82elga",
+    "track-spotify-3OF3JmQYKhHhQy6aaYaEgr",
+    "track-spotify-2rLocJoHjrMOoNTR0rrp34",
+    "track-spotify-57iclvbKmiteiYC5mhn47B",
+    "track-spotify-4SvkLqAe9upPfb9AAy5oA7",
+    "track-spotify-0ROzCxj0jia2cvporASC7c",
+    "track-spotify-2EtIq4yUJoIocCRFjodur2",
+    "track-spotify-6MDg49HavosdjLN4xllZDL",
+    "track-spotify-134V6mFaofy7mRXgQvMykQ",
+    "track-spotify-4PQWSyHXRosKzVgbAld5w7",
+    "track-spotify-2XfkgYzrPgtpqHshsvRNQN",
+    "track-spotify-6dQUQ9pxU7VRWE6WTfSpja",
+    "track-spotify-430Hly5oddxzm4TKZ7lqTE",
+    "track-spotify-5sEaxywUbBBhbART8XyrV6",
+    "track-spotify-6atee6syony7JlsiD3SfWY",
+    "track-spotify-1Hqo44yBmPUm4hfxbbQFpW"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

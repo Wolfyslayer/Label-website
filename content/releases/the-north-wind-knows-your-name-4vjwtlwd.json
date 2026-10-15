@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-48z6cWWryCm6PQ4VjwTlWd",
+  "slug": "the-north-wind-knows-your-name-4vjwtlwd",
+  "title": "The North Wind Knows Your Name",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-24",
+  "releaseAt": "2026-06-24T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273d84b59c3b01cf9df4958499c",
+    "alt": {
+      "en": "The North Wind Knows Your Name — cover artwork",
+      "sv": "The North Wind Knows Your Name — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/48z6cWWryCm6PQ4VjwTlWd"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/48z6cWWryCm6PQ4VjwTlWd",
+  "spotifyAlbumId": "48z6cWWryCm6PQ4VjwTlWd",
+  "trackIds": [
+    "track-spotify-1wATOfee87nRTOOfGrqEnJ"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

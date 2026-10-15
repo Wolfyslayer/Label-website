@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-0aLPwPJUjYQqMsZDPM98QA",
+  "slug": "gator-av-is-zdpm98qa",
+  "title": "Gator Av Is",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273c21f849952c98793488ce525",
+    "alt": {
+      "en": "Gator Av Is — cover artwork",
+      "sv": "Gator Av Is — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/0aLPwPJUjYQqMsZDPM98QA"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/0aLPwPJUjYQqMsZDPM98QA",
+  "spotifyAlbumId": "0aLPwPJUjYQqMsZDPM98QA",
+  "trackIds": [
+    "track-spotify-0B9wKcBywaGrSUY2vs8inG"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

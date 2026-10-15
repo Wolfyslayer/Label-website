@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-2Ra4M9gYM1dJ1garvPebrG",
+  "slug": "the-memories-we-made-arvpebrg",
+  "title": "The Memories We Made",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-09-08",
+  "releaseAt": "2026-09-08T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273b1abbff8d2686cfaaccf251c",
+    "alt": {
+      "en": "The Memories We Made — cover artwork",
+      "sv": "The Memories We Made — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/2Ra4M9gYM1dJ1garvPebrG"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/2Ra4M9gYM1dJ1garvPebrG",
+  "spotifyAlbumId": "2Ra4M9gYM1dJ1garvPebrG",
+  "trackIds": [
+    "track-spotify-5KQQr0cZyBmgCEIB1t7lBS"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

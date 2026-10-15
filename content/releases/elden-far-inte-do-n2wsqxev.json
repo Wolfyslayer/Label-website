@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-72sYLWopIpHNThN2wsQxev",
+  "slug": "elden-far-inte-do-n2wsqxev",
+  "title": "Elden Får Inte Dö",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2735be5ffd6d0c0c7e97820a175",
+    "alt": {
+      "en": "Elden Får Inte Dö — cover artwork",
+      "sv": "Elden Får Inte Dö — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/72sYLWopIpHNThN2wsQxev"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/72sYLWopIpHNThN2wsQxev",
+  "spotifyAlbumId": "72sYLWopIpHNThN2wsQxev",
+  "trackIds": [
+    "track-spotify-3YoT4rrJ4PHNWu7l210JzD"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

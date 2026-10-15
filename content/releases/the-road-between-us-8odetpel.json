@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-6COtCqj6ZA7PCA8oDEtPeL",
+  "slug": "the-road-between-us-8odetpel",
+  "title": "The Road Between Us",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-08-28",
+  "releaseAt": "2026-08-28T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27367cc1db54facf55c04099197",
+    "alt": {
+      "en": "The Road Between Us — cover artwork",
+      "sv": "The Road Between Us — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/6COtCqj6ZA7PCA8oDEtPeL"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/6COtCqj6ZA7PCA8oDEtPeL",
+  "spotifyAlbumId": "6COtCqj6ZA7PCA8oDEtPeL",
+  "trackIds": [
+    "track-spotify-5fHgzS63pYOorJg88Vuuh3"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

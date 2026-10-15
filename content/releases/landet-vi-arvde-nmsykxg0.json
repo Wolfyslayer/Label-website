@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-0vAzuM73M3f9AXnmSYKXg0",
+  "slug": "landet-vi-arvde-nmsykxg0",
+  "title": "Landet vi ärvde",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-16",
+  "releaseAt": "2026-09-16T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2731940581a8dc5a586ddf5330f",
+    "alt": {
+      "en": "Landet vi ärvde — cover artwork",
+      "sv": "Landet vi ärvde — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/0vAzuM73M3f9AXnmSYKXg0"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/0vAzuM73M3f9AXnmSYKXg0",
+  "spotifyAlbumId": "0vAzuM73M3f9AXnmSYKXg0",
+  "trackIds": [
+    "track-spotify-1LaNlWSogganoWtQCOrWVF"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

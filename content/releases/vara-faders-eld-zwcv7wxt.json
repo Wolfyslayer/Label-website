@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-4vgKpe4ms9rgKpZwCV7wXT",
+  "slug": "vara-faders-eld-zwcv7wxt",
+  "title": "Våra Fäders Eld",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-22",
+  "releaseAt": "2026-09-22T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2737e36ad9170eca3001bdc5226",
+    "alt": {
+      "en": "Våra Fäders Eld — cover artwork",
+      "sv": "Våra Fäders Eld — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/4vgKpe4ms9rgKpZwCV7wXT"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/4vgKpe4ms9rgKpZwCV7wXT",
+  "spotifyAlbumId": "4vgKpe4ms9rgKpZwCV7wXT",
+  "trackIds": [
+    "track-spotify-2xhcZALrbuz4f7U7nr5uCH"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

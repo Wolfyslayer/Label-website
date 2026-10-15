@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-6jc9ss18ooEDIY5DSilZHo",
+  "slug": "vem-skyddar-vara-barn-5dsilzho",
+  "title": "Vem skyddar våra barn?",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-27",
+  "releaseAt": "2026-09-27T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273220060f42a9b5c5de55b1872",
+    "alt": {
+      "en": "Vem skyddar våra barn? — cover artwork",
+      "sv": "Vem skyddar våra barn? — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/6jc9ss18ooEDIY5DSilZHo"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/6jc9ss18ooEDIY5DSilZHo",
+  "spotifyAlbumId": "6jc9ss18ooEDIY5DSilZHo",
+  "trackIds": [
+    "track-spotify-5QiPrw94UnBtbU8ZrXlRpS"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

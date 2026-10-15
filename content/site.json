@@ -9,7 +9,7 @@
       "sv": "Att släppa musik vi tror på, stödja våra artister med tydlighet och respekt, och presentera deras arbete med samma omsorg som vi bär med oss från studion."
     }
   },
-  "featuredReleaseId": null,
+  "featuredReleaseId": "release-spotify-3rJ1mxiFKewdcELk0hdwfX",
   "homepageFeaturedNewsIds": [],
   "pressAssets": [
     {
@@ -28,7 +28,10 @@
     },
     {
       "id": "press-photo-frostmark",
-      "title": { "en": "Frostmark — Press Photo", "sv": "Frostmark — pressbild" },
+      "title": {
+        "en": "Frostmark — Press Photo",
+        "sv": "Frostmark — pressbild"
+      },
       "type": "photo",
       "artistId": "artist-frostmark",
       "src": "/assets/artists/frostmark/profile-1024.webp",
@@ -40,7 +43,10 @@
     },
     {
       "id": "press-photo-wolfyslayer",
-      "title": { "en": "Wolfyslayer — Press Photo", "sv": "Wolfyslayer — pressbild" },
+      "title": {
+        "en": "Wolfyslayer — Press Photo",
+        "sv": "Wolfyslayer — pressbild"
+      },
       "type": "photo",
       "artistId": "artist-wolfyslayer",
       "src": "/assets/artists/wolfyslayer/profile-1024.webp",

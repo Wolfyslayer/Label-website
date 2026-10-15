@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-6Uu0P5WJN5wlVfAplsBtrR",
+  "slug": "brothers-through-it-all-aplsbtrr",
+  "title": "Brothers Through It All",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-09-18",
+  "releaseAt": "2026-09-18T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273851b60224350a9bc55163b24",
+    "alt": {
+      "en": "Brothers Through It All — cover artwork",
+      "sv": "Brothers Through It All — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/6Uu0P5WJN5wlVfAplsBtrR"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/6Uu0P5WJN5wlVfAplsBtrR",
+  "spotifyAlbumId": "6Uu0P5WJN5wlVfAplsBtrR",
+  "trackIds": [
+    "track-spotify-7Hz6ggDALP6iMNFOOxRz1X"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

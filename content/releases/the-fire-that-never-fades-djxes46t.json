@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-6ZFXhHyIhm32J2djXES46T",
+  "slug": "the-fire-that-never-fades-djxes46t",
+  "title": "The Fire That Never Fades",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-08-22",
+  "releaseAt": "2026-08-22T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273a325f022986a94b362434b69",
+    "alt": {
+      "en": "The Fire That Never Fades — cover artwork",
+      "sv": "The Fire That Never Fades — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/6ZFXhHyIhm32J2djXES46T"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/6ZFXhHyIhm32J2djXES46T",
+  "spotifyAlbumId": "6ZFXhHyIhm32J2djXES46T",
+  "trackIds": [
+    "track-spotify-7ufw2bxTEMPFfYiJ3FkDDo"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

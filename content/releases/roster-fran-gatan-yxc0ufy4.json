@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-0A0hbm0UK2JPozyxC0uFY4",
+  "slug": "roster-fran-gatan-yxc0ufy4",
+  "title": "Röster Från Gatan",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273e73d7ce73a101acf621da0e7",
+    "alt": {
+      "en": "Röster Från Gatan — cover artwork",
+      "sv": "Röster Från Gatan — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/0A0hbm0UK2JPozyxC0uFY4"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/0A0hbm0UK2JPozyxC0uFY4",
+  "spotifyAlbumId": "0A0hbm0UK2JPozyxC0uFY4",
+  "trackIds": [
+    "track-spotify-2TjQy14NJdTSv9sp0FfUQE"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

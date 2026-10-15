@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-27XvNQEHnwnWiAcgChKlMC",
+  "slug": "vad-ska-vara-barn-fa-arva-cgchklmc",
+  "title": "Vad Ska Våra Barn Få Ärva?",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2733b0c42bfccfbd9e6af12279e",
+    "alt": {
+      "en": "Vad Ska Våra Barn Få Ärva? — cover artwork",
+      "sv": "Vad Ska Våra Barn Få Ärva? — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/27XvNQEHnwnWiAcgChKlMC"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/27XvNQEHnwnWiAcgChKlMC",
+  "spotifyAlbumId": "27XvNQEHnwnWiAcgChKlMC",
+  "trackIds": [
+    "track-spotify-2rvQhAWEExT1C3rKSrEAAf"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

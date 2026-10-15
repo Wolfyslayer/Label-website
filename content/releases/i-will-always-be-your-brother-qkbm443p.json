@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-1CKUNR1LfuJ9HbQKBM443P",
+  "slug": "i-will-always-be-your-brother-qkbm443p",
+  "title": "I Will Always Be Your Brother",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-09-21",
+  "releaseAt": "2026-09-21T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273837a9e8cf84071e06e2252ac",
+    "alt": {
+      "en": "I Will Always Be Your Brother — cover artwork",
+      "sv": "I Will Always Be Your Brother — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/1CKUNR1LfuJ9HbQKBM443P"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/1CKUNR1LfuJ9HbQKBM443P",
+  "spotifyAlbumId": "1CKUNR1LfuJ9HbQKBM443P",
+  "trackIds": [
+    "track-spotify-4Kj9SAtTNC5aYHYw14Akz4"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}
