@@ -11,7 +11,16 @@ export function Container({
   as?: "div" | "section" | "header" | "footer" | "main";
 }) {
   return (
-    <Tag className={cn("mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8", className)}>
+    <Tag
+      className={cn(
+        "mx-auto w-full max-w-[var(--container-max)]",
+        "px-[max(clamp(1rem,3vw,2rem),env(safe-area-inset-left))]",
+        className,
+      )}
+      style={{
+        paddingRight: "max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-right))",
+      }}
+    >
       {children}
     </Tag>
   );

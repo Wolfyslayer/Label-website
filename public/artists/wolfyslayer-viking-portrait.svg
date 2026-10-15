@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+  <defs>
+    <linearGradient id="wbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A2530"/>
+      <stop offset="100%" stop-color="#0A0E14"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#wbg)"/>
+  <rect x="270" y="340" width="360" height="360" rx="4" fill="#8C6B3E" opacity="0.15"/>
+  <text x="450" y="960" fill="#C9D1D9" font-family="Georgia, serif" font-size="32" text-anchor="middle">Wolfyslayer</text>
+  <text x="450" y="1000" fill="#7A8794" font-size="14" text-anchor="middle">TEMP  replace with official Viking portrait</text>
+  <text x="450" y="1030" fill="#8C6B3E" font-size="12" text-anchor="middle">wolfyslayer-viking-portrait.webp</text>
+</svg>

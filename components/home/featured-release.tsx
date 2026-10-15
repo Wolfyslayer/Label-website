@@ -18,7 +18,7 @@ export function FeaturedReleaseSection({
   if (!release) return null;
 
   return (
-    <section className="border-y border-border-subtle bg-surface/40 py-20 md:py-28">
+    <section className="border-y border-border-subtle bg-surface/35 py-[var(--space-section)]">
       <Container>
         <SectionHeader eyebrow="Featured" title="Latest spotlight" align="left" />
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">

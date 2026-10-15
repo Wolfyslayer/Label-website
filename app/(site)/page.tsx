@@ -17,13 +17,14 @@ import {
   getPublishedReleases,
   getUpcomingReleases,
 } from "@/lib/content";
-import { siteConfig } from "@/lib/config/site";
+import { getTranslations } from "@/lib/i18n/server";
 import { formatReleaseDate } from "@/lib/utils/date";
 import Link from "next/link";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import Image from "next/image";
 
 export default async function HomePage() {
+  const t = await getTranslations();
   const [artists, releases, featured, upcoming, news] = await Promise.all([
     getPublishedArtists(),
     getPublishedReleases(),
@@ -41,14 +42,14 @@ export default async function HomePage() {
       <HomeHero />
       <FeaturedReleaseSection release={featured} artist={featuredArtist ?? null} />
 
-      <section className="py-20 md:py-28">
+      <section className="py-[var(--space-section)]">
         <Container>
           <SectionHeader
-            eyebrow="Roster"
-            title="Artist spotlight"
-            description="Two distinct voices under one independent label."
+            eyebrow={t.home.rosterEyebrow}
+            title={t.home.rosterTitle}
+            description={t.home.rosterDesc}
           />
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-[clamp(1rem,3vw,1.5rem)] md:grid-cols-2">
             {artists.map((artist) => (
               <ArtistCard key={artist.id} artist={artist} />
             ))}
@@ -56,18 +57,22 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      <section className="border-y border-border-subtle bg-charcoal/50 py-20 md:py-28">
-        <Container>
-          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mb-14">
-            <SectionHeader eyebrow="Catalog" title="Latest releases" className="mb-0" />
-            <Button href="/music" variant="ghost" size="sm">
-              Full catalog →
+      <section className="border-y border-border-subtle bg-charcoal/40 py-[var(--space-section)]">
+        <Container className="@container">
+          <div className="mb-[clamp(2rem,5vw,3.5rem)] flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <SectionHeader
+              eyebrow={t.home.catalogEyebrow}
+              title={t.home.catalogTitle}
+              className="mb-0"
+            />
+            <Button href="/music" variant="ghost" size="sm" className="min-h-11 shrink-0 self-start sm:self-auto">
+              {t.home.catalogCta} →
             </Button>
           </div>
           {latestGrid.length ? (
             <>
               <ReleaseCarousel releases={latestGrid} artists={artists} className="md:hidden" />
-              <div className="hidden grid-cols-2 gap-6 md:grid md:grid-cols-4 md:gap-8">
+              <div className="album-grid hidden md:grid">
                 {latestGrid.map((release, i) => (
                   <ReleaseCard
                     key={release.id}
@@ -79,30 +84,32 @@ export default async function HomePage() {
               </div>
             </>
           ) : (
-            <p className="text-text-muted">Releases will appear here once published.</p>
+            <p className="text-text-muted">{t.home.noReleases}</p>
           )}
         </Container>
       </section>
 
-      <section className="py-20 md:py-28">
+      <section className="py-[var(--space-section)]">
         <Container>
           <SectionHeader
-            eyebrow="Listen"
-            title="On Spotify"
-            description="Follow Frostmark and Wolfyslayer on Spotify. Embeds play through Spotify's official player."
+            eyebrow={t.home.listenEyebrow}
+            title={t.home.listenTitle}
+            description={t.home.listenDesc}
           />
           <div className="grid gap-8 lg:grid-cols-2">
             {artists.map((artist) => (
-              <div key={artist.id}>
-                <h3 className="mb-4 font-display text-2xl text-text-primary">{artist.name}</h3>
+              <div key={artist.id} className="min-w-0">
+                <h3 className="type-h3 font-display text-text-primary">{artist.name}</h3>
                 {artist.spotifyArtistUrl ? (
-                  <SpotifyEmbed
-                    url={artist.spotifyArtistUrl}
-                    title={`${artist.name} on Spotify`}
-                    height={380}
-                  />
+                  <div className="mt-4 min-w-0">
+                    <SpotifyEmbed
+                      url={artist.spotifyArtistUrl}
+                      title={`${artist.name} on Spotify`}
+                      height={380}
+                    />
+                  </div>
                 ) : (
-                  <p className="text-sm text-text-muted">Spotify URL not configured.</p>
+                  <p className="mt-4 text-sm text-text-muted">{t.home.spotifyMissing}</p>
                 )}
               </div>
             ))}
@@ -111,12 +118,19 @@ export default async function HomePage() {
       </section>
 
       {upcoming.length > 0 ? (
-        <section className="border-t border-border-subtle bg-surface/30 py-20 md:py-28">
+        <section className="border-t border-border-subtle bg-surface/25 py-[var(--space-section)]">
           <Container>
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <SectionHeader eyebrow="Schedule" title="Upcoming releases" className="mb-0" />
-              <Link href="/upcoming" className="text-xs uppercase tracking-[0.2em] text-accent">
-                View all →
+              <SectionHeader
+                eyebrow={t.home.scheduleEyebrow}
+                title={t.home.scheduleTitle}
+                className="mb-0"
+              />
+              <Link
+                href="/upcoming"
+                className="inline-flex min-h-11 items-center text-xs uppercase tracking-[0.2em] text-silver hover:text-text-primary"
+              >
+                {t.home.scheduleCta} →
               </Link>
             </div>
             <ul className="mt-10 space-y-8">
@@ -125,19 +139,21 @@ export default async function HomePage() {
                 return (
                   <li
                     key={release.id}
-                    className="grid gap-8 rounded-sm border border-border-subtle bg-charcoal/40 p-6 md:grid-cols-[140px_1fr_auto] md:items-center md:p-8"
+                    className="grid gap-6 rounded-sm border border-border-subtle bg-charcoal/35 p-[clamp(1rem,3vw,2rem)] sm:gap-8 md:grid-cols-[minmax(100px,140px)_1fr] md:items-center lg:grid-cols-[140px_1fr_auto]"
                   >
-                    <div className="relative aspect-square w-full max-w-[140px] overflow-hidden rounded-sm">
+                    <div className="relative mx-auto aspect-square w-full max-w-[140px] overflow-hidden rounded-sm">
                       {release.cover.placeholder ? <PlaceholderBanner /> : null}
                       <Image src={release.cover.src} alt={release.cover.alt} fill className="object-cover" />
                     </div>
-                    <div>
+                    <div className="min-w-0 text-center md:text-left">
                       <p className="text-xs uppercase tracking-widest text-text-muted">
                         {artist?.name} · {formatReleaseDate(release.releaseDate)}
                       </p>
-                      <h3 className="mt-2 font-display text-2xl">{release.title}</h3>
+                      <h3 className="mt-2 font-display text-[clamp(1.25rem,3vw,1.75rem)]">{release.title}</h3>
                     </div>
-                    <ReleaseCountdown releaseAt={release.releaseAt} />
+                    <div className="flex justify-center md:justify-end">
+                      <ReleaseCountdown releaseAt={release.releaseAt} />
+                    </div>
                   </li>
                 );
               })}
@@ -148,13 +164,11 @@ export default async function HomePage() {
 
       <NewsPreviewSection articles={news} />
 
-      <section className="border-t border-border-subtle py-16 md:py-20">
+      <section className="border-t border-border-subtle py-[var(--space-section)]">
         <Container className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-          <div>
-            <h2 className="font-display text-2xl text-text-primary">Stay connected</h2>
-            <p className="mt-2 max-w-md text-sm text-text-secondary">
-              Follow {siteConfig.fullName} and our artists on your preferred platforms.
-            </p>
+          <div className="max-w-md">
+            <h2 className="type-h3 font-display text-text-primary">{t.home.connectTitle}</h2>
+            <p className="mt-2 text-sm text-text-secondary">{t.home.connectDesc}</p>
           </div>
           <SocialLinks />
         </Container>
