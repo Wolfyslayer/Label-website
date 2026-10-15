@@ -1,17 +1,32 @@
-/** Official label brand assets under `public/assets/`. */
+import { siteConfig } from "@/lib/config/site";
+
+/** Prefix for static files (GitHub Pages project sites). */
+export function publicAssetPath(path: string) {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${siteConfig.basePath}${normalized}`;
+}
+
+/** Official label assets under `public/assets/` (see `public/assets/readme.md`). */
 export const siteBrandPaths = {
-  /** Transparent WR rune monogram (no square frame). */
-  wrRuneMonogram: "/assets/brand/wr-rune-monogram.svg",
-  /** Default social / label preview when no page-specific image. */
-  ogDefault: "/og-default.png",
-  /** Neutral square when release artwork is not yet published. */
+  /** Official WR rune symbol (transparent). */
+  wrRuneMonogram: "/assets/logos/wolfyslayer-records-symbol.svg",
+  logoLight: "/assets/logos/wolfyslayer-records-light.svg",
+  logoLightPng: "/assets/logos/wolfyslayer-records-light.png",
+  logoDark: "/assets/logos/wolfyslayer-records-dark.svg",
+  labelHeroBanner: "/assets/banners/label-hero-1280x512.webp",
+  labelHeroBanner2x: "/assets/banners/label-hero-2560x1024.webp",
   releaseCoverFallback: "/assets/fallback/release-cover-neutral.svg",
+  ogDefault: "/assets/banners/label-hero-1280x512.webp",
+  favicon: {
+    svg: "/assets/favicons/favicon.svg",
+    png32: "/assets/favicons/icon-32.png",
+    png48: "/assets/favicons/icon-48.png",
+    png180: "/assets/favicons/icon-180.png",
+    png192: "/assets/favicons/icon-192.png",
+    png512: "/assets/favicons/icon-512.png",
+  },
 } as const;
 
-/** Assets expected from the label package but not yet in the repo. */
 export const missingBrandAssets = [
-  "public/assets/brand/wolfyslayer-records-wordmark.svg (or .png) — full horizontal logo",
-  "public/assets/brand/wolfyslayer-records-wordmark-dark.png — press / download kit",
-  "Higher-resolution artist photography (replace 320×320 Spotify oEmbed JPEGs when available)",
-  "Official release cover artwork per title (replace neutral fallback when confirmed)",
+  "Per-release cover files under public/assets/releases/ when titles are confirmed",
 ] as const;

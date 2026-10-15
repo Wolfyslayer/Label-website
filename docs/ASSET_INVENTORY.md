@@ -12,8 +12,9 @@ There is **no** top-level `public/assets/` package beyond the paths below. Legac
 | `public/artists/frostmark-raven-hero.jpg` | Frostmark hero / banner | Artist hero background, home hero accent (md+), welcome news cover |
 | `public/artists/wolfyslayer-viking-portrait.jpg` | Wolfyslayer official profile | Artist cards, artist hero portrait, press |
 | `public/artists/wolfyslayer-viking-hero.jpg` | Wolfyslayer hero / banner | Artist hero background, artist cards |
-| `public/favicon.svg` | Transparent WR rune (browser tab) | Root metadata |
-| `public/apple-touch-icon.png` | WR rune on void background (180×180) | iOS home screen |
+| `public/assets/favicons/*` | Official favicon set (SVG + PNG sizes) | **`app/layout.tsx` metadata (primary)** |
+| `public/favicon.svg` | Synced copy of official SVG | Legacy `/favicon.svg` requests (`npm run sync:icons`) |
+| `public/apple-touch-icon.png` | Synced from `icon-180.png` | Legacy Apple touch requests |
 | `public/og-default.png` | Label wordmark + rune (1200×630) | Default Open Graph / Twitter |
 
 ## Deprecated / not used for live UI
