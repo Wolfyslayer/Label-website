@@ -71,7 +71,13 @@ export function ReleaseForm({
     <div className="space-y-10">
       <form action={action} className="space-y-6">
         {release?.id ? <input type="hidden" name="id" value={release.id} /> : null}
-        <Input label="Title (official)" name="title" defaultValue={release?.title} required />
+        {release?.slug ? (
+        <p className="rounded-sm border border-border-subtle bg-surface/40 px-4 py-3 text-xs text-text-muted">
+          Smart link (share): <code className="text-text-secondary">/en/releases/{release.slug}</code> ·{" "}
+          <code className="text-text-secondary">/sv/releases/{release.slug}</code>
+        </p>
+      ) : null}
+      <Input label="Title (official)" name="title" defaultValue={release?.title} required />
         <Input label="Slug" name="slug" defaultValue={release?.slug} required />
         <div className="space-y-2">
           <label htmlFor="artist_id" className="block text-sm text-text-secondary">

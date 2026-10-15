@@ -105,6 +105,14 @@ Until then, labeled SVG stand-ins are served from `public/artists/*.svg`. Update
 
 Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`.
 
+## Smart links & release hub (Phase 6)
+
+- **Release hub** (promotion landing): `/en/releases/[slug]`, `/sv/releases/[slug]`
+- Artwork, artist, localized description, streaming buttons (only when URLs are configured), share + copy link
+- **Open Graph / Twitter** metadata points at the hub URL for social previews
+- **Upcoming** page: UTC timestamp, browser-local time, countdown, pre-save only for valid `https` URLs
+- Catalog vs upcoming still driven by `status`, `release_at`, and existing content helpers
+
 ## Music discovery (Phase 4)
 
 - **Artist profiles** (`/en|sv/artists/[slug]`): cinematic hero, official profile JPEGs (from Spotify oEmbed for the configured artist URLs — refresh with `node scripts/sync-artist-images.mjs`), localized bios, Spotify link + embed, featured + full discography, label-mate picks

@@ -53,6 +53,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly",
         priority: 0.7,
       });
+      entries.push({
+        url: `${base}${localePath(locale, `/releases/${release.slug}`)}`,
+        changeFrequency: "monthly",
+        priority: 0.75,
+        alternates: {
+          languages: Object.fromEntries(
+            routing.locales.map((l) => [
+              l,
+              `${base}${localePath(l as AppLocale, `/releases/${release.slug}`)}`,
+            ]),
+          ),
+        },
+      });
     }
     for (const article of news) {
       entries.push({

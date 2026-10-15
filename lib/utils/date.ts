@@ -15,6 +15,15 @@ export function formatNewsDate(iso: string, locale = "en-US"): string {
   });
 }
 
+/** Full date + time in UTC (for stored release timestamps). */
+export function formatReleaseTimestampUtc(iso: string, locale = "en-US"): string {
+  return `${new Intl.DateTimeFormat(locale, {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: "UTC",
+  }).format(new Date(iso))} UTC`;
+}
+
 export function getCountdownParts(targetIso: string, now = new Date()) {
   const target = new Date(targetIso).getTime();
   const diff = Math.max(0, target - now.getTime());
