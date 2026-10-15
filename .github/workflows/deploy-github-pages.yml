@@ -33,6 +33,9 @@ jobs:
       - name: Verify asset paths
         run: npm run verify:assets
 
+      - name: Validate content
+        run: npm run validate:content
+
       - name: Sync favicons to public root
         run: npm run sync:icons
 

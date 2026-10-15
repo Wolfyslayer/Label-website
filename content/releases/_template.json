@@ -1,0 +1,24 @@
+{
+  "id": "release-unique-id",
+  "slug": "artist-name-release-slug",
+  "title": "Official release title (not translated)",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-12-01",
+  "releaseAt": "2026-12-01T12:00:00.000Z",
+  "description": {
+    "en": "English description.",
+    "sv": "Svensk beskrivning."
+  },
+  "cover": {
+    "src": "/assets/releases/your-cover.webp",
+    "alt": { "en": "Cover alt text", "sv": "Omslag alt-text" },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/..."
+  },
+  "trackIds": ["track-id-01"],
+  "featured": false,
+  "status": "draft"
+}

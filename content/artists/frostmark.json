@@ -1,0 +1,42 @@
+{
+  "id": "artist-frostmark",
+  "slug": "frostmark",
+  "name": "Frostmark",
+  "tagline": {
+    "en": "Nordic atmosphere. Folk roots. Songs that linger.",
+    "sv": "Nordisk atmosfär. Folkliga rötter. Sånger som stannar kvar."
+  },
+  "shortBio": {
+    "en": "Frostmark creates Swedish Viking-inspired and Nordic folk music — atmospheric soundscapes and socially reflective songwriting rooted in northern tradition.",
+    "sv": "Frostmark skapar svensk vikingainspirerad och nordisk folkmusik — atmosfäriska ljudlandskap och samhällsreflekterande sånger med rötter i nordisk tradition."
+  },
+  "longBio": {
+    "en": "Frostmark creates Swedish Viking-inspired and Nordic folk music, weaving atmospheric textures with folk instrumentation and lyrics that reflect on society, heritage, and the inner landscape of the north.\n\n[Placeholder — replace with approved artist biography.]",
+    "sv": "Frostmark skapar svensk vikingainspirerad och nordisk folkmusik, med atmosfäriska texturer, folkinstrument och texter som reflekterar kring samhälle, arv och det inre landskapet i norr.\n\n[Platshållare — ersätt med godkänd artistbiografi.]"
+  },
+  "theme": "frost",
+  "image": {
+    "src": "/assets/artists/frostmark/profile-1024.webp",
+    "alt": {
+      "en": "Frostmark — official artist profile photo",
+      "sv": "Frostmark — officiellt artistfoto"
+    },
+    "placeholder": false
+  },
+  "heroImage": {
+    "src": "/assets/banners/frostmark-hero-1280x512.webp",
+    "alt": {
+      "en": "Frostmark — artist hero image",
+      "sv": "Frostmark — hero-bild"
+    },
+    "placeholder": false
+  },
+  "featuredReleaseIds": ["release-frostmark-placeholder-01"],
+  "spotifyArtistUrl": "https://open.spotify.com/artist/0edDVF0bL7PFu2Sc3ijDrP",
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/artist/0edDVF0bL7PFu2Sc3ijDrP"
+  },
+  "socialLinks": {},
+  "featuredTrackIds": ["track-frostmark-01"],
+  "status": "published"
+}

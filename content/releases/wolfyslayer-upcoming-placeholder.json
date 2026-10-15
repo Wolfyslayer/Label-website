@@ -1,0 +1,25 @@
+{
+  "id": "release-wolfyslayer-upcoming-01",
+  "slug": "wolfyslayer-upcoming-placeholder",
+  "title": "[Upcoming — Placeholder Title]",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-11-20",
+  "releaseAt": "2026-11-20T00:00:00.000Z",
+  "description": {
+    "en": "Scheduled placeholder for an upcoming Wolfyslayer release. Add a pre-save URL only when you have an official link.",
+    "sv": "Schemalagd platshållare för en kommande Wolfyslayer-release. Lägg till pre-save-länk endast när du har en officiell länk."
+  },
+  "cover": {
+    "src": "/assets/fallback/release-cover-neutral.svg",
+    "alt": {
+      "en": "Release artwork not yet published — neutral placeholder",
+      "sv": "Release-artwork ej publicerad — neutral platshållare"
+    },
+    "placeholder": true
+  },
+  "streamingLinks": {},
+  "trackIds": [],
+  "featured": false,
+  "status": "published"
+}

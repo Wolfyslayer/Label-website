@@ -1,0 +1,54 @@
+{
+  "label": {
+    "story": {
+      "en": "Wolfyslayer Records is an independent music label built around two distinct artists: Frostmark and Wolfyslayer. We focus on careful curation, intentional release schedules, and giving each artist room to develop their own visual and sonic identity.",
+      "sv": "Wolfyslayer Records är ett independentbolag byggt kring två distinkta artister: Frostmark och Wolfyslayer. Vi fokuserar på noggrann kurering, genomtänkta releaseplaner och att ge varje artist utrymme att utveckla sin visuella och musikaliska identitet."
+    },
+    "mission": {
+      "en": "To release music we believe in, support our artists with clarity and respect, and present their work with the same care we bring to the studio.",
+      "sv": "Att släppa musik vi tror på, stödja våra artister med tydlighet och respekt, och presentera deras arbete med samma omsorg som vi bär med oss från studion."
+    }
+  },
+  "featuredReleaseId": "release-frostmark-placeholder-01",
+  "homepageFeaturedNewsIds": ["news-welcome"],
+  "pressAssets": [
+    {
+      "id": "press-logo-label",
+      "title": {
+        "en": "Wolfyslayer Records — Logo (PNG)",
+        "sv": "Wolfyslayer Records — logotyp (PNG)"
+      },
+      "type": "logo",
+      "src": "/assets/logos/wolfyslayer-records-light.png",
+      "alt": {
+        "en": "Wolfyslayer Records logo",
+        "sv": "Wolfyslayer Records logotyp"
+      },
+      "placeholder": false
+    },
+    {
+      "id": "press-photo-frostmark",
+      "title": { "en": "Frostmark — Press Photo", "sv": "Frostmark — pressbild" },
+      "type": "photo",
+      "artistId": "artist-frostmark",
+      "src": "/assets/artists/frostmark/profile-1024.webp",
+      "alt": {
+        "en": "Frostmark — official press photo",
+        "sv": "Frostmark — officiell pressbild"
+      },
+      "placeholder": false
+    },
+    {
+      "id": "press-photo-wolfyslayer",
+      "title": { "en": "Wolfyslayer — Press Photo", "sv": "Wolfyslayer — pressbild" },
+      "type": "photo",
+      "artistId": "artist-wolfyslayer",
+      "src": "/assets/artists/wolfyslayer/profile-1024.webp",
+      "alt": {
+        "en": "Wolfyslayer — official press photo",
+        "sv": "Wolfyslayer — officiell pressbild"
+      },
+      "placeholder": false
+    }
+  ]
+}

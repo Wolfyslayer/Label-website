@@ -1,0 +1,42 @@
+{
+  "id": "artist-wolfyslayer",
+  "slug": "wolfyslayer",
+  "name": "Wolfyslayer",
+  "tagline": {
+    "en": "Artist on Wolfyslayer Records",
+    "sv": "Artist på Wolfyslayer Records"
+  },
+  "shortBio": {
+    "en": "[Placeholder — add approved short biography for Wolfyslayer.]",
+    "sv": "[Platshållare — lägg till godkänd kort biografi för Wolfyslayer.]"
+  },
+  "longBio": {
+    "en": "[Placeholder — add approved long biography for Wolfyslayer. Do not publish invented genre or background details.]",
+    "sv": "[Platshållare — lägg till godkänd lång biografi för Wolfyslayer. Publicera inte påhittad genre eller bakgrund.]"
+  },
+  "theme": "wolf",
+  "image": {
+    "src": "/assets/artists/wolfyslayer/profile-1024.webp",
+    "alt": {
+      "en": "Wolfyslayer — official artist profile photo",
+      "sv": "Wolfyslayer — officiellt artistfoto"
+    },
+    "placeholder": false
+  },
+  "heroImage": {
+    "src": "/assets/banners/wolfyslayer-hero-1280x512.webp",
+    "alt": {
+      "en": "Wolfyslayer — artist hero image",
+      "sv": "Wolfyslayer — hero-bild"
+    },
+    "placeholder": false
+  },
+  "featuredReleaseIds": ["release-wolfyslayer-upcoming-01"],
+  "spotifyArtistUrl": "https://open.spotify.com/artist/4B4kHkS5D9gK6Q3lNbDPml",
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/artist/4B4kHkS5D9gK6Q3lNbDPml"
+  },
+  "socialLinks": {},
+  "featuredTrackIds": [],
+  "status": "published"
+}
