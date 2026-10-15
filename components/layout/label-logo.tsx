@@ -1,40 +1,61 @@
-import { artistMediaPaths } from "@/lib/assets/artist-media";
+import { LabelMonogram } from "@/components/brand/label-monogram";
 import { siteConfig } from "@/lib/config/site";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/cn";
-import Image from "next/image";
 
-export function LabelLogo({ className, compact }: { className?: string; compact?: boolean }) {
+export function LabelLogo({
+  className,
+  compact,
+  variant = "header",
+}: {
+  className?: string;
+  compact?: boolean;
+  /** header: default nav; footer: slightly larger wordmark */
+  variant?: "header" | "footer";
+}) {
+  const isFooter = variant === "footer";
+
   return (
     <Link
       href="/"
-      className={cn("group inline-flex items-center gap-3 focus-visible:outline-offset-4", className)}
+      className={cn(
+        "group inline-flex min-w-0 items-center gap-2.5 focus-visible:outline-offset-4 sm:gap-3",
+        className,
+      )}
       aria-label={`${siteConfig.fullName} home`}
     >
-      <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-sm ring-1 ring-border-subtle sm:h-10 sm:w-10">
-        <Image
-          src={artistMediaPaths.labelLogo}
-          alt=""
-          fill
-          className="object-contain p-1"
-          sizes="40px"
-          priority
-        />
-      </span>
-      <span className="flex min-w-0 flex-col leading-none">
+      <LabelMonogram
+        className={cn(
+          "h-9 w-9 transition-colors group-hover:text-text-primary sm:h-10 sm:w-10",
+          compact && "h-8 w-8 sm:h-9 sm:w-9",
+          isFooter && "h-10 w-10 sm:h-11 sm:w-11",
+        )}
+      />
+      <span className="flex min-w-0 flex-col justify-center leading-none">
         <span
           className={cn(
-            "font-display tracking-[0.22em] text-text-primary transition-colors group-hover:text-silver",
-            compact ? "text-[10px] sm:text-xs" : "text-xs sm:text-sm",
+            "font-display text-text-primary transition-colors group-hover:text-silver",
+            isFooter
+              ? "text-xs tracking-[0.2em] sm:text-sm"
+              : compact
+                ? "text-[10px] tracking-[0.18em] sm:text-xs"
+                : "text-[11px] tracking-[0.18em] sm:text-xs md:text-sm",
           )}
         >
           {siteConfig.name}
         </span>
-        {!compact ? (
-          <span className="mt-1 hidden text-[9px] uppercase tracking-[0.35em] text-text-muted sm:block">
-            Records
-          </span>
-        ) : null}
+        <span
+          className={cn(
+            "mt-0.5 font-display uppercase text-text-muted transition-colors group-hover:text-accent-muted",
+            isFooter
+              ? "text-[10px] tracking-[0.34em] sm:text-[11px]"
+              : compact
+                ? "text-[8px] tracking-[0.3em] sm:text-[9px]"
+                : "text-[9px] tracking-[0.32em] sm:text-[10px]",
+          )}
+        >
+          RECORDS
+        </span>
       </span>
     </Link>
   );

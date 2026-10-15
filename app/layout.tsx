@@ -34,6 +34,10 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.fullName}`,
   },
   description: siteConfig.description,
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default async function RootLayout({
