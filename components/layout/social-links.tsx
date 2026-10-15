@@ -25,6 +25,14 @@ export function SocialLinks({
     ([, url]) => url && url.trim().length > 0,
   );
 
+  function socialLabel(key: string) {
+    try {
+      return t(`socialAria.${key}` as "socialAria.instagram");
+    } catch {
+      return `${key} (opens in new tab)`;
+    }
+  }
+
   if (!entries.length) {
     return <p className={cn("text-xs text-text-muted", className)}>{t("socialEnv")}</p>;
   }
@@ -40,7 +48,7 @@ export function SocialLinks({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border text-text-secondary transition-colors hover:border-accent-muted hover:text-text-primary"
-              aria-label={key}
+              aria-label={socialLabel(key)}
             >
               <Icon className="h-4 w-4" />
             </a>
