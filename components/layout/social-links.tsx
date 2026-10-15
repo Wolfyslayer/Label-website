@@ -1,5 +1,6 @@
 "use client";
 
+import type { PublicSocialLinks } from "@/lib/content/site-settings";
 import { siteConfig } from "@/lib/config/site";
 import { cn } from "@/lib/utils/cn";
 import { Instagram, Music2, Youtube } from "lucide-react";
@@ -11,9 +12,16 @@ const icons = {
   spotify: Music2,
 };
 
-export function SocialLinks({ className }: { className?: string }) {
+export function SocialLinks({
+  className,
+  links,
+}: {
+  className?: string;
+  links?: PublicSocialLinks;
+}) {
   const t = useTranslations("footer");
-  const entries = Object.entries(siteConfig.social).filter(
+  const social = links ?? siteConfig.social;
+  const entries = Object.entries(social).filter(
     ([, url]) => url && url.trim().length > 0,
   );
 

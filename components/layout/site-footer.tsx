@@ -3,6 +3,7 @@
 import { SocialLinks } from "@/components/layout/social-links";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
+import type { PublicSocialLinks } from "@/lib/content/site-settings";
 import { siteConfig } from "@/lib/config/site";
 import { useTranslations } from "next-intl";
 
@@ -16,7 +17,7 @@ const footerHrefs = [
   { href: "/contact", labelKey: "contact" as const, ns: "nav" as const },
 ];
 
-export function SiteFooter() {
+export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks }) {
   const tNav = useTranslations("nav");
   const tFooter = useTranslations("footer");
   const tMeta = useTranslations("meta");
@@ -34,7 +35,7 @@ export function SiteFooter() {
               {tMeta("defaultDescription")}
             </p>
             <div className="mt-6">
-              <SocialLinks />
+              <SocialLinks links={socialLinks} />
             </div>
           </div>
           <div>

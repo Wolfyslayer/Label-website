@@ -36,22 +36,41 @@ Optional:
 - **Social links:** `NEXT_PUBLIC_SOCIAL_*`
 - **Supabase:** `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
-## Supabase setup
+## Supabase setup (CMS — Phase 5)
 
-1. Create a free [Supabase](https://supabase.com) project.
-2. Run `supabase/migrations/001_initial_schema.sql` in the SQL editor.
-3. Create a **Storage** bucket named `media` (public read). Restrict uploads to authenticated admins via policies.
-4. Copy project URL and anon key into `.env.local`. Add **service role** key server-side only (never expose to the client).
-5. In Authentication, create a user (email/password). **Do not** use public sign-up for admin access.
-6. Insert the user's UUID into `admin_users`:
+Run migrations **in order** in the Supabase SQL editor (each file is additive; they do not overwrite existing rows):
+
+1. `supabase/migrations/001_initial_schema.sql`
+2. `supabase/migrations/002_localized_content.sql`
+3. `supabase/migrations/003_artist_featured_releases.sql`
+4. `supabase/migrations/004_cms_storage_indexes.sql` — creates the `media` bucket and storage RLS policies
+
+Then:
+
+1. Create a free [Supabase](https://supabase.com) project (if you have not already).
+2. Copy **Project URL** and **anon key** to `.env.local` as `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+3. Add **service role** key as `SUPABASE_SERVICE_ROLE_KEY` (server only — contact form + service tasks).
+4. In **Authentication**, create an admin user (email/password). Disable public sign-up for production.
+5. Allowlist the user (service role SQL editor or privileged account):
 
    ```sql
    insert into public.admin_users (user_id) values ('YOUR-AUTH-USER-UUID');
    ```
 
-7. Seed artists/releases from `lib/data/seed.ts` manually or via admin at `/admin`.
+6. **Optional seed** (does not overwrite existing IDs): `supabase/seed-from-app.sql`
+7. Sign in at `/admin/login`. Use the dashboard to manage artists, releases, tracks, news, upcoming schedule, and site settings.
 
-Public registration does **not** grant admin rights. Row Level Security enforces published-only reads; writes require `admin_users` membership.
+**Security model**
+
+- No public admin grants; only rows in `admin_users` pass `is_admin()` RLS checks.
+- Server actions call `requireAdmin()` and return explicit errors if save/delete fails (no fake success).
+- Anonymous users cannot write content tables; storage uploads require admin RLS.
+- Verify: `GET /api/admin/status` → `401` when logged out, `403` when logged in but not allowlisted, `200` for admins.
+
+**Media uploads**
+
+- Admin forms upload to the `media` bucket (WebP optimization via Sharp, max 5 MB).
+- Official repo portraits under `public/artists/*.jpg` stay until you replace URLs in the artist editor.
 
 ## Contact form
 
@@ -104,12 +123,21 @@ Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`.
 - SEO: `alternates.languages`, canonical URLs, localized sitemap
 - Admin: run `supabase/migrations/002_localized_content.sql` for optional `*_i18n` JSON columns
 
+## Admin CMS (Phase 5)
+
+- Mobile-friendly nav, dashboard counts, list + edit flows
+- **EN/SV editorial fields** with missing-locale indicators
+- Draft / published on artists, releases, news
+- Secure image upload, delete confirmations (type slug to confirm)
+- Upcoming releases = releases with `release_at` in the future
+
 ## Project structure
 
 ```
 app/
-  (site)/          Public pages
+  [locale]/(site)/ Public localized pages
   admin/           Authenticated CMS
+  api/admin/       Admin auth probe
   api/contact/     Contact submission API
 components/        UI, layout, music, home
 lib/

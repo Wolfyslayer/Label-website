@@ -1,6 +1,6 @@
-import { NewsAdminForm } from "@/components/admin/news-form";
 import { requireAdmin } from "@/lib/auth/admin";
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function AdminNewsPage() {
@@ -9,21 +9,37 @@ export default async function AdminNewsPage() {
   if (!isAdmin) redirect("/admin");
 
   const supabase = await createClient();
-  const { data: articles } = await supabase!.from("news").select("*").order("published_at", { ascending: false });
+  const { data: articles } = await supabase!
+    .from("news")
+    .select("id, title, slug, status, published_at")
+    .order("published_at", { ascending: false });
 
   return (
-    <main className="mx-auto max-w-4xl px-5 py-12">
-      <h1 className="font-display text-3xl">News</h1>
-      <section className="mt-10 border border-border-subtle p-6">
-        <h2 className="text-lg">New article</h2>
-        <div className="mt-4">
-          <NewsAdminForm />
+    <main>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="font-display text-3xl">News</h1>
+          <p className="mt-1 text-sm text-text-muted">Localized announcements with cover images.</p>
         </div>
-      </section>
-      <ul className="mt-12 space-y-12">
+        <Link
+          href="/admin/news/new"
+          className="inline-flex min-h-11 items-center justify-center rounded-sm border border-border px-4 text-sm text-accent"
+        >
+          + New article
+        </Link>
+      </div>
+      <ul className="mt-8 divide-y divide-border-subtle">
         {(articles ?? []).map((article) => (
-          <li key={article.id} className="border-t border-border-subtle pt-10">
-            <NewsAdminForm article={article} />
+          <li key={article.id} className="flex items-center justify-between gap-4 py-4">
+            <div>
+              <p className="text-text-primary">{article.title}</p>
+              <p className="text-xs text-text-muted">
+                {article.slug} · {article.status} · {article.published_at}
+              </p>
+            </div>
+            <Link href={`/admin/news/${article.id}`} className="min-h-11 shrink-0 leading-[2.75rem] text-sm text-accent">
+              Edit
+            </Link>
           </li>
         ))}
       </ul>
