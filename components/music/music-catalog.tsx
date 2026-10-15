@@ -25,6 +25,7 @@ export function MusicCatalog({
   const [type, setType] = useState<(typeof typeFilters)[number]>("all");
   const [year, setYear] = useState<string>("all");
   const [sort, setSort] = useState<ReleaseSort>("newest");
+  const [onlySpotify, setOnlySpotify] = useState(false);
 
   const years = useMemo(() => {
     const set = new Set(releases.map((r) => r.releaseDate.slice(0, 4)));
@@ -37,16 +38,17 @@ export function MusicCatalog({
     const q = query.trim().toLowerCase();
     const matched = releases.filter((release) => {
       if (artistId !== "all" && release.artistId !== artistId) return false;
+      if (onlySpotify && !release.streamingLinks.spotify && !release.spotifyAlbumUrl) return false;
       if (type !== "all" && release.type !== type) return false;
       if (year !== "all" && !release.releaseDate.startsWith(year)) return false;
       if (!q) return true;
       return release.title.toLowerCase().includes(q);
     });
     return sortReleases(matched, sort);
-  }, [releases, query, artistId, type, year, sort]);
+  }, [releases, query, artistId, type, year, sort, onlySpotify]);
 
   const hasActiveFilters =
-    query.trim().length > 0 || artistId !== "all" || type !== "all" || year !== "all";
+    query.trim().length > 0 || artistId !== "all" || type !== "all" || year !== "all" || onlySpotify;
 
   const typeLabel = (filterType: (typeof typeFilters)[number]) => {
     if (filterType === "all") return t("allTypes");
@@ -134,6 +136,18 @@ export function MusicCatalog({
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <label className="inline-flex min-h-11 cursor-pointer items-center gap-3 text-sm text-text-secondary">
+          <input type="checkbox" checked={onlySpotify} onChange={(e) => setOnlySpotify(e.target.checked)} className="h-4 w-4 accent-silver" />
+          {t("spotifyOnly")}
+        </label>
+        {hasActiveFilters ? (
+          <button type="button" className="min-h-11 rounded-sm px-3 text-sm text-silver underline underline-offset-4 hover:text-text-primary" onClick={() => { setQuery(""); setArtistId("all"); setType("all"); setYear("all"); setOnlySpotify(false); }}>
+            {t("clearFilters")}
+          </button>
+        ) : null}
       </div>
 
       <p className="mt-6 text-sm text-text-muted" aria-live="polite">

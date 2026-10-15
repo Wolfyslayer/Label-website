@@ -44,7 +44,7 @@ export function getRelatedReleasesForRelease(
   const otherArtists = allReleases.filter(
     (r) => r.artistId !== release.artistId && r.id !== release.id,
   );
-  return sortReleases([...sameArtist, ...otherArtists], "newest").slice(0, limit);
+  return [...sortReleases(sameArtist, "newest"), ...sortReleases(otherArtists, "newest")].slice(0, limit);
 }
 
 export function getLabelMateReleases(
