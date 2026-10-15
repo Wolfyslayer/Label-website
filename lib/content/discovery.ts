@@ -57,3 +57,25 @@ export function getLabelMateReleases(
     "newest",
   ).slice(0, limit);
 }
+
+export function getLatestReleaseForArtist(
+  releases: Release[],
+  artistId: string,
+): Release | undefined {
+  return getReleasesForArtist(releases, artistId)[0];
+}
+
+export type DiscographyPartition = {
+  albumsAndEps: Release[];
+  singles: Release[];
+};
+
+export function partitionDiscography(releases: Release[]): DiscographyPartition {
+  const albumsAndEps: Release[] = [];
+  const singles: Release[] = [];
+  for (const release of releases) {
+    if (release.type === "single") singles.push(release);
+    else albumsAndEps.push(release);
+  }
+  return { albumsAndEps, singles };
+}

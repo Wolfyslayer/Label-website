@@ -1,5 +1,5 @@
 import { RelatedReleasesSection } from "@/components/music/related-releases";
-import { SpotifyEmbed } from "@/components/music/spotify-embed";
+import { ReleaseTracklist } from "@/components/music/release-tracklist";
 import { StreamingLinks } from "@/components/music/streaming-links";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ import { musicAlbumJsonLd } from "@/lib/metadata/json-ld";
 import { JsonLd } from "@/components/seo/json-ld";
 import { releaseShareMetadata } from "@/lib/metadata/release-share";
 import { formatReleaseDate } from "@/lib/utils/date";
-import { spotifyEmbedUrl } from "@/lib/utils/streaming";
+import { getReleaseSpotifyUrl } from "@/lib/utils/streaming";
 import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
@@ -48,13 +48,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function formatDuration(seconds?: number) {
-  if (!seconds) return null;
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-
 export default async function ReleaseDetailPage({ params }: Props) {
   const { slug, locale: localeParam } = await params;
   const locale = localeParam as AppLocale;
@@ -74,11 +67,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
   const artist = artists.find((a) => a.id === release.artistId);
   const related = getRelatedReleasesForRelease(allReleases, release, 4);
 
-  const spotifyUrl =
-    release.spotifyAlbumUrl ??
-    release.streamingLinks.spotify ??
-    tracks.find((tr) => tr.spotifyTrackUrl)?.spotifyTrackUrl;
-  const hasEmbed = spotifyUrl ? Boolean(spotifyEmbedUrl(spotifyUrl)) : false;
+  const spotifyUrl = getReleaseSpotifyUrl(release, tracks);
 
   return (
     <>
@@ -100,7 +89,10 @@ export default async function ReleaseDetailPage({ params }: Props) {
               <div className="flex flex-wrap gap-2">
                 <Badge>{tMusic(`releaseTypes.${release.type}`)}</Badge>
                 {artist ? (
-                  <Link href={`/artists/${artist.slug}`}>
+                  <Link
+                    href={`/artists/${artist.slug}`}
+                    className="rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-muted"
+                  >
                     <Badge variant={artist.theme === "frost" ? "frost" : "wolf"}>{artist.name}</Badge>
                   </Link>
                 ) : null}
@@ -124,7 +116,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
                 <StreamingLinks links={release.streamingLinks} />
                 {spotifyUrl ? (
                   <Button href={spotifyUrl} external variant="outline" size="sm" className="min-h-11">
-                    Spotify
+                    {t("listenSpotify")}
                     <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
                   </Button>
                 ) : null}
@@ -138,30 +130,8 @@ export default async function ReleaseDetailPage({ params }: Props) {
           {tracks.length ? (
             <section className="mt-14 max-w-3xl lg:max-w-none lg:pr-8">
               <h2 className="type-h3 font-display text-text-primary">{t("tracklist")}</h2>
-              <ol className="surface-panel mt-6 divide-y divide-border-subtle">
-                {tracks.map((track) => (
-                  <li
-                    key={track.id}
-                    className="flex min-h-12 items-center gap-3 px-4 py-3 text-sm sm:gap-4 sm:px-5 sm:py-3.5 md:min-h-14 md:px-6"
-                  >
-                    <span className="w-7 shrink-0 tabular-nums text-text-muted sm:w-8">{track.trackNumber}</span>
-                    <span className="min-w-0 flex-1 font-medium text-text-primary">{track.title}</span>
-                    {formatDuration(track.durationSeconds) ? (
-                      <span className="shrink-0 tabular-nums text-xs text-text-muted sm:text-sm">
-                        {formatDuration(track.durationSeconds)}
-                      </span>
-                    ) : null}
-                  </li>
-                ))}
-              </ol>
-            </section>
-          ) : null}
-
-          {spotifyUrl && hasEmbed ? (
-            <section className="mt-14 max-w-3xl lg:max-w-2xl">
-              <h2 className="type-h3 font-display text-text-primary">{t("previewSpotify")}</h2>
-              <div className="mt-6 min-w-0">
-                <SpotifyEmbed url={spotifyUrl} title={`${release.title} on Spotify`} />
+              <div className="mt-6">
+                <ReleaseTracklist tracks={tracks} />
               </div>
             </section>
           ) : null}

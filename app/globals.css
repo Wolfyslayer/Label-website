@@ -152,7 +152,13 @@
   .album-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1rem, 3vw, 2rem);
+    gap: clamp(0.875rem, 2.5vw, 2rem);
+  }
+
+  @media (max-width: 23.4375rem) {
+    .album-grid {
+      gap: 0.75rem;
+    }
   }
 
   @container (min-width: 36rem) {

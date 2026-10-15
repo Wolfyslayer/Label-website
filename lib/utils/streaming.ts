@@ -1,4 +1,4 @@
-import type { StreamingLinks, StreamingPlatform } from "@/lib/types/content";
+import type { Release, StreamingLinks, StreamingPlatform, Track } from "@/lib/types/content";
 
 export const platformLabels: Record<StreamingPlatform, string> = {
   spotify: "Spotify",
@@ -30,6 +30,16 @@ export function spotifyEmbedUrl(url: string): string | null {
   } catch {
     return null;
   }
+}
+
+export function getReleaseSpotifyUrl(release: Release, tracks?: Track[]): string | undefined {
+  const fromTracks = tracks?.find((tr) => tr.spotifyTrackUrl?.trim())?.spotifyTrackUrl;
+  return (
+    release.spotifyAlbumUrl?.trim() ||
+    release.streamingLinks.spotify?.trim() ||
+    fromTracks?.trim() ||
+    undefined
+  );
 }
 
 export function spotifyArtistEmbedUrl(url: string): string | null {

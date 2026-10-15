@@ -1,16 +1,18 @@
 import { ArtistHero } from "@/components/artists/artist-hero";
 import { ArtistSocialLinks } from "@/components/artists/artist-social-links";
+import { LatestReleaseSpotlight } from "@/components/music/latest-release-spotlight";
 import { RelatedReleasesSection } from "@/components/music/related-releases";
 import { ReleaseCard } from "@/components/music/release-card";
-import { SpotifyEmbed } from "@/components/music/spotify-embed";
 import { StreamingLinks } from "@/components/music/streaming-links";
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { routing, type AppLocale } from "@/i18n/routing";
 import {
-  getFeaturedReleasesForArtist,
   getLabelMateReleases,
+  getLatestReleaseForArtist,
   getReleasesForArtist,
+  partitionDiscography,
 } from "@/lib/content/discovery";
 import {
   getArtistBySlug,
@@ -22,6 +24,7 @@ import { buildAlternates } from "@/lib/metadata/alternates";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
 import { musicGroupJsonLd } from "@/lib/metadata/json-ld";
 import { JsonLd } from "@/components/seo/json-ld";
+import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -71,7 +74,8 @@ export default async function ArtistDetailPage({ params }: Props) {
   ]);
 
   const discography = getReleasesForArtist(allReleases, artist.id);
-  const featured = getFeaturedReleasesForArtist(allReleases, artist);
+  const { albumsAndEps, singles } = partitionDiscography(discography);
+  const latest = getLatestReleaseForArtist(allReleases, artist.id);
   const labelMates = getLabelMateReleases(allReleases, artist, 3);
 
   return (
@@ -81,23 +85,33 @@ export default async function ArtistDetailPage({ params }: Props) {
       <Container className="py-[var(--space-section)]">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-20">
           <div className="space-y-16">
-            <section>
-              <SectionHeader eyebrow={tDisc("profileEyebrow")} title={t("biography")} align="left" />
+            <section aria-labelledby="artist-intro">
+              <SectionHeader
+                eyebrow={tDisc("profileEyebrow")}
+                title={t("introduction")}
+                align="left"
+              />
               <div className="editorial-prose mt-6 whitespace-pre-line text-text-secondary">
                 {artist.longBio}
               </div>
             </section>
 
-            {featured.length ? (
-              <section>
+            {latest ? (
+              <div className="@container">
+                <LatestReleaseSpotlight release={latest} artist={artist} />
+              </div>
+            ) : null}
+
+            {albumsAndEps.length ? (
+              <section aria-labelledby="artist-albums">
                 <SectionHeader
                   eyebrow={tDisc("discoverEyebrow")}
-                  title={tDisc("featuredReleases")}
+                  title={t("albumsAndEps")}
                   align="left"
                 />
                 <div className="@container mt-8">
-                  <div className="album-grid max-w-5xl">
-                    {featured.map((release) => (
+                  <div className="album-grid">
+                    {albumsAndEps.map((release) => (
                       <ReleaseCard
                         key={release.id}
                         release={release}
@@ -110,12 +124,12 @@ export default async function ArtistDetailPage({ params }: Props) {
               </section>
             ) : null}
 
-            <section>
-              <SectionHeader eyebrow={tDisc("discoverEyebrow")} title={t("discography")} align="left" />
-              {discography.length ? (
+            {singles.length ? (
+              <section aria-labelledby="artist-singles">
+                <SectionHeader eyebrow={tDisc("discoverEyebrow")} title={t("singles")} align="left" />
                 <div className="@container mt-8">
                   <div className="album-grid">
-                    {discography.map((release) => (
+                    {singles.map((release) => (
                       <ReleaseCard
                         key={release.id}
                         release={release}
@@ -125,16 +139,26 @@ export default async function ArtistDetailPage({ params }: Props) {
                     ))}
                   </div>
                 </div>
-              ) : (
-                <p className="mt-4 text-text-muted">{t("noReleases")}</p>
-              )}
-            </section>
+              </section>
+            ) : null}
+
+            {!discography.length ? (
+              <p className="text-text-muted">{t("noReleases")}</p>
+            ) : null}
 
             {artist.spotifyArtistUrl ? (
-              <section>
-                <SectionHeader eyebrow={tDisc("discoverEyebrow")} title={t("listenSpotify")} align="left" />
-                <div className="mt-6 max-w-3xl">
-                  <SpotifyEmbed url={artist.spotifyArtistUrl} title={`${artist.name} on Spotify`} />
+              <section aria-labelledby="artist-spotify">
+                <SectionHeader
+                  eyebrow={tDisc("discoverEyebrow")}
+                  title={t("spotifyProfile")}
+                  align="left"
+                />
+                <p className="mt-4 max-w-xl text-sm text-text-secondary">{t("spotifyProfileDesc")}</p>
+                <div className="mt-6">
+                  <Button href={artist.spotifyArtistUrl} external size="lg" className="min-h-12">
+                    {t("listenSpotify")}
+                    <ExternalLink className="h-4 w-4 opacity-70" aria-hidden />
+                  </Button>
                 </div>
               </section>
             ) : null}
@@ -154,11 +178,7 @@ export default async function ArtistDetailPage({ params }: Props) {
         </div>
       </Container>
 
-      <RelatedReleasesSection
-        releases={labelMates}
-        artists={artists}
-        titleKey="fromLabel"
-      />
+      <RelatedReleasesSection releases={labelMates} artists={artists} titleKey="fromLabel" />
 
       <JsonLd data={musicGroupJsonLd(artist, locale)} />
     </>
