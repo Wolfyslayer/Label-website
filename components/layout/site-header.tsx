@@ -1,31 +1,36 @@
 "use client";
 
+import { LabelLogo } from "@/components/layout/label-logo";
+import { LanguageSelector } from "@/components/layout/language-selector";
+import { useLocale } from "@/components/providers/locale-provider";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { siteConfig } from "@/lib/config/site";
 import { cn } from "@/lib/utils/cn";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 
-const navLinks = [
-  { href: "/artists", label: "Artists" },
-  { href: "/music", label: "Music" },
-  { href: "/upcoming", label: "Upcoming" },
-  { href: "/news", label: "News" },
-  { href: "/about", label: "About" },
-  { href: "/press", label: "Press" },
-  { href: "/contact", label: "Contact" },
+const navHrefs = [
+  { href: "/artists", key: "artists" as const },
+  { href: "/music", key: "music" as const },
+  { href: "/upcoming", key: "upcoming" as const },
+  { href: "/news", key: "news" as const },
+  { href: "/about", key: "about" as const },
+  { href: "/contact", key: "contact" as const },
 ];
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const { messages } = useLocale();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const dialogId = useId();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -42,81 +47,128 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    menuButtonRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const panel = panelRef.current;
+    const focusable = panel?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), select, [tabindex]:not([tabindex="-1"])',
+    );
+    focusable?.[0]?.focus();
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+      if (e.key !== "Tab" || !focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open, closeMenu]);
+
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
+        "fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-[background,box-shadow,border-color] duration-500",
         scrolled || open
-          ? "border-b border-border-subtle bg-void/90 backdrop-blur-md"
-          : "bg-gradient-to-b from-void/80 to-transparent",
+          ? "border-b border-border-subtle bg-void/92 shadow-[0_1px_0_0_rgba(201,209,217,0.06)] backdrop-blur-md"
+          : "border-b border-transparent bg-gradient-to-b from-void/90 via-void/50 to-transparent",
       )}
     >
-      <Container as="div" className="flex h-16 items-center justify-between md:h-20">
-        <Link
-          href="/"
-          className="font-display text-sm tracking-[0.35em] text-text-primary sm:text-base"
-          aria-label={`${siteConfig.fullName} home`}
-        >
-          {siteConfig.name}
-        </Link>
+      <Container as="div" className="flex h-[var(--header-height)] items-center justify-between gap-3">
+        <LabelLogo className="min-w-0 shrink" compact={false} />
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {navLinks.map(({ href, label }) => (
+        <nav className="hidden items-center gap-6 xl:flex" aria-label={messages.nav.primary}>
+          {navHrefs.map(({ href, key }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                "text-xs uppercase tracking-[0.15em] transition-colors hover:text-text-primary",
+                "whitespace-nowrap py-2 text-[11px] uppercase tracking-[0.18em] transition-colors",
                 pathname === href || pathname.startsWith(`${href}/`)
-                  ? "text-text-primary"
-                  : "text-text-muted",
+                  ? "text-silver"
+                  : "text-text-muted hover:text-text-primary",
               )}
             >
-              {label}
+              {messages.nav[key]}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Button href="/music" variant="outline" size="sm" className="hidden sm:inline-flex">
-            Listen
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <LanguageSelector className="hidden sm:flex" />
+          <Button
+            href="/music"
+            variant="outline"
+            size="sm"
+            className="hidden min-h-11 md:inline-flex"
+          >
+            {messages.nav.listen}
           </Button>
           <button
+            ref={menuButtonRef}
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border text-text-primary lg:hidden"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-border text-text-primary xl:hidden"
             aria-expanded={open}
-            aria-controls="mobile-nav"
+            aria-controls={dialogId}
             onClick={() => setOpen((v) => !v)}
           >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <span className="sr-only">{open ? messages.nav.closeMenu : messages.nav.openMenu}</span>
+            {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
           </button>
         </div>
       </Container>
 
       <div
-        id="mobile-nav"
+        id={dialogId}
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={messages.nav.mobilePrimary}
         className={cn(
-          "fixed inset-0 top-16 z-40 bg-void/98 backdrop-blur-lg transition-opacity lg:hidden",
-          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+          "fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-40 overflow-y-auto bg-void/98 backdrop-blur-lg transition-opacity duration-300 xl:hidden",
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
-        aria-hidden={!open}
+        hidden={!open}
       >
-        <Container className="flex h-[calc(100dvh-4rem)] flex-col py-8">
-          <nav className="flex flex-col gap-1" aria-label="Mobile primary">
-            {navLinks.map(({ href, label }) => (
+        <Container className="flex min-h-full flex-col py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+          <div className="mb-6 sm:hidden">
+            <LanguageSelector />
+          </div>
+          <nav className="flex flex-col gap-0" aria-label={messages.nav.mobilePrimary}>
+            {navHrefs.map(({ href, key }) => (
               <Link
                 key={href}
                 href={href}
-                className="border-b border-border-subtle py-4 font-display text-2xl text-text-primary"
+                onClick={() => setOpen(false)}
+                className="border-b border-border-subtle py-4 font-display text-[clamp(1.35rem,5vw,1.75rem)] text-text-primary"
               >
-                {label}
+                {messages.nav[key]}
               </Link>
             ))}
           </nav>
-          <div className="mt-auto pt-8">
-            <Button href="/music" className="w-full">
-              Explore music
+          <div className="mt-auto space-y-3 pt-10">
+            <Button href="/music" className="min-h-12 w-full">
+              {messages.nav.exploreMusic}
+            </Button>
+            <Button href="/contact" variant="outline" className="min-h-12 w-full">
+              {messages.nav.contact}
             </Button>
           </div>
         </Container>

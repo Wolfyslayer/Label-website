@@ -16,9 +16,9 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
-  sm: "px-4 py-2 text-xs tracking-wide uppercase",
-  md: "px-6 py-2.5 text-sm tracking-wide",
-  lg: "px-8 py-3.5 text-sm tracking-wide uppercase",
+  sm: "min-h-11 px-4 py-2 text-xs tracking-wide uppercase",
+  md: "min-h-11 px-6 py-2.5 text-sm tracking-wide",
+  lg: "min-h-12 px-8 py-3.5 text-sm tracking-wide uppercase",
 };
 
 type BaseProps = {

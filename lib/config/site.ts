@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "WOLFYSLAYER",
-  fullName: "WOLFYSLAYER RECORDS",
+  fullName: "Wolfyslayer Records",
   tagline: "Independent music. Two voices. One label.",
   description:
     "WOLFYSLAYER RECORDS is an independent music label representing Frostmark and Wolfyslayer.",

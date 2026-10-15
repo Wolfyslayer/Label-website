@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A2530"/>
+      <stop offset="100%" stop-color="#0A0E14"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <ellipse cx="450" cy="520" rx="200" ry="220" fill="#3F4F5E" opacity="0.25"/>
+  <text x="450" y="960" fill="#C9D1D9" font-family="Georgia, serif" font-size="34" text-anchor="middle">Frostmark</text>
+  <text x="450" y="1000" fill="#7A8794" font-size="14" text-anchor="middle">TEMP  replace with official raven portrait</text>
+  <text x="450" y="1030" fill="#5A6D7E" font-size="12" text-anchor="middle">frostmark-raven-portrait.webp</text>
+</svg>

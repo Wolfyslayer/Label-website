@@ -1,3 +1,4 @@
+import { artistMediaPaths } from "@/lib/assets/artist-media";
 import type { SiteContent } from "@/lib/types/content";
 
 /**
@@ -26,13 +27,13 @@ export const seedContent: SiteContent = {
         "Frostmark creates Swedish Viking-inspired and Nordic folk music, weaving atmospheric textures with folk instrumentation and lyrics that reflect on society, heritage, and the inner landscape of the north.\n\n[Placeholder — replace with approved artist biography.]",
       theme: "frost",
       image: {
-        src: "/placeholders/frostmark-portrait.svg",
-        alt: "Frostmark — placeholder artist portrait",
+        src: artistMediaPaths.frostmark.portrait,
+        alt: artistMediaPaths.frostmark.portraitAlt,
         placeholder: true,
       },
       heroImage: {
-        src: "/placeholders/frostmark-hero.svg",
-        alt: "Frostmark — placeholder hero imagery",
+        src: artistMediaPaths.frostmark.hero,
+        alt: artistMediaPaths.frostmark.heroAlt,
         placeholder: true,
       },
       spotifyArtistUrl: "https://open.spotify.com/artist/0edDVF0bL7PFu2Sc3ijDrP",
@@ -47,20 +48,20 @@ export const seedContent: SiteContent = {
       id: "artist-wolfyslayer",
       slug: "wolfyslayer",
       name: "Wolfyslayer",
-      tagline: "Artist on WOLFYSLAYER RECORDS",
+      tagline: "Artist on Wolfyslayer Records",
       shortBio:
         "[Placeholder — add approved short biography for Wolfyslayer.]",
       longBio:
         "[Placeholder — add approved long biography for Wolfyslayer. Do not publish invented genre or background details.]",
       theme: "wolf",
       image: {
-        src: "/placeholders/wolfyslayer-portrait.svg",
-        alt: "Wolfyslayer — placeholder artist portrait",
+        src: artistMediaPaths.wolfyslayer.portrait,
+        alt: artistMediaPaths.wolfyslayer.portraitAlt,
         placeholder: true,
       },
       heroImage: {
-        src: "/placeholders/wolfyslayer-hero.svg",
-        alt: "Wolfyslayer — placeholder hero imagery",
+        src: artistMediaPaths.wolfyslayer.hero,
+        alt: artistMediaPaths.wolfyslayer.heroAlt,
         placeholder: true,
       },
       spotifyArtistUrl: "https://open.spotify.com/artist/4B4kHkS5D9gK6Q3lNbDPml",
@@ -156,7 +157,7 @@ export const seedContent: SiteContent = {
       title: "Frostmark — Press Photo",
       type: "photo",
       artistId: "artist-frostmark",
-      src: "/placeholders/frostmark-portrait.svg",
+      src: artistMediaPaths.frostmark.portrait,
       alt: "Frostmark press photo placeholder",
       placeholder: true,
     },
@@ -165,7 +166,7 @@ export const seedContent: SiteContent = {
       title: "Wolfyslayer — Press Photo",
       type: "photo",
       artistId: "artist-wolfyslayer",
-      src: "/placeholders/wolfyslayer-portrait.svg",
+      src: artistMediaPaths.wolfyslayer.portrait,
       alt: "Wolfyslayer press photo placeholder",
       placeholder: true,
     },

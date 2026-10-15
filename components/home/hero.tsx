@@ -1,61 +1,79 @@
 "use client";
 
+import { LabelLogo } from "@/components/layout/label-logo";
+import { useLocale } from "@/components/providers/locale-provider";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/lib/config/site";
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 
 export function HomeHero() {
   const reduced = useReducedMotion();
+  const { messages } = useLocale();
 
   return (
-    <section className="relative flex min-h-[100dvh] items-end overflow-hidden pb-16 pt-28 md:items-center md:pb-24 md:pt-32">
-      <div className="absolute inset-0 bg-charcoal">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_20%,rgba(142,180,201,0.12),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_80%,rgba(196,165,116,0.08),transparent_55%)]" />
-        <div className="noise-overlay absolute inset-0 opacity-40" />
+    <section className="relative flex min-h-[100dvh] min-h-[100svh] items-end overflow-hidden pb-[max(4rem,env(safe-area-inset-bottom))] pt-[calc(var(--header-height)+env(safe-area-inset-top)+2rem)] md:items-center md:pb-24">
+      <div className="absolute inset-0 bg-void">
+        <div className="hero-light-frost absolute inset-0" />
+        <div className="hero-light-wolf absolute inset-0" />
+        <div className="noise-overlay absolute inset-0 opacity-50" />
         <div className="hero-vignette absolute inset-0" />
+        <div
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(120deg, transparent 40%, #C9D1D9 50%, transparent 60%)",
+            backgroundSize: "200% 100%",
+          }}
+          aria-hidden
+        />
+      </div>
+
+      <div className="pointer-events-none absolute inset-0 hidden md:block" aria-hidden>
+        <div className="absolute right-0 top-0 h-full w-[min(42vw,520px)] opacity-40">
+          <Image
+            src="/artists/frostmark-raven-hero.svg"
+            alt=""
+            fill
+            className="object-cover object-left-top mix-blend-luminosity"
+            sizes="520px"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-void via-void/80 to-transparent" />
+        </div>
       </div>
 
       <Container className="relative z-10">
         <motion.div
-          initial={reduced ? false : { opacity: 0, y: 32 }}
+          initial={reduced ? false : { opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl"
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl xl:max-w-4xl"
         >
-          <p className="mb-4 text-xs font-medium uppercase tracking-[0.35em] text-accent-muted">
+          <div className="mb-8 md:hidden">
+            <LabelLogo compact />
+          </div>
+          <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.35em] text-accent-muted sm:text-xs">
             {siteConfig.fullName}
           </p>
-          <h1 className="font-display text-[clamp(2.75rem,10vw,6.5rem)] leading-[0.95] tracking-tight text-text-primary">
+          <h1 className="type-display text-balance text-text-primary">
             <span className="block">WOLFY</span>
-            <span className="block bg-gradient-to-r from-text-primary via-accent to-text-secondary bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-silver via-text-primary to-frost-glow bg-clip-text text-transparent">
               SLAYER
             </span>
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-text-secondary md:text-lg">
-            {siteConfig.tagline} Cinematic releases from{" "}
-            <span className="text-frost">Frostmark</span> and{" "}
-            <span className="text-wolf">Wolfyslayer</span>.
+          <p className="mt-6 max-w-xl text-balance leading-relaxed text-text-secondary">
+            {messages.home.heroTagline}
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Button href="/music" size="lg">
-              Latest music
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+            <Button href="/music" size="lg" className="min-h-12 w-full sm:w-auto">
+              {messages.home.latestMusic}
             </Button>
-            <Button href="/artists" variant="outline" size="lg">
-              Meet the artists
+            <Button href="/artists" variant="outline" size="lg" className="min-h-12 w-full sm:w-auto">
+              {messages.home.meetArtists}
             </Button>
           </div>
-        </motion.div>
-
-        <motion.div
-          className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 md:block"
-          initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-          aria-hidden
-        >
-          <div className="h-12 w-px bg-gradient-to-b from-transparent via-text-muted to-transparent" />
         </motion.div>
       </Container>
     </section>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="wh" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0A0E14"/>
+      <stop offset="50%" stop-color="#1A2530"/>
+      <stop offset="100%" stop-color="#8C6B3E" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#wh)"/>
+  <text x="800" y="470" fill="#8C6B3E" font-family="Georgia, serif" font-size="40" text-anchor="middle" opacity="0.45">Wolfyslayer</text>
+</svg>

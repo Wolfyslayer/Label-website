@@ -113,7 +113,8 @@ export function MusicCatalog({
       </p>
 
       {filtered.length ? (
-        <div className="mt-8 grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+        <div className="@container mt-8">
+        <div className="album-grid">
           {filtered.map((release) => (
             <ReleaseCard
               key={release.id}
@@ -121,6 +122,7 @@ export function MusicCatalog({
               artist={artistById.get(release.artistId)}
             />
           ))}
+        </div>
         </div>
       ) : (
         <p className="mt-12 text-center text-text-secondary">No releases match your filters.</p>

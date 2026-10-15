@@ -73,6 +73,19 @@ Set `NEXT_PUBLIC_SITE_URL` to your production domain.
 
 Seed entries use `[Placeholder …]` titles and SVG artwork under `public/placeholders/`. Replace via admin or by editing seed data before go-live. Do not publish invented releases, stats, or press without approval.
 
+### Official artist photography (Phase 2)
+
+The repo expects these files when you add the asset package (same paths, `.webp` or `.jpg`):
+
+- `public/artists/frostmark-raven-portrait.*` — Frostmark raven portrait
+- `public/artists/wolfyslayer-viking-portrait.*` — Wolfyslayer Viking portrait
+
+Until then, labeled SVG stand-ins are served from `public/artists/*.svg`. Update `lib/assets/artist-media.ts` if your filenames differ.
+
+## Design system
+
+Tokens live in `app/globals.css` (`@theme`) and `lib/design/tokens.ts`. UI chrome supports **English** and **Svenska** via the header language selector (cookie `NEXT_LOCALE`).
+
 ## Project structure
 
 ```
