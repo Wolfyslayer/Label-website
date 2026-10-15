@@ -72,6 +72,14 @@
     "social": "Socialt",
     "listenSpotify": "Lyssna på Spotify"
   },
+  "musicDiscovery": {
+    "discoverEyebrow": "Upptäck",
+    "profileEyebrow": "Profil",
+    "featuredReleases": "Utvalda utgivningar",
+    "relatedReleases": "Relaterade utgivningar",
+    "fromLabel": "Mer från bolaget",
+    "upcomingBadge": "Kommande"
+  },
   "artistsPage": {
     "metaTitle": "Artister",
     "metaDescription": "Artister på Wolfyslayer Records: Frostmark och Wolfyslayer.",
@@ -86,7 +94,17 @@
     "title": "Musik",
     "description": "Sök och filtrera utgivningar från Frostmark och Wolfyslayer.",
     "search": "Sök",
-    "searchPlaceholder": "Titel eller artist…",
+    "searchPlaceholder": "Release-titel…",
+    "sort": "Sortera",
+    "sortNewest": "Nyast först",
+    "sortOldest": "Äldst först",
+    "emptyCatalog": "Ingen utgiven musik i katalogen ännu. Kommande titlar visas i schemat tills releasedagen.",
+    "viewUpcoming": "Visa kommande",
+    "releaseTypes": {
+      "album": "Album",
+      "single": "Single",
+      "ep": "EP"
+    },
     "filterArtist": "Artist",
     "allArtists": "Alla artister",
     "format": "Format",

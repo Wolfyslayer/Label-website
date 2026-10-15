@@ -63,6 +63,7 @@ export async function fetchContentFromDb(): Promise<SiteContentSource | null> {
     socialLinks:
       (row.social_links as SiteContentSource["artists"][0]["socialLinks"]) ?? {},
     featuredTrackIds: (row.featured_track_ids as string[]) ?? [],
+    featuredReleaseIds: (row.featured_release_ids as string[] | undefined) ?? undefined,
     status: row.status as "draft" | "published",
   });
 

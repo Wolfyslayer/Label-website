@@ -52,6 +52,7 @@ export function localizeArtist(source: ArtistSource, locale: AppLocale): Artist 
     streamingLinks: source.streamingLinks,
     socialLinks: source.socialLinks,
     featuredTrackIds: source.featuredTrackIds,
+    featuredReleaseIds: source.featuredReleaseIds,
     status: source.status,
   };
 }

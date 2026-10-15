@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import type { Artist, Release } from "@/lib/types/content";
 import { formatReleaseDate } from "@/lib/utils/date";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
@@ -15,14 +15,17 @@ export function ReleaseCard({
   artist,
   className,
   priority,
+  isUpcoming,
 }: {
   release: Release;
   artist?: Artist | null;
   className?: string;
   priority?: boolean;
+  isUpcoming?: boolean;
 }) {
   const reduced = useReducedMotion();
   const locale = useLocale();
+  const t = useTranslations("musicDiscovery");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
   return (
@@ -46,6 +49,11 @@ export function ReleaseCard({
             priority={priority}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          {isUpcoming ? (
+            <span className="absolute left-2 top-2 rounded-sm bg-void/85 px-2 py-1 text-[10px] uppercase tracking-widest text-silver ring-1 ring-border-subtle">
+              {t("upcomingBadge")}
+            </span>
+          ) : null}
         </div>
         <div className="mt-3 space-y-1.5 @[12rem]:mt-4">
           <div className="flex flex-wrap items-center gap-2">

@@ -17,6 +17,7 @@ import type {
   Track,
 } from "@/lib/types/content";
 import type { AppLocale } from "@/i18n/routing";
+import { isReleaseUpcoming } from "@/lib/content/releases";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 function published<T extends { status: string }>(items: T[]): T[] {
@@ -108,9 +109,7 @@ export async function getNewsBySlug(
   return news.find((n) => n.slug === slug) ?? null;
 }
 
-export function isReleaseUpcoming(release: Release, now = new Date()): boolean {
-  return new Date(release.releaseAt).getTime() > now.getTime();
-}
+export { isReleaseUpcoming } from "@/lib/content/releases";
 
 export async function getUpcomingReleases(locale: AppLocale): Promise<Release[]> {
   const releases = await getPublishedReleases(locale);
