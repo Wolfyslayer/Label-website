@@ -1,12 +1,15 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import type { Artist, Release } from "@/lib/types/content";
+import { getReleaseSpotifyUrl } from "@/lib/utils/streaming";
 import { formatReleaseDate } from "@/lib/utils/date";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { motion, useReducedMotion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 
@@ -26,11 +29,13 @@ export function ReleaseCard({
   const reduced = useReducedMotion();
   const locale = useLocale();
   const t = useTranslations("musicDiscovery");
+  const tMusic = useTranslations("musicPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
+  const spotifyUrl = getReleaseSpotifyUrl(release);
 
   return (
     <motion.article
-      className={cn("@container group relative", className)}
+      className={cn("@container group relative max-w-[420px] w-full justify-self-center sm:max-w-none sm:justify-self-stretch", className)}
       whileHover={reduced ? undefined : { y: -3 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
     >
@@ -44,12 +49,12 @@ export function ReleaseCard({
             src={release.cover.src}
             alt={release.cover.alt}
             fill
-            sizes="(max-width: 480px) 45vw, (max-width: 1024px) 30vw, 22vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+            sizes="(max-width: 320px) 42vw, (max-width: 480px) 45vw, (max-width: 1024px) 30vw, 22vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             priority={priority}
             loading={priority ? undefined : "lazy"}
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:opacity-0" />
           {isUpcoming ? (
             <span className="absolute left-2 top-2 rounded-sm bg-void/85 px-2 py-1 text-[10px] uppercase tracking-widest text-silver ring-1 ring-border-subtle">
               {t("upcomingBadge")}
@@ -58,7 +63,7 @@ export function ReleaseCard({
         </div>
         <div className="mt-3 space-y-1.5 @[12rem]:mt-4">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">{release.type}</Badge>
+            <Badge variant="outline">{tMusic(`releaseTypes.${release.type}`)}</Badge>
             {artist ? (
               <span className="truncate text-[10px] uppercase tracking-widest text-text-muted">
                 {artist.name}
@@ -73,6 +78,20 @@ export function ReleaseCard({
           </p>
         </div>
       </Link>
+      {spotifyUrl ? (
+        <div className="mt-2">
+          <Button
+            href={spotifyUrl}
+            external
+            variant="ghost"
+            size="sm"
+            className="min-h-11 px-0 text-xs uppercase tracking-widest text-silver hover:text-text-primary"
+          >
+            Spotify
+            <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
+          </Button>
+        </div>
+      ) : null}
     </motion.article>
   );
 }

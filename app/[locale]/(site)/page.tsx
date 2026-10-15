@@ -7,7 +7,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Button } from "@/components/ui/button";
 import { ReleaseCarousel } from "@/components/home/release-carousel";
 import { ReleaseCard } from "@/components/music/release-card";
-import { SpotifyEmbed } from "@/components/music/spotify-embed";
+import { SpotifyArtistPanel } from "@/components/home/spotify-artist-panel";
 import { ReleaseCountdown } from "@/components/music/countdown";
 import { SocialLinks } from "@/components/layout/social-links";
 import {
@@ -102,16 +102,7 @@ export default async function HomePage({ params }: LocalePageParams) {
           <SectionHeader eyebrow={t("listenEyebrow")} title={t("listenTitle")} description={t("listenDesc")} />
           <div className="grid gap-8 lg:grid-cols-2">
             {artists.map((artist) => (
-              <div key={artist.id} className="surface-panel min-w-0 p-5 sm:p-6">
-                <h3 className="type-h3 font-display text-text-primary">{artist.name}</h3>
-                {artist.spotifyArtistUrl ? (
-                  <div className="mt-5 min-w-0">
-                    <SpotifyEmbed url={artist.spotifyArtistUrl} title={`${artist.name} on Spotify`} height={380} />
-                  </div>
-                ) : (
-                  <p className="mt-4 text-sm text-text-muted">{t("spotifyMissing")}</p>
-                )}
-              </div>
+              <SpotifyArtistPanel key={artist.id} artist={artist} />
             ))}
           </div>
         </Container>

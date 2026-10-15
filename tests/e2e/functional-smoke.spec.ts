@@ -23,13 +23,15 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByText(/frostmark-placeholder-release/i)).toHaveCount(0);
   });
 
-  test("artist page and Spotify embed iframe", async ({ page }) => {
+  test("artist page and Spotify profile link", async ({ page }) => {
     await page.goto("/en/artists/frostmark");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Frostmark");
     await expect(page.getByText(/\[Placeholder/i)).toHaveCount(0);
-    const iframe = page.locator('iframe[title*="Spotify"], iframe[src*="spotify"]');
-    await expect(iframe.first()).toBeVisible();
-    await expect(iframe.first()).toHaveAttribute("loading", "lazy");
+    await expect(page.getByRole("link", { name: /listen on spotify/i }).first()).toHaveAttribute(
+      "href",
+      /open\.spotify\.com\/artist\//,
+    );
+    await expect(page.locator('iframe[src*="spotify"]')).toHaveCount(0);
   });
 
   test("upcoming releases page empty state", async ({ page }) => {
