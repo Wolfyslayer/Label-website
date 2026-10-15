@@ -22,6 +22,7 @@ export async function FeaturedReleaseSection({
   if (!release) return null;
 
   const t = await getTranslations("home");
+  const tMusic = await getTranslations("musicPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 
   return (
@@ -42,12 +43,14 @@ export async function FeaturedReleaseSection({
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <Badge>{release.type}</Badge>
+              <Badge>{tMusic(`releaseTypes.${release.type}`)}</Badge>
               {artist ? (
                 <Badge variant={artist.theme === "frost" ? "frost" : "wolf"}>{artist.name}</Badge>
               ) : null}
             </div>
-            <h3 className="mt-6 font-display text-4xl text-text-primary md:text-5xl">{release.title}</h3>
+            <h3 className="mt-6 font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight text-text-primary">
+              {release.title}
+            </h3>
             <p className="mt-2 text-sm uppercase tracking-widest text-text-muted">
               {formatReleaseDate(release.releaseDate, dateLocale)}
             </p>

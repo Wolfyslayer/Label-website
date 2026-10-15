@@ -17,7 +17,7 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
     <Link
       href={`/artists/${artist.slug}`}
       className={cn(
-        "@container group relative flex min-h-[min(420px,75dvh)] flex-col justify-end overflow-hidden rounded-sm ring-1 ring-border-subtle transition-[box-shadow,ring-color] duration-500 hover:ring-frost/30",
+        "@container group relative flex min-h-[min(360px,68dvh)] flex-col justify-end overflow-hidden rounded-sm ring-1 ring-border-subtle transition-[box-shadow,ring-color] duration-500 hover:ring-frost/30 sm:min-h-[min(420px,75dvh)]",
         !isFrost && "hover:ring-wolf/30",
         className,
       )}

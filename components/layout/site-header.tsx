@@ -98,7 +98,7 @@ export function SiteHeader() {
       )}
     >
       <Container as="div" className="flex h-[var(--header-height)] items-center justify-between gap-3">
-        <LabelLogo className="min-w-0 shrink" compact={false} />
+        <LabelLogo className="min-w-0 max-w-[min(100%,11.5rem)] shrink sm:max-w-none" compact={false} />
 
         <nav className="hidden items-center gap-6 xl:flex" aria-label={t("primary")}>
           {navHrefs.map(({ href, key }) => (
@@ -117,8 +117,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <LanguageSelector className="hidden sm:flex" />
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+          <LanguageSelector className="max-w-[8.5rem] shrink-0 sm:max-w-none" />
           <Button href="/music" variant="outline" size="sm" className="hidden min-h-11 md:inline-flex">
             {t("listen")}
           </Button>
@@ -140,6 +140,13 @@ export function SiteHeader() {
       {/* Portal + mount only when open: avoids backdrop-filter containing block and stray hit targets. */}
       {mounted && open
         ? createPortal(
+            <>
+            <button
+              type="button"
+              className="fixed inset-0 z-[85] bg-void/70 xl:hidden"
+              aria-label={t("closeMenu")}
+              onClick={closeMenu}
+            />
             <div
               id={dialogId}
               ref={panelRef}
@@ -147,19 +154,16 @@ export function SiteHeader() {
               aria-modal="true"
               aria-hidden={false}
               aria-label={t("mobilePrimary")}
-              className="fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-[90] overflow-y-auto bg-void/98 backdrop-blur-lg xl:hidden"
+              className="fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-[90] overflow-y-auto border-t border-border-subtle bg-void/98 backdrop-blur-lg xl:hidden"
             >
               <Container className="flex min-h-full flex-col py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-                <div className="mb-6 sm:hidden">
-                  <LanguageSelector />
-                </div>
                 <nav className="flex flex-col gap-0" aria-label={t("mobilePrimary")}>
                   {navHrefs.map(({ href, key }) => (
                     <Link
                       key={href}
                       href={href}
                       onClick={() => setOpen(false)}
-                      className="border-b border-border-subtle py-4 font-display text-[clamp(1.35rem,5vw,1.75rem)] text-text-primary"
+                      className="flex min-h-[3.25rem] items-center border-b border-border-subtle py-3 font-display text-[clamp(1.25rem,4.5vw,1.65rem)] leading-tight text-text-primary transition-colors active:text-silver"
                     >
                       {t(key)}
                     </Link>
@@ -174,7 +178,8 @@ export function SiteHeader() {
                   </Button>
                 </div>
               </Container>
-            </div>,
+            </div>
+            </>,
             document.body,
           )
         : null}

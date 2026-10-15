@@ -30,7 +30,7 @@ export function LanguageSelector({ className }: { className?: string }) {
         value={locale}
         disabled={pending}
         onChange={(e) => onChange(e.target.value as AppLocale)}
-        className="min-h-11 min-w-[7.5rem] cursor-pointer rounded-sm border border-border bg-charcoal/80 px-3 py-2 text-xs uppercase tracking-wider text-text-secondary transition-colors hover:border-frost/40 hover:text-text-primary focus:border-silver disabled:opacity-60"
+        className="min-h-11 w-full min-w-0 max-w-full cursor-pointer rounded-sm border border-border bg-charcoal/80 px-2.5 py-2 text-[11px] uppercase tracking-wider text-text-secondary transition-colors hover:border-frost/40 hover:text-text-primary focus:border-silver disabled:opacity-60 sm:px-3 sm:text-xs"
       >
         {routing.locales.map((code) => (
           <option key={code} value={code}>

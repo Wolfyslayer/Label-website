@@ -43,7 +43,7 @@ export function ReleaseCarousel({
         <button
           type="button"
           onClick={() => scrollBy(-320)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border text-text-secondary hover:text-text-primary"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-border text-text-secondary hover:text-text-primary focus-visible:outline-offset-2"
           aria-label="Scroll releases left"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -51,7 +51,7 @@ export function ReleaseCarousel({
         <button
           type="button"
           onClick={() => scrollBy(320)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border text-text-secondary hover:text-text-primary"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-border text-text-secondary hover:text-text-primary focus-visible:outline-offset-2"
           aria-label="Scroll releases right"
         >
           <ChevronRight className="h-4 w-4" />

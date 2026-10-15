@@ -30,6 +30,7 @@ export function NewsCard({
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             sizes={featured ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 768px) 100vw, 50vw"}
+            loading={featured ? undefined : "lazy"}
           />
         </div>
         <time
@@ -40,7 +41,7 @@ export function NewsCard({
         </time>
         <h2
           className={`mt-2 font-display text-text-primary transition-colors group-hover:text-silver ${
-            featured ? "text-3xl md:text-4xl" : "text-2xl"
+            featured ? "text-[clamp(1.5rem,4vw,2.25rem)] leading-tight" : "text-[clamp(1.25rem,3vw,1.5rem)]"
           }`}
         >
           {article.title}

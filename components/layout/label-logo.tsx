@@ -34,24 +34,24 @@ export function LabelLogo({
       <span className="flex min-w-0 flex-col justify-center leading-none">
         <span
           className={cn(
-            "font-display text-text-primary transition-colors group-hover:text-silver",
+            "truncate font-display text-text-primary transition-colors group-hover:text-silver",
             isFooter
               ? "text-xs tracking-[0.2em] sm:text-sm"
               : compact
                 ? "text-[10px] tracking-[0.18em] sm:text-xs"
-                : "text-[11px] tracking-[0.18em] sm:text-xs md:text-sm",
+                : "text-[11px] tracking-[0.16em] sm:text-xs md:text-sm md:tracking-[0.2em]",
           )}
         >
           {siteConfig.name}
         </span>
         <span
           className={cn(
-            "mt-0.5 font-display uppercase text-text-muted transition-colors group-hover:text-accent-muted",
+            "mt-0.5 truncate font-display uppercase text-text-muted transition-colors group-hover:text-accent-muted",
             isFooter
               ? "text-[10px] tracking-[0.34em] sm:text-[11px]"
               : compact
-                ? "text-[8px] tracking-[0.3em] sm:text-[9px]"
-                : "text-[9px] tracking-[0.32em] sm:text-[10px]",
+                ? "text-[8px] tracking-[0.28em] sm:text-[9px]"
+                : "text-[9px] tracking-[0.3em] sm:text-[10px] md:tracking-[0.34em]",
           )}
         >
           RECORDS
