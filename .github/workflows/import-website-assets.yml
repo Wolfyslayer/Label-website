@@ -1,0 +1,79 @@
+name: Import Wolfyslayer website assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'incoming/wolfyslayer_records_complete_website_assets.zip'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  import-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Extract validated assets into public/assets
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, zipfile, shutil, sys
+          archive = pathlib.Path('incoming/wolfyslayer_records_complete_website_assets.zip')
+          if not archive.is_file():
+              sys.exit('Missing ZIP at ' + str(archive))
+          root = pathlib.Path('public/assets')
+          prefix = 'wolfyslayer_records_website_assets/'
+          allowed = {'logos','banners','social','favicons','backgrounds','artists'}
+          count = 0
+          with zipfile.ZipFile(archive) as z:
+              for info in z.infolist():
+                  if info.is_dir(): continue
+                  name = info.filename.replace('\\','/')
+                  if not name.startswith(prefix):
+                      sys.exit('Unexpected ZIP root: ' + name)
+                  rel = pathlib.PurePosixPath(name[len(prefix):])
+                  if '..' in rel.parts or rel.is_absolute() or not rel.parts:
+                      sys.exit('Unsafe ZIP entry: ' + name)
+                  if info.file_size > 30 * 1024 * 1024:
+                      sys.exit('Oversized ZIP entry: ' + name)
+                  if rel.parts[0] in allowed:
+                      dest = root.joinpath(*rel.parts)
+                  elif str(rel) == 'docs/colors.json':
+                      dest = pathlib.Path('docs/brand/colors.json')
+                  elif str(rel) == 'docs/design-concept-board.png':
+                      dest = pathlib.Path('docs/brand/design-concept-board.png')
+                  elif str(rel) == 'README.md':
+                      dest = pathlib.Path('docs/brand/ASSET_README.md')
+                  else:
+                      sys.exit('Unexpected file: ' + name)
+                  if dest.exists():
+                      sys.exit('Refusing to overwrite existing file: ' + str(dest))
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  with z.open(info) as src, dest.open('wb') as dst:
+                      shutil.copyfileobj(src, dst)
+                  count += 1
+          print('Imported', count, 'files')
+          PY
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH="assets/wolfyslayer-website-${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git add public/assets docs/brand
+          if git diff --cached --quiet; then
+            echo 'No asset changes found'
+            exit 0
+          fi
+          git commit -m "Add Wolfyslayer Records website assets"
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" --title "Import Wolfyslayer Records website assets" --body "Adds the official artist portraits, logos, banners, favicons, backgrounds, and brand documentation under public/assets and docs/brand. Review before merging."
