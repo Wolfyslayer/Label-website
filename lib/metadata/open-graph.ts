@@ -1,5 +1,5 @@
 import { absolutePublicPath } from "@/lib/metadata/alternates";
-import { siteConfig } from "@/lib/config/site";
+import { defaultOgImagePath, siteConfig } from "@/lib/config/site";
 import type { AppLocale } from "@/i18n/routing";
 import type { Metadata } from "next";
 
@@ -26,27 +26,46 @@ export function pageOpenGraph({
   type?: "website" | "article";
 }): Pick<Metadata, "openGraph" | "twitter"> {
   const url = absolutePublicPath(locale as AppLocale, pathname);
-  const imageUrl = image ? absoluteAssetUrl(image) : undefined;
+  const imageUrl = absoluteAssetUrl(image ?? defaultOgImagePath);
+  const imageAltText = imageAlt ?? `${siteConfig.fullName} — ${title}`;
 
   return {
     openGraph: {
       title,
       description,
       url,
+      siteName: siteConfig.fullName,
       type,
       locale: locale === "sv" ? "sv_SE" : "en_US",
       alternateLocale: locale === "sv" ? ["en_US"] : ["sv_SE"],
-      ...(imageUrl
-        ? {
-            images: [{ url: imageUrl, alt: imageAlt ?? title, width: 1200, height: 630 }],
-          }
-        : {}),
+      images: [{ url: imageUrl, alt: imageAltText, width: 1200, height: 630 }],
     },
     twitter: {
-      card: imageUrl ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title,
       description,
-      ...(imageUrl ? { images: [imageUrl] } : {}),
+      images: [imageUrl],
+    },
+  };
+}
+
+export function siteDefaultOpenGraph(): Pick<Metadata, "openGraph" | "twitter"> {
+  const imageUrl = absoluteAssetUrl(defaultOgImagePath);
+  return {
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.fullName,
+      title: siteConfig.fullName,
+      description: siteConfig.description,
+      locale: "en_US",
+      alternateLocale: ["sv_SE"],
+      images: [{ url: imageUrl, alt: siteConfig.fullName, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteConfig.fullName,
+      description: siteConfig.description,
+      images: [imageUrl],
     },
   };
 }

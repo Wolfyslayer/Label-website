@@ -14,7 +14,7 @@ export function HomeHero() {
 
   return (
     <section className="relative flex min-h-[100dvh] min-h-[100svh] items-end overflow-hidden pb-[max(4rem,env(safe-area-inset-bottom))] pt-[calc(var(--header-height)+env(safe-area-inset-top)+2rem)] md:items-center md:pb-24">
-      <div className="absolute inset-0 bg-void">
+      <div className="pointer-events-none absolute inset-0 bg-void">
         <div className="hero-light-frost absolute inset-0" />
         <div className="hero-light-wolf absolute inset-0" />
         <div className="noise-overlay absolute inset-0 opacity-50" />

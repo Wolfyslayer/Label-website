@@ -20,6 +20,7 @@ export function releaseShareMetadata(
       title: release.title,
       description: release.description,
       url: pageUrl,
+      siteName: siteConfig.fullName,
       type: "website",
       images: [
         {

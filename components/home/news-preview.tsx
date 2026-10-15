@@ -32,7 +32,7 @@ export function NewsPreviewSection({ articles }: { articles: NewsArticle[] }) {
           {articles.map((article) => (
             <li key={article.id}>
               <Link href={`/news/${article.slug}`} className="group block">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface ring-1 ring-border-subtle">
+                <div className="relative aspect-[16/10] max-h-[min(56vw,240px)] w-full overflow-hidden rounded-sm bg-surface ring-1 ring-border-subtle">
                   {article.cover.placeholder ? <PlaceholderBanner /> : null}
                   <Image
                     src={article.cover.src}
