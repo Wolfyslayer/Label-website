@@ -18,6 +18,7 @@ const outDir = join(dirname(fileURLToPath(import.meta.url)), "..", "test-results
 mkdirSync(outDir, { recursive: true });
 
 const summary = [];
+let failures = 0;
 
 for (const path of routes) {
   const url = `${base}${path}`;
@@ -42,19 +43,25 @@ for (const path of routes) {
     const report = JSON.parse(readFileSync(reportPath, "utf8"));
     const perf = report.categories?.performance?.score;
     const a11y = report.categories?.accessibility?.score;
+    const seo = report.categories?.seo?.score;
+    const bestPractices = report.categories?.["best-practices"]?.score;
     const audits = report.audits ?? {};
     summary.push({
       url,
       performanceScore: perf != null ? Math.round(perf * 100) : null,
       accessibilityScore: a11y != null ? Math.round(a11y * 100) : null,
+      seoScore: seo != null ? Math.round(seo * 100) : null,
+      bestPracticesScore: bestPractices != null ? Math.round(bestPractices * 100) : null,
       lcpMs: audits["largest-contentful-paint"]?.numericValue ?? null,
       cls: audits["cumulative-layout-shift"]?.numericValue ?? null,
       tbtMs: audits["total-blocking-time"]?.numericValue ?? null,
     });
   } catch (err) {
+    failures += 1;
     summary.push({ url, error: String(err.message ?? err) });
   }
 }
 
 writeFileSync(join(outDir, "summary.json"), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
+\nif (failures > 0) {\n  console.error(`Lighthouse failed on ${failures} of ${routes.length} routes.`);\n  process.exitCode = 1;\n}\n
