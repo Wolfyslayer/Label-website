@@ -31,6 +31,18 @@ export const viewport = {
 
 const { favicon } = siteBrandPaths;
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteConfig.url}/#organization`,
+  name: siteConfig.fullName,
+  url: siteConfig.url,
+  description: siteConfig.description,
+  email: siteConfig.contactEmail,
+  logo: `${siteConfig.url}${publicAssetPath(favicon.png512)}`,
+  sameAs: Object.values(siteConfig.social).filter((url) => /^https:\/\//.test(url)),
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -73,7 +85,13 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${cinzel.variable} ${dmSans.variable} ${sourceSerif.variable}`}
     >
-      <body className="min-h-dvh bg-void text-text-primary antialiased">{children}</body>
+      <body className="min-h-dvh bg-void text-text-primary antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c") }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
