@@ -64,4 +64,8 @@ for (const path of routes) {
 
 writeFileSync(join(outDir, "summary.json"), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
-\nif (failures > 0) {\n  console.error(`Lighthouse failed on ${failures} of ${routes.length} routes.`);\n  process.exitCode = 1;\n}\n
+
+if (failures > 0) {
+  console.error(`Lighthouse failed on ${failures} of ${routes.length} routes.`);
+  process.exitCode = 1;
+}
