@@ -3,7 +3,7 @@
 import { LabelLogo } from "@/components/layout/label-logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { artistMediaPaths } from "@/lib/assets/artist-media";
+import { siteBrandPaths } from "@/lib/assets/site-brand";
 import { siteConfig } from "@/lib/config/site";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -25,7 +25,7 @@ export function HomeHero() {
       <div className="pointer-events-none absolute inset-0 hidden md:block" aria-hidden>
         <div className="absolute right-0 top-0 h-full w-[min(42vw,520px)] opacity-40">
           <Image
-            src={artistMediaPaths.frostmark.hero}
+            src={siteBrandPaths.labelHeroBanner}
             alt=""
             fill
             className="object-cover object-left-top mix-blend-luminosity"

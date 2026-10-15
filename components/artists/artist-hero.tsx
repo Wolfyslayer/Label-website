@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { artistMediaPaths } from "@/lib/assets/artist-media";
 import type { Artist } from "@/lib/types/content";
 import { cn } from "@/lib/utils/cn";
 import { ExternalLink } from "lucide-react";
@@ -10,7 +11,15 @@ import Image from "next/image";
 export async function ArtistHero({ artist }: { artist: Artist }) {
   const t = await getTranslations("artist");
   const isFrost = artist.theme === "frost";
-  const heroSrc = artist.heroImage?.src ?? artist.image.src;
+  const assetSet =
+    artist.slug === "frostmark"
+      ? artistMediaPaths.frostmark
+      : artist.slug === "wolfyslayer"
+        ? artistMediaPaths.wolfyslayer
+        : null;
+  const heroSrc =
+    assetSet?.background ?? artist.heroImage?.src ?? artist.image.src;
+  const portraitSrc = assetSet?.portrait ?? artist.image.src;
 
   return (
     <section className="relative min-h-[min(92dvh,920px)] overflow-hidden pt-[calc(var(--header-height)+env(safe-area-inset-top))]">
@@ -61,7 +70,7 @@ export async function ArtistHero({ artist }: { artist: Artist }) {
           <div className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
             <div className="relative aspect-square overflow-hidden rounded-sm shadow-2xl ring-1 ring-border-subtle">
               <Image
-                src={artist.image.src}
+                src={portraitSrc}
                 alt={artist.image.alt}
                 fill
                 className="object-cover"
