@@ -10,3 +10,5 @@ These files remain in the repository for editing workflows but are **`status: "d
 | `../news/welcome-to-wolfyslayer-records.md` | Welcome draft — publish when final copy is ready |
 
 Use the Music Manager (`/manager/`) or edit JSON/Markdown directly, then set `"status": "published"` when ready.
+
+To load **verified Spotify catalog data**, run **`npm run import:spotify`** locally or trigger **Actions → Import Spotify catalog**. See `docs/SPOTIFY_IMPORT.md`.

@@ -1,5 +1,15 @@
-export function formatReleaseDate(isoDate: string, locale = "en-US"): string {
+export function formatReleaseDate(
+  isoDate: string,
+  locale = "en-US",
+  precision?: "year" | "month" | "day",
+): string {
   const d = new Date(isoDate.includes("T") ? isoDate : `${isoDate}T12:00:00`);
+  if (precision === "year") {
+    return d.toLocaleDateString(locale, { year: "numeric" });
+  }
+  if (precision === "month") {
+    return d.toLocaleDateString(locale, { year: "numeric", month: "long" });
+  }
   return d.toLocaleDateString(locale, {
     year: "numeric",
     month: "long",

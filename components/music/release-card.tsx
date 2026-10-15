@@ -69,7 +69,7 @@ export function ReleaseCard({
             {release.title}
           </h3>
           <p className="text-xs text-text-muted">
-            {formatReleaseDate(release.releaseDate, dateLocale)}
+            {formatReleaseDate(release.releaseDate, dateLocale, release.releaseDatePrecision)}
           </p>
         </div>
       </Link>

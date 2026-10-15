@@ -81,8 +81,10 @@ export interface Track {
   artistId: string;
   releaseId: string;
   trackNumber: number;
+  discNumber?: number;
   durationSeconds?: number;
   spotifyTrackUrl?: string;
+  spotifyTrackId?: string;
 }
 
 export interface ReleaseSource {
@@ -94,15 +96,18 @@ export interface ReleaseSource {
   type: ReleaseType;
   releaseDate: string;
   releaseAt: string;
+  releaseDatePrecision?: "year" | "month" | "day";
   description: LocalizedString;
   credits?: LocalizedString;
   cover: ImageAssetSource;
   streamingLinks: StreamingLinks;
   spotifyAlbumUrl?: string;
+  spotifyAlbumId?: string;
   trackIds: string[];
   featured: boolean;
   status: ContentStatus;
   preSaveUrl?: string;
+  importSource?: "spotify";
 }
 
 export interface Release {
@@ -113,15 +118,18 @@ export interface Release {
   type: ReleaseType;
   releaseDate: string;
   releaseAt: string;
+  releaseDatePrecision?: "year" | "month" | "day";
   description: string;
   credits?: string;
   cover: ImageAsset;
   streamingLinks: StreamingLinks;
   spotifyAlbumUrl?: string;
+  spotifyAlbumId?: string;
   trackIds: string[];
   featured: boolean;
   status: ContentStatus;
   preSaveUrl?: string;
+  importSource?: "spotify";
 }
 
 export interface NewsArticleSource {

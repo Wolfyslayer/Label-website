@@ -66,6 +66,7 @@ export function localizeRelease(source: ReleaseSource, locale: AppLocale): Relea
     type: source.type,
     releaseDate: source.releaseDate,
     releaseAt: source.releaseAt,
+    releaseDatePrecision: source.releaseDatePrecision,
     description: pickLocalized(source.description, locale),
     credits: source.credits ? pickLocalized(source.credits, locale) : undefined,
     cover: {
@@ -75,7 +76,9 @@ export function localizeRelease(source: ReleaseSource, locale: AppLocale): Relea
     },
     streamingLinks: source.streamingLinks,
     spotifyAlbumUrl: source.spotifyAlbumUrl,
+    spotifyAlbumId: source.spotifyAlbumId,
     trackIds: source.trackIds,
+    importSource: source.importSource,
     featured: source.featured,
     status: source.status,
     preSaveUrl: source.preSaveUrl,

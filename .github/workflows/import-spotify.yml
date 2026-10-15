@@ -1,0 +1,70 @@
+name: Import Spotify catalog
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify Spotify secrets
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: |
+          if [ -z "$SPOTIFY_CLIENT_ID" ] || [ -z "$SPOTIFY_CLIENT_SECRET" ]; then
+            echo "::error::Missing SPOTIFY_CLIENT_ID or SPOTIFY_CLIENT_SECRET repository secrets."
+            exit 1
+          fi
+
+      - name: Import catalog from Spotify
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: npm run import:spotify
+
+      - name: Validate content
+        run: npm run validate:content
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(content): refresh catalog from Spotify"
+          title: "Spotify catalog import"
+          body: |
+            Automated catalog refresh from Spotify (Client Credentials).
+
+            Review release titles, dates, artwork URLs, and track lists before merging.
+            See [docs/SPOTIFY_IMPORT.md](../blob/main/docs/SPOTIFY_IMPORT.md) for details.
+
+            **Do not merge** until you have verified the catalog on a preview build.
+          branch: automation/spotify-catalog-import
+          delete-branch: true
+          labels: |
+            content
+            spotify
