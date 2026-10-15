@@ -5,6 +5,7 @@
  * Requires: npm run build && npm run start -- -p 3456 (or set PLAYWRIGHT_BASE_URL)
  */
 import { execFileSync } from "node:child_process";
+import { accessSync, constants } from "node:fs";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -20,15 +21,24 @@ mkdirSync(outDir, { recursive: true });
 const summary = [];
 let failures = 0;
 
+// Allow CI to invoke Lighthouse without downloading packages or prompting interactively.
+const lighthouseBin = process.platform === "win32" ? "lighthouse.cmd" : "lighthouse";
+const lighthousePath = join(dirname(fileURLToPath(import.meta.url)), "..", "node_modules", ".bin", lighthouseBin);
+try {
+  accessSync(lighthousePath, constants.X_OK);
+} catch {
+  console.error("Lighthouse executable not found. Run npm ci before auditing.");
+  process.exit(1);
+}
+
 for (const path of routes) {
   const url = `${base}${path}`;
   const slug = path.replace(/\//g, "_") || "root";
   const reportPath = join(outDir, `${slug}.json`);
   try {
     execFileSync(
-      "npx",
+      lighthousePath,
       [
-        "lighthouse",
         url,
         "--quiet",
         "--chrome-flags=--headless --no-sandbox",
