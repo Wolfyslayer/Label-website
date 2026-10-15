@@ -1,3 +1,6 @@
+import { SpotifyEmbed } from "@/components/music/spotify-embed";
+import { ReleaseHubActions } from "@/components/releases/release-hub-actions";
+import { siteConfig } from "@/lib/config/site";
 import { RelatedReleasesSection } from "@/components/music/related-releases";
 import { ReleaseTracklist } from "@/components/music/release-tracklist";
 import { StreamingLinks } from "@/components/music/streaming-links";
@@ -68,6 +71,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
   const related = getRelatedReleasesForRelease(allReleases, release, 4);
 
   const spotifyUrl = getReleaseSpotifyUrl(release, tracks);
+  const shareUrl = `${siteConfig.url.replace(/\/$/, "")}/${locale}/releases/${release.slug}`;
 
   return (
     <>
@@ -125,6 +129,20 @@ export default async function ReleaseDetailPage({ params }: Props) {
                 </Button>
               </div>
             </div>
+          </div>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-2">
+            {spotifyUrl ? (
+              <section aria-label={t("previewSpotify")} className="min-w-0">
+                <h2 className="type-h3 font-display text-text-primary">{t("previewSpotify")}</h2>
+                <div className="mt-5"><SpotifyEmbed url={spotifyUrl} title={`${release.title} — Spotify`} /></div>
+              </section>
+            ) : null}
+            <section className="min-w-0 rounded-sm border border-border-subtle bg-surface/30 p-5 sm:p-7">
+              <h2 className="type-h3 font-display text-text-primary">{t("shareRelease")}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-text-secondary">{t("shareReleaseHint")}</p>
+              <div className="mt-5"><ReleaseHubActions shareUrl={shareUrl} shareTitle={`${release.title}${artist ? ` — ${artist.name}` : ""}`} /></div>
+            </section>
           </div>
 
           {tracks.length ? (

@@ -5,10 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
+import { ReleaseTracklist } from "@/components/music/release-tracklist";
 import { ReleaseCountdown } from "@/components/music/countdown";
 import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
-import { getPublishedArtists, getPublishedReleases, getReleaseBySlug } from "@/lib/content";
+import { getPublishedArtists, getPublishedReleases, getReleaseBySlug, getTracksForRelease } from "@/lib/content";
 import { isStaticExportPlaceholderSlug, localeSlugParams } from "@/lib/content/static-export-params";
 import { isReleaseUpcoming } from "@/lib/content/releases";
 import { buildAlternates } from "@/lib/metadata/alternates";
@@ -60,7 +61,7 @@ export default async function ReleaseHubPage({ params }: Props) {
   const release = await getReleaseBySlug(slug, locale);
   if (!release) notFound();
 
-  const artists = await getPublishedArtists(locale);
+  const [artists, tracks] = await Promise.all([getPublishedArtists(locale), getTracksForRelease(release.id)]);
   const artist = artists.find((a) => a.id === release.artistId);
   const upcoming = isReleaseUpcoming(release);
   const streaming = getReleaseHubStreaming(release);
@@ -137,6 +138,13 @@ export default async function ReleaseHubPage({ params }: Props) {
               <StreamingPlatformGrid links={streaming} />
             </div>
           </section>
+
+          {tracks.length ? (
+            <section>
+              <h2 className="font-display text-xl text-text-primary md:text-2xl">{t("tracklist")}</h2>
+              <div className="mt-5"><ReleaseTracklist tracks={tracks} /></div>
+            </section>
+          ) : null}
 
           {upcoming && preSave ? (
             <section>

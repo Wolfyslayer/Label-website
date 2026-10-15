@@ -138,14 +138,16 @@
     "previewSpotify": "Preview on Spotify",
     "listenSpotify": "Listen on Spotify",
     "openTrackSpotify": "Open {title} on Spotify (opens in new tab)",
-    "smartLink": "Share release hub"
+    "smartLink": "Share release hub",
+    "shareRelease": "Share this release",
+    "shareReleaseHint": "Share one link with artwork and available streaming services."
   },
   "releaseHub": {
     "notFound": "Release not found",
     "statusUpcoming": "Upcoming",
     "statusOutNow": "Out now",
     "listenNow": "Listen now",
-    "noStreaming": "Streaming links will appear here when configured in the admin.",
+    "noStreaming": "Streaming links will appear here when available.",
     "shareRelease": "Share this release",
     "shareHint": "Send the smart link to fans — artwork and streaming options included.",
     "share": "Share",
@@ -157,7 +159,8 @@
     "preSaveCta": "Pre-save / pre-add",
     "yourLocalTime": "Your local time",
     "aboutRelease": "About this release",
-    "fullReleasePage": "Full release page (tracklist & credits)"
+    "fullReleasePage": "Full release page (tracklist & credits)",
+    "tracklist": "Tracklist"
   },
   "upcomingPage": {
     "metaTitle": "Upcoming Releases",
