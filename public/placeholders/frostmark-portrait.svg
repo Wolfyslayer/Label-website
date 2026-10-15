@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200">
+  <defs>
+    <linearGradient id="f" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#152028"/>
+      <stop offset="100%" stop-color="#050506"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#f)"/>
+  <circle cx="450" cy="480" r="180" fill="#1c2830" opacity="0.6"/>
+  <text x="450" y="980" fill="#8eb4c9" font-family="Georgia, serif" font-size="36" text-anchor="middle">Frostmark</text>
+  <text x="450" y="1020" fill="#6b6964" font-size="16" text-anchor="middle">Placeholder portrait</text>
+</svg>
