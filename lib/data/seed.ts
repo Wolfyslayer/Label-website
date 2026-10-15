@@ -185,6 +185,7 @@ export const seedContent: SiteContentSource = {
         "Den här webbplatsen är Wolfyslayer Records officiella digitala hem. Här hittar du musik, nyheter och uppdateringar för Frostmark och Wolfyslayer.\n\n[Platshållare — ersätt med ert första officiella inlägg.]",
       ),
       publishedAt: "2026-10-01T10:00:00.000Z",
+      artistId: "artist-frostmark",
       cover: {
         src: "/placeholders/news-default.svg",
         alt: L(

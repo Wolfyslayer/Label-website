@@ -1,10 +1,17 @@
+import { ArticleProse } from "@/components/news/article-prose";
 import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import { Link } from "@/i18n/navigation";
 import { routing, type AppLocale } from "@/i18n/routing";
-import { getNewsBySlug, getPublishedNews } from "@/lib/content";
+import {
+  getArtistById,
+  getNewsBySlug,
+  getPublishedNews,
+  getReleaseById,
+} from "@/lib/content";
 import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
+import { absoluteAssetUrl, pageOpenGraph } from "@/lib/metadata/open-graph";
 import { formatNewsDate } from "@/lib/utils/date";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
@@ -24,10 +31,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getNewsBySlug(slug, locale);
   const t = await getTranslations({ locale, namespace: "newsPage" });
   if (!article) return { title: t("notFound") };
+  const title = article.title;
+  const description = article.excerpt;
   return {
-    title: article.title,
-    description: article.excerpt,
+    title,
+    description,
     alternates: buildAlternates(`/news/${slug}`, locale),
+    ...pageOpenGraph({
+      title,
+      description,
+      locale,
+      pathname: `/news/${slug}`,
+      image: article.cover.placeholder ? undefined : article.cover.src,
+      imageAlt: article.cover.alt,
+      type: "article",
+    }),
   };
 }
 
@@ -40,23 +58,65 @@ export default async function NewsArticlePage({ params }: Props) {
   const article = await getNewsBySlug(slug, locale);
   if (!article) notFound();
 
+  const [relatedArtist, relatedRelease] = await Promise.all([
+    article.artistId ? getArtistById(article.artistId, locale) : Promise.resolve(null),
+    article.releaseId ? getReleaseById(article.releaseId, locale) : Promise.resolve(null),
+  ]);
+
+  const pageUrl = `${siteConfig.url.replace(/\/$/, "")}/${locale}/news/${article.slug}`;
+  const imageUrl = article.cover.placeholder ? undefined : absoluteAssetUrl(article.cover.src);
+
   return (
     <article className="pt-24 md:pt-28">
       <Container className="max-w-3xl pb-20 md:pb-28">
-        <Link href="/news" className="text-xs uppercase tracking-widest text-accent">
+        <Link
+          href="/news"
+          className="inline-flex min-h-11 items-center text-xs uppercase tracking-widest text-accent hover:text-text-primary"
+        >
           ← {t("back")}
         </Link>
-        <time className="mt-6 block text-xs uppercase tracking-widest text-text-muted">
-          {formatNewsDate(article.publishedAt, dateLocale)}
-        </time>
-        <h1 className="mt-4 font-display text-4xl md:text-5xl">{article.title}</h1>
-        <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-sm ring-1 ring-border">
+        <header className="mt-6">
+          <time className="block text-xs uppercase tracking-widest text-text-muted" dateTime={article.publishedAt}>
+            {formatNewsDate(article.publishedAt, dateLocale)}
+          </time>
+          <h1 className="mt-4 text-balance font-display text-4xl leading-tight md:text-5xl">{article.title}</h1>
+          <p className="mt-4 text-lg leading-relaxed text-text-secondary">{article.excerpt}</p>
+        </header>
+        <figure className="relative mt-10 aspect-[16/9] overflow-hidden rounded-sm ring-1 ring-border">
           {article.cover.placeholder ? <PlaceholderBanner /> : null}
-          <Image src={article.cover.src} alt={article.cover.alt} fill className="object-cover" priority />
-        </div>
-        <div className="prose prose-invert mt-10 max-w-none whitespace-pre-line text-base leading-relaxed text-text-secondary">
-          {article.body}
-        </div>
+          <Image
+            src={article.cover.src}
+            alt={article.cover.alt}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 768px) 100vw, 48rem"
+          />
+        </figure>
+        <ArticleProse>{article.body}</ArticleProse>
+        {relatedArtist || relatedRelease ? (
+          <aside className="mt-12 border-t border-border-subtle pt-8">
+            <h2 className="text-xs uppercase tracking-widest text-text-muted">{t("relatedHeading")}</h2>
+            <ul className="mt-4 space-y-2 text-base">
+              {relatedArtist ? (
+                <li>
+                  <span className="text-text-muted">{t("relatedArtist")}: </span>
+                  <Link href={`/artists/${relatedArtist.slug}`} className="text-accent hover:text-text-primary">
+                    {relatedArtist.name}
+                  </Link>
+                </li>
+              ) : null}
+              {relatedRelease ? (
+                <li>
+                  <span className="text-text-muted">{t("relatedRelease")}: </span>
+                  <Link href={`/releases/${relatedRelease.slug}`} className="text-accent hover:text-text-primary">
+                    {relatedRelease.title}
+                  </Link>
+                </li>
+              ) : null}
+            </ul>
+          </aside>
+        ) : null}
       </Container>
       <script
         type="application/ld+json"
@@ -65,8 +125,20 @@ export default async function NewsArticlePage({ params }: Props) {
             "@context": "https://schema.org",
             "@type": "NewsArticle",
             headline: article.title,
+            description: article.excerpt,
             datePublished: article.publishedAt,
-            url: `${siteConfig.url}/${locale}/news/${article.slug}`,
+            url: pageUrl,
+            inLanguage: locale === "sv" ? "sv-SE" : "en-US",
+            ...(imageUrl
+              ? {
+                  image: [imageUrl],
+                }
+              : {}),
+            publisher: {
+              "@type": "Organization",
+              name: siteConfig.name,
+              url: siteConfig.url,
+            },
           }),
         }}
       />
