@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import { ReleaseCountdown } from "@/components/music/countdown";
 import { Link } from "@/i18n/navigation";
-import { routing, type AppLocale } from "@/i18n/routing";
+import type { AppLocale } from "@/i18n/routing";
 import { getPublishedArtists, getPublishedReleases, getReleaseBySlug } from "@/lib/content";
 import { isStaticExportPlaceholderSlug, localeSlugParams } from "@/lib/content/static-export-params";
 import { isReleaseUpcoming } from "@/lib/content/releases";

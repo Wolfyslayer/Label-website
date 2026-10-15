@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import { Link } from "@/i18n/navigation";
-import { routing, type AppLocale } from "@/i18n/routing";
+import type { AppLocale } from "@/i18n/routing";
 import { getRelatedReleasesForRelease } from "@/lib/content/discovery";
 import {
   getPublishedArtists,
