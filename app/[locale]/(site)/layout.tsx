@@ -4,6 +4,8 @@ import { getPublicSocialLinks } from "@/lib/content/site-settings";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+export const dynamic = "force-static";
+
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   const t = await getTranslations("a11y");
   const socialLinks = await getPublicSocialLinks();

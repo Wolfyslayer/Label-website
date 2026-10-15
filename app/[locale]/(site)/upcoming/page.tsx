@@ -9,14 +9,14 @@ import { Link } from "@/i18n/navigation";
 import { getPublishedArtists, getUpcomingReleases } from "@/lib/content";
 import { getReleaseHubPreSaveUrl } from "@/lib/releases/hub-streaming";
 import { buildAlternates } from "@/lib/metadata/alternates";
-import type { AppLocale } from "@/i18n/routing";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
 import { formatReleaseDate, formatReleaseTimestampUtc } from "@/lib/utils/date";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "upcomingPage" });
   return {
     title: t("metaTitle"),
@@ -25,8 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function UpcomingPage() {
-  const locale = (await getLocale()) as AppLocale;
+export default async function UpcomingPage({ params }: LocalePageParams) {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations("upcomingPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
 

@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { siteConfig } from "@/lib/config/site";
+import { contactSchema, mapContactFieldErrors } from "@/lib/validation/contact";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -21,11 +23,6 @@ export function ContactForm({ privacyDescribedBy }: { privacyDescribedBy?: strin
     return tVal(code as "nameMin");
   }
 
-  function translateServerError(code?: string) {
-    if (!code) return tErr("generic");
-    return tErr(code as "network");
-  }
-
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
@@ -34,40 +31,59 @@ export function ContactForm({ privacyDescribedBy }: { privacyDescribedBy?: strin
 
     const form = e.currentTarget;
     const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      subject: String(data.get("subject") ?? ""),
+      message: String(data.get("message") ?? ""),
+      website: String(data.get("website") ?? ""),
+    };
+
+    const parsed = contactSchema.safeParse(payload);
+    if (!parsed.success) {
+      const mapped: FieldErrors = {};
+      const codes = mapContactFieldErrors(parsed.error.issues);
+      for (const [key, code] of Object.entries(codes)) {
+        mapped[key as keyof FieldErrors] = translateFieldError(code);
+      }
+      setErrors(mapped);
+      setStatus("error");
+      return;
+    }
+
+    if (parsed.data.website) {
+      setStatus("success");
+      form.reset();
+      return;
+    }
+
+    const endpoint = siteConfig.contactFormEndpoint;
+
+    if (!endpoint) {
+      setServerError(siteConfig.staticHosting ? tErr("staticOnly") : tErr("notConfigured"));
+      setStatus("error");
+      return;
+    }
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          name: data.get("name"),
-          email: data.get("email"),
-          subject: data.get("subject"),
-          message: data.get("message"),
-          website: data.get("website"),
+          name: parsed.data.name,
+          email: parsed.data.email,
+          subject: parsed.data.subject,
+          message: parsed.data.message,
         }),
       });
 
-      const json = (await res.json()) as {
-        ok?: boolean;
-        fieldErrorCodes?: Record<string, string>;
-        errorCode?: string;
-      };
-
-      if (res.ok && json.ok) {
+      if (res.ok) {
         setStatus("success");
         form.reset();
         return;
       }
 
-      if (json.fieldErrorCodes) {
-        const mapped: FieldErrors = {};
-        for (const [key, code] of Object.entries(json.fieldErrorCodes)) {
-          mapped[key as keyof FieldErrors] = translateFieldError(code);
-        }
-        setErrors(mapped);
-      }
-      setServerError(translateServerError(json.errorCode));
+      setServerError(tErr("deliveryFailed"));
       setStatus("error");
     } catch {
       setServerError(tErr("network"));

@@ -1,4 +1,6 @@
 import { siteConfig } from "@/lib/config/site";
+import { absolutePublicPath } from "@/lib/metadata/alternates";
+import type { AppLocale } from "@/i18n/routing";
 import type { Release } from "@/lib/types/content";
 import type { Metadata } from "next";
 
@@ -8,7 +10,7 @@ export function releaseShareMetadata(
   pathname = `/releases/${release.slug}`,
 ): Pick<Metadata, "openGraph" | "twitter"> {
   const base = siteConfig.url.replace(/\/$/, "");
-  const pageUrl = `${base}/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
+  const pageUrl = absolutePublicPath(locale as AppLocale, pathname);
   const imageUrl = release.cover.src.startsWith("http")
     ? release.cover.src
     : `${base}${release.cover.src}`;

@@ -1,77 +1,44 @@
-import { requireAdmin } from "@/lib/auth/admin";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-export default async function AdminDashboardPage() {
-  const { user, isAdmin } = await requireAdmin();
-  if (!user) redirect("/admin/login");
-  if (!isAdmin) {
-    return (
-      <main>
-        <h1 className="font-display text-3xl">Access denied</h1>
-        <p className="mt-4 text-sm text-text-secondary">
-          Your account is not in the <code>admin_users</code> allowlist.
-        </p>
-      </main>
-    );
-  }
-
-  if (!isSupabaseConfigured()) {
-    return (
-      <main>
-        <h1 className="font-display text-3xl">Dashboard</h1>
-        <p className="mt-4 text-sm text-text-secondary">
-          Configure Supabase environment variables to enable the CMS. Public pages still use seed data.
-        </p>
-      </main>
-    );
-  }
-
-  const supabase = await createClient();
-  const [artists, releases, tracks, news, upcoming] = await Promise.all([
-    supabase!.from("artists").select("id", { count: "exact", head: true }),
-    supabase!.from("releases").select("id", { count: "exact", head: true }),
-    supabase!.from("tracks").select("id", { count: "exact", head: true }),
-    supabase!.from("news").select("id", { count: "exact", head: true }),
-    supabase!
-      .from("releases")
-      .select("id", { count: "exact", head: true })
-      .gt("release_at", new Date().toISOString()),
-  ]);
-
-  const cards = [
-    { label: "Artists", count: artists.count ?? 0, href: "/admin/artists" },
-    { label: "Releases", count: releases.count ?? 0, href: "/admin/releases" },
-    { label: "Tracks", count: tracks.count ?? 0, href: "/admin/tracks" },
-    { label: "Upcoming", count: upcoming.count ?? 0, href: "/admin/upcoming" },
-    { label: "News", count: news.count ?? 0, href: "/admin/news" },
-    { label: "Settings", href: "/admin/settings" },
-  ];
-
+export default function AdminStaticNoticePage() {
   return (
-    <main>
-      <h1 className="font-display text-3xl">Dashboard</h1>
-      <p className="mt-2 text-sm text-text-secondary">
-        Signed in as {user.email}. Changes persist to Supabase and appear on the public site when published.
+    <article className="space-y-6 text-sm leading-relaxed text-text-secondary">
+      <h1 className="font-display text-3xl text-text-primary">CMS not available on static hosting</h1>
+      <p>
+        This site is built for <strong className="text-text-primary">GitHub Pages</strong> (static HTML).
+        The Supabase admin panel, server actions, media uploads, and{" "}
+        <code className="text-silver">/api/contact</code> require a Node.js server.
       </p>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card) => (
-          <Link
-            key={card.label}
-            href={card.href}
-            className="rounded-sm border border-border-subtle bg-surface/40 p-6 transition-colors hover:border-accent-muted"
-          >
-            <p className="text-xs uppercase tracking-widest text-text-muted">{card.label}</p>
-            {"count" in card ? (
-              <p className="mt-2 font-display text-4xl text-text-primary">{card.count}</p>
-            ) : (
-              <p className="mt-2 text-sm text-accent">Open →</p>
-            )}
-          </Link>
-        ))}
-      </div>
-    </main>
+      <section className="space-y-3 rounded-sm border border-border-subtle bg-void/40 p-5">
+        <h2 className="font-display text-lg text-text-primary">Update content on GitHub Pages</h2>
+        <ul className="list-inside list-disc space-y-2">
+          <li>Edit <code className="text-silver">lib/data/seed.ts</code> and redeploy, or</li>
+          <li>
+            Set Supabase env vars in GitHub Actions so content is fetched at{" "}
+            <strong className="text-text-primary">build time</strong> (read-only on the live site).
+          </li>
+        </ul>
+      </section>
+      <section className="space-y-3 rounded-sm border border-border-subtle bg-void/40 p-5">
+        <h2 className="font-display text-lg text-text-primary">Run the full CMS locally or on Node</h2>
+        <p>
+          Copy <code className="text-silver">server-routes/cms-admin/</code> into{" "}
+          <code className="text-silver">app/admin/</code>, restore{" "}
+          <code className="text-silver">server-routes/api</code> and{" "}
+          <code className="text-silver">middleware.example.ts</code> — see{" "}
+          <code className="text-silver">server-routes/README.md</code>.
+        </p>
+        <p>
+          Use <code className="text-silver">npm run build:node</code> for a server production build (not
+          GitHub Pages).
+        </p>
+      </section>
+      <p>
+        <Link href="/en/contact/" className="text-accent hover:text-text-primary">
+          Contact page →
+        </Link>{" "}
+        for inquiries. No service role or webhook secrets are embedded in this static bundle.
+      </p>
+    </article>
   );
 }

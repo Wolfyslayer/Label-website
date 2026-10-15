@@ -5,12 +5,12 @@ import { getLabelInfo, getPublishedArtists } from "@/lib/content";
 import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
-import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "aboutPage" });
   const title = t("metaTitle");
   const description = t("metaDescription");
@@ -22,8 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function AboutPage() {
-  const locale = (await getLocale()) as AppLocale;
+export default async function AboutPage({ params }: LocalePageParams) {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations("aboutPage");
   const [label, artists] = await Promise.all([getLabelInfo(locale), getPublishedArtists(locale)]);
   const base = siteConfig.url.replace(/\/$/, "");

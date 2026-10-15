@@ -9,13 +9,13 @@ import { pressAssetDownloadHref } from "@/lib/press/downloads";
 import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
-import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "pressPage" });
   const title = t("metaTitle");
   const description = t("metaDescription");
@@ -27,8 +27,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function PressPage() {
-  const locale = (await getLocale()) as AppLocale;
+export default async function PressPage({ params }: LocalePageParams) {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations("pressPage");
   const [assets, artists] = await Promise.all([getPressAssets(locale), getPublishedArtists(locale)]);
   const logos = assets.filter((a) => a.type === "logo");

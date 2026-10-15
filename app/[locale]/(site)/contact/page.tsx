@@ -6,12 +6,12 @@ import { getPublicSocialLinks } from "@/lib/content/site-settings";
 import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
-import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "contactPage" });
   const title = t("metaTitle");
   const description = t("metaDescription");
@@ -23,7 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function ContactPage() {
+export default async function ContactPage({ params }: LocalePageParams) {
+  await resolvePageLocale(params);
   const t = await getTranslations("contactPage");
   const socialLinks = await getPublicSocialLinks();
 
@@ -49,6 +50,7 @@ export default async function ContactPage() {
           ) : null}
           <p id="contact-privacy" className="mt-8 text-sm leading-relaxed text-text-muted">
             {t("privacyNotice")}
+            {siteConfig.staticHosting ? ` ${t("privacyStatic")}` : null}
           </p>
         </div>
         <div className="relative">

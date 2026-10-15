@@ -3,12 +3,12 @@ import { Container } from "@/components/ui/container";
 import { SectionHeader } from "@/components/ui/section-header";
 import { getPublishedArtists, getReleasedCatalog } from "@/lib/content";
 import { buildAlternates } from "@/lib/metadata/alternates";
-import type { AppLocale } from "@/i18n/routing";
-import { getLocale, getTranslations } from "next-intl/server";
+import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = (await getLocale()) as AppLocale;
+export async function generateMetadata({ params }: LocalePageParams): Promise<Metadata> {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations({ locale, namespace: "musicPage" });
   return {
     title: t("metaTitle"),
@@ -17,8 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function MusicPage() {
-  const locale = (await getLocale()) as AppLocale;
+export default async function MusicPage({ params }: LocalePageParams) {
+  const locale = await resolvePageLocale(params);
   const t = await getTranslations("musicPage");
   const [releases, artists] = await Promise.all([
     getReleasedCatalog(locale),
