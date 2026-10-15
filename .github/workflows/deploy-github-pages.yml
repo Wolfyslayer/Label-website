@@ -64,7 +64,9 @@ jobs:
           test -f out/404.html
           grep -q "Page not found" out/404.html
           test -f out/en/index.html
-          test -f out/manager/index.html
+          test ! -e out/manager/index.html
+          test ! -e out/admin/index.html
+          test ! -e out/admin/login/index.html
           test -f out/sv/index.html
           test -f out/en/artists/frostmark/index.html
           test -f out/sitemap.xml
