@@ -54,6 +54,9 @@ if (!html.includes("twitter:card") && !html.includes('name="twitter:card"')) {
 }
 
 if (!existsSync(join(out, "og-default.png"))) fail("Missing out/og-default.png");
+if (!existsSync(join(out, "assets/brand/wr-rune-monogram.svg"))) {
+  fail("Missing out/assets/brand/wr-rune-monogram.svg");
+}
 if (!existsSync(join(out, "CNAME"))) fail("Missing out/CNAME");
 
 console.log("SEO export validation passed.");

@@ -1,6 +1,7 @@
+import { siteBrandPaths } from "@/lib/assets/site-brand";
 import { cn } from "@/lib/utils/cn";
 
-/** Rune-inspired W monogram — inline SVG, no frame or background. */
+/** Official transparent WR rune monogram from `public/assets/brand/`. */
 export function LabelMonogram({
   className,
   decorative = true,
@@ -10,28 +11,17 @@ export function LabelMonogram({
   decorative?: boolean;
 }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      role={decorative ? "presentation" : "img"}
+    <img
+      src={siteBrandPaths.wrRuneMonogram}
+      alt={decorative ? "" : "Wolfyslayer Records"}
       aria-hidden={decorative ? true : undefined}
-      className={cn("shrink-0 text-silver", className)}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5 25V7l11 14L27 7v18"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
-      <path
-        d="M16 21v4"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="square"
-        opacity="0.45"
-      />
-    </svg>
+      width={32}
+      height={32}
+      decoding="async"
+      className={cn(
+        "shrink-0 object-contain transition-[filter,opacity] duration-300 group-hover:brightness-110",
+        className,
+      )}
+    />
   );
 }

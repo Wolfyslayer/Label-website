@@ -106,7 +106,7 @@ The repo expects these files when you add the asset package (same paths, `.webp`
 - `public/artists/frostmark-raven-portrait.*` — Frostmark raven portrait
 - `public/artists/wolfyslayer-viking-portrait.*` — Wolfyslayer Viking portrait
 
-Until then, labeled SVG stand-ins are served from `public/artists/*.svg`. Update `lib/assets/artist-media.ts` if your filenames differ.
+Official JPEGs live under `public/artists/` (see `lib/assets/artist-media.ts`). The WR rune monogram is at `public/assets/brand/wr-rune-monogram.svg`. Full asset map: **`docs/ASSET_INVENTORY.md`**. Legacy `public/placeholders/` and `public/artists/*.svg` are not used in the live UI.
 
 ## Design system
 

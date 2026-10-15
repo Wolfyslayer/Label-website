@@ -1,5 +1,6 @@
 import { absolutePublicPath } from "@/lib/metadata/alternates";
 import { absoluteAssetUrl } from "@/lib/metadata/open-graph";
+import { siteBrandPaths } from "@/lib/assets/site-brand";
 import { siteConfig } from "@/lib/config/site";
 import type { AppLocale } from "@/i18n/routing";
 import type { Artist, Release, Track } from "@/lib/types/content";
@@ -20,7 +21,7 @@ export function labelOrganizationJsonLd(locale: AppLocale) {
     name: siteConfig.fullName,
     alternateName: siteConfig.name,
     url: absolutePublicPath(locale, "/"),
-    logo: absoluteAssetUrl("/favicon.svg"),
+    logo: absoluteAssetUrl(siteBrandPaths.wrRuneMonogram),
     description: siteConfig.description,
     ...(sameAs.length ? { sameAs } : {}),
   };

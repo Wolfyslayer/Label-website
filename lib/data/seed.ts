@@ -1,4 +1,5 @@
 import { artistMediaPaths } from "@/lib/assets/artist-media";
+import { siteBrandPaths } from "@/lib/assets/site-brand";
 import type { LocalizedString, SiteContentSource } from "@/lib/types/content";
 
 const L = (en: string, sv: string): LocalizedString => ({ en, sv });
@@ -120,10 +121,10 @@ export const seedContent: SiteContentSource = {
         "Platshållare för release. Ersätt med officiell titel, artwork, datum och streaminglänkar när det är bekräftat.",
       ),
       cover: {
-        src: "/placeholders/cover-frost.svg",
+        src: siteBrandPaths.releaseCoverFallback,
         alt: L(
-          "Placeholder cover artwork — Frostmark",
-          "Platshållare för omslag — Frostmark",
+          "Release artwork not yet published — neutral placeholder",
+          "Release-artwork ej publicerad — neutral platshållare",
         ),
         placeholder: true,
       },
@@ -145,10 +146,10 @@ export const seedContent: SiteContentSource = {
         "Schemalagd platshållare för en kommande Wolfyslayer-release. Konfigurera pre-save-länk i admin när den finns.",
       ),
       cover: {
-        src: "/placeholders/cover-wolf.svg",
+        src: siteBrandPaths.releaseCoverFallback,
         alt: L(
-          "Placeholder cover artwork — Wolfyslayer",
-          "Platshållare för omslag — Wolfyslayer",
+          "Release artwork not yet published — neutral placeholder",
+          "Release-artwork ej publicerad — neutral platshållare",
         ),
         placeholder: true,
       },
@@ -187,12 +188,12 @@ export const seedContent: SiteContentSource = {
       publishedAt: "2026-10-01T10:00:00.000Z",
       artistId: "artist-frostmark",
       cover: {
-        src: "/placeholders/news-default.svg",
+        src: artistMediaPaths.frostmark.hero,
         alt: L(
-          "Wolfyslayer Records — placeholder news image",
-          "Wolfyslayer Records — platshållare för nyhetsbild",
+          "Frostmark — artist imagery for Wolfyslayer Records announcement",
+          "Frostmark — artistbild för Wolfyslayer Records-nyhet",
         ),
-        placeholder: true,
+        placeholder: false,
       },
       status: "published",
     },
@@ -202,12 +203,12 @@ export const seedContent: SiteContentSource = {
       id: "press-logo-label",
       title: L("Wolfyslayer Records — Logo (PNG)", "Wolfyslayer Records — logotyp (PNG)"),
       type: "logo",
-      src: "/placeholders/logo-wolfyslayer.svg",
+      src: artistMediaPaths.labelMonogram,
       alt: L(
-        "Wolfyslayer Records logo placeholder",
-        "Platshållare för Wolfyslayer Records logotyp",
+        "Wolfyslayer Records WR rune monogram",
+        "Wolfyslayer Records WR-rune monogram",
       ),
-      placeholder: true,
+      placeholder: false,
     },
     {
       id: "press-photo-frostmark",
@@ -215,8 +216,8 @@ export const seedContent: SiteContentSource = {
       type: "photo",
       artistId: "artist-frostmark",
       src: artistMediaPaths.frostmark.portrait,
-      alt: L("Frostmark press photo placeholder", "Platshållare för Frostmark pressbild"),
-      placeholder: true,
+      alt: L("Frostmark — official press photo", "Frostmark — officiell pressbild"),
+      placeholder: false,
     },
     {
       id: "press-photo-wolfyslayer",
@@ -224,8 +225,8 @@ export const seedContent: SiteContentSource = {
       type: "photo",
       artistId: "artist-wolfyslayer",
       src: artistMediaPaths.wolfyslayer.portrait,
-      alt: L("Wolfyslayer press photo placeholder", "Platshållare för Wolfyslayer pressbild"),
-      placeholder: true,
+      alt: L("Wolfyslayer — official press photo", "Wolfyslayer — officiell pressbild"),
+      placeholder: false,
     },
   ],
 };
