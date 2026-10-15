@@ -1,3 +1,6 @@
+/** Site content slug: lowercase letters, digits, hyphens only (see Zod schemas). */
+export const CONTENT_SLUG_PATTERN = /^[a-z0-9-]+$/;
+
 export function slugify(input: string): string {
   return input
     .normalize("NFKD")
@@ -5,8 +8,25 @@ export function slugify(input: string): string {
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 80);
+}
+
+/** Guarantee a slug valid for `content/` JSON (Spotify IDs may contain A–Z). */
+export function ensureContentSlug(base: string, fallbackTitle: string, uniqueToken: string): string {
+  const token = uniqueToken.replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(-8) || "id";
+  let s = slugify(base);
+  if (!s) s = slugify(fallbackTitle) || "item";
+  let combined = `${s}-${token}`.replace(/-+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+  if (!combined || !CONTENT_SLUG_PATTERN.test(combined)) {
+    combined = `item-${token}`;
+  }
+  return combined;
+}
+
+export function isValidContentSlug(slug: string): boolean {
+  return CONTENT_SLUG_PATTERN.test(slug);
 }
 
 export function uniqueId(prefix: string): string {

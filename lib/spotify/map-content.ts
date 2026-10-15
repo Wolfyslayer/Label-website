@@ -2,7 +2,7 @@ import { DEFAULT_RELEASE_DESCRIPTION } from "@/lib/spotify/constants";
 import { parseSpotifyReleaseDate } from "@/lib/spotify/dates";
 import { collaborationArtistNames } from "@/lib/spotify/ownership";
 import type { SpotifyFullAlbum, SpotifySimplifiedAlbum } from "@/lib/spotify/types";
-import { slugify } from "@/lib/manager/slugs";
+import { ensureContentSlug, isValidContentSlug } from "@/lib/manager/slugs";
 import type { ReleaseSource, ReleaseType, Track } from "@/lib/types/content";
 
 export function mapSpotifyAlbumType(albumType: string): ReleaseType {
@@ -21,16 +21,13 @@ export function trackIdForSpotifyTrack(spotifyTrackId: string): string {
 }
 
 export function slugForSpotifyAlbum(title: string, spotifyAlbumId: string, existingSlug?: string): string {
-  if (existingSlug) return existingSlug;
-  const base = slugify(title) || "release";
-  const suffix = spotifyAlbumId.slice(-6).toLowerCase();
-  return `${base}-${suffix}`.slice(0, 80);
+  if (existingSlug && isValidContentSlug(existingSlug)) return existingSlug;
+  return ensureContentSlug(title, "release", spotifyAlbumId);
 }
 
 export function trackSlugForTitle(title: string, spotifyTrackId: string, existingSlug?: string): string {
-  if (existingSlug) return existingSlug;
-  const base = slugify(title) || "track";
-  return `${base}-${spotifyTrackId.slice(-6)}`.slice(0, 80);
+  if (existingSlug && isValidContentSlug(existingSlug)) return existingSlug;
+  return ensureContentSlug(title, "track", spotifyTrackId);
 }
 
 export function pickCoverUrl(album: SpotifySimplifiedAlbum): string | null {
