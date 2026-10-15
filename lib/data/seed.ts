@@ -203,10 +203,10 @@ export const seedContent: SiteContentSource = {
       id: "press-logo-label",
       title: L("Wolfyslayer Records — Logo (PNG)", "Wolfyslayer Records — logotyp (PNG)"),
       type: "logo",
-      src: artistMediaPaths.labelMonogram,
+      src: artistMediaPaths.labelPressLogo,
       alt: L(
-        "Wolfyslayer Records WR rune monogram",
-        "Wolfyslayer Records WR-rune monogram",
+        "Wolfyslayer Records logo",
+        "Wolfyslayer Records logotyp",
       ),
       placeholder: false,
     },

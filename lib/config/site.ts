@@ -10,8 +10,8 @@ function resolveSiteUrl() {
   return `${rawSiteUrl}${siteBasePath}`;
 }
 
-/** Default Open Graph / Twitter preview (1200×630). */
-export const defaultOgImagePath = "/og-default.png";
+/** Default Open Graph / Twitter preview (official label banner). */
+export const defaultOgImagePath = "/assets/banners/label-hero-1280x512.webp";
 
 export const siteConfig = {
   name: "WOLFYSLAYER",

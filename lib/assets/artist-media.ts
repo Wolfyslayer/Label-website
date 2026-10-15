@@ -1,29 +1,29 @@
 import { siteBrandPaths } from "@/lib/assets/site-brand";
 
-/**
- * Canonical artist media paths (official raven / Viking artwork in `public/artists/`).
- * JPEGs may be refreshed from Spotify oEmbed via `scripts/sync-artist-images.mjs`.
- * Prefer `.jpg` over legacy labeled `.svg` stand-ins in `public/artists/`.
- */
+/** Official artist & banner paths under `public/assets/`. */
 export const artistMediaPaths = {
   frostmark: {
-    portrait: "/artists/frostmark-raven-portrait.jpg",
-    hero: "/artists/frostmark-raven-hero.jpg",
+    portrait: "/assets/artists/frostmark/profile-1024.webp",
+    portrait512: "/assets/artists/frostmark/profile-512.webp",
+    hero: "/assets/banners/frostmark-hero-1280x512.webp",
+    hero2x: "/assets/banners/frostmark-hero-2560x1024.webp",
+    background: "/assets/backgrounds/frostmark-dark-1920x1080.webp",
+    socialSquare: "/assets/social/frostmark-square-1080.webp",
     portraitAlt: "Frostmark — official artist profile",
     heroAlt: "Frostmark — artist hero",
   },
   wolfyslayer: {
-    portrait: "/artists/wolfyslayer-viking-portrait.jpg",
-    hero: "/artists/wolfyslayer-viking-hero.jpg",
+    portrait: "/assets/artists/wolfyslayer/profile-1024.webp",
+    portrait512: "/assets/artists/wolfyslayer/profile-512.webp",
+    hero: "/assets/banners/wolfyslayer-hero-1280x512.webp",
+    hero2x: "/assets/banners/wolfyslayer-hero-2560x1024.webp",
+    background: "/assets/backgrounds/wolfyslayer-dark-1920x1080.webp",
+    socialSquare: "/assets/social/wolfyslayer-square-1080.webp",
     portraitAlt: "Wolfyslayer — official artist profile",
     heroAlt: "Wolfyslayer — artist hero",
   },
   labelMonogram: siteBrandPaths.wrRuneMonogram,
+  labelPressLogo: siteBrandPaths.logoLightPng,
 } as const;
 
-export const missingOfficialAssets = [
-  "public/assets/brand/wolfyslayer-records-wordmark.svg — full label wordmark for press",
-  "Higher-resolution frostmark-raven-portrait.jpg (current file is 320×320 oEmbed)",
-  "Higher-resolution wolfyslayer-viking-portrait.jpg (current file is 320×320 oEmbed)",
-  "Per-release cover files under public/assets/releases/ when titles are confirmed",
-] as const;
+export const missingOfficialAssets = [] as const;

@@ -1,3 +1,4 @@
+import { publicAssetPath, siteBrandPaths } from "@/lib/assets/site-brand";
 import { siteConfig } from "@/lib/config/site";
 import { siteDefaultOpenGraph } from "@/lib/metadata/open-graph";
 import type { Metadata } from "next";
@@ -28,6 +29,8 @@ export const viewport = {
   viewportFit: "cover" as const,
 };
 
+const { favicon } = siteBrandPaths;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -41,8 +44,21 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    icon: [
+      { url: publicAssetPath(favicon.svg), type: "image/svg+xml" },
+      { url: publicAssetPath(favicon.png32), sizes: "32x32", type: "image/png" },
+      { url: publicAssetPath(favicon.png48), sizes: "48x48", type: "image/png" },
+      { url: publicAssetPath(favicon.png192), sizes: "192x192", type: "image/png" },
+      { url: publicAssetPath(favicon.png512), sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: [publicAssetPath(favicon.png48)],
+    apple: [
+      {
+        url: publicAssetPath(favicon.png180),
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
 };
 

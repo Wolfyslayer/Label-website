@@ -53,9 +53,14 @@ if (!html.includes("twitter:card") && !html.includes('name="twitter:card"')) {
   fail("Home HTML missing Twitter card meta");
 }
 
-if (!existsSync(join(out, "og-default.png"))) fail("Missing out/og-default.png");
-if (!existsSync(join(out, "assets/brand/wr-rune-monogram.svg"))) {
-  fail("Missing out/assets/brand/wr-rune-monogram.svg");
+if (!existsSync(join(out, "assets/favicons/favicon.svg"))) {
+  fail("Missing out/assets/favicons/favicon.svg");
+}
+if (!existsSync(join(out, "assets/favicons/icon-180.png"))) {
+  fail("Missing out/assets/favicons/icon-180.png");
+}
+if (!existsSync(join(out, "assets/banners/label-hero-1280x512.webp"))) {
+  fail("Missing out/assets/banners/label-hero-1280x512.webp");
 }
 if (!existsSync(join(out, "CNAME"))) fail("Missing out/CNAME");
 
