@@ -5,8 +5,7 @@
  * Requires: npm run build && npm run start -- -p 3456 (or set PLAYWRIGHT_BASE_URL)
  */
 import { execFileSync } from "node:child_process";
-import { accessSync, constants } from "node:fs";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { accessSync, constants, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -56,6 +55,9 @@ for (const path of routes) {
     const seo = report.categories?.seo?.score;
     const bestPractices = report.categories?.["best-practices"]?.score;
     const audits = report.audits ?? {};
+    if ([perf, a11y, seo, bestPractices].some((score) => typeof score !== "number")) {
+      throw new Error("Lighthouse report is missing one or more category scores");
+    }
     summary.push({
       url,
       performanceScore: perf != null ? Math.round(perf * 100) : null,
@@ -68,7 +70,9 @@ for (const path of routes) {
     });
   } catch (err) {
     failures += 1;
-    summary.push({ url, error: String(err.message ?? err) });
+    const error = String(err.message ?? err);
+    console.error(`Lighthouse audit failed for ${url}: ${error}`);
+    summary.push({ url, error });
   }
 }
 
