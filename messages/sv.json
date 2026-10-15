@@ -27,10 +27,8 @@
     "contact": "Kontakt",
     "general": "Allmänna förfrågningar",
     "press": "Press & media",
-    "emailEnv": "E-post konfigureras via miljövariabler",
     "rights": "Alla rättigheter förbehållna.",
     "tagline": "Independent label · Frostmark · Wolfyslayer",
-    "socialEnv": "Sociala länkar visas när de konfigurerats i miljövariabler.",
     "socialAria": {
       "instagram": "Instagram (öppnas i ny flik)",
       "youtube": "YouTube (öppnas i ny flik)",
@@ -194,26 +192,27 @@
     "metaDescription": "Kontakta Wolfyslayer Records.",
     "eyebrow": "Hör av dig",
     "title": "Kontakt",
-    "description": "Allmänna förfrågningar, licensiering och samarbeten. Vi svarar när vi kan.",
+    "description": "Allmänna förfrågningar, licensiering och samarbeten. Vi läser varje meddelande och återkommer när vi kan.",
+    "emailHeading": "E-post",
     "emailLabel": "E-post",
-    "privacyNotice": "Vi använder ditt namn och din e-post endast för att svara på det här meddelandet. Inskick kan lagras säkert när Supabase är konfigurerat, eller levereras via er CONTACT_WEBHOOK_URL. Vi säljer inte kontaktuppgifter.",
-    "privacyStatic": "Statisk hosting skickar formuläret endast till er konfigurerade publika endpoint (ingen serverside-lagring i den här builden)."
+    "socialHeading": "Följ bolaget",
+    "formHeading": "Skicka meddelande",
+    "unavailable": "Direkta kontaktuppgifter listas inte här ännu. Kolla gärna tillbaka snart eller följ våra artister på Spotify.",
+    "privacyNoticeForm": "Vi använder uppgifterna du skickar in endast för att svara på ditt meddelande. Vi säljer inte kontaktuppgifter."
   },
   "pressPage": {
     "metaTitle": "Presskit",
     "metaDescription": "Godkända pressmaterial och biografier för Wolfyslayer Records.",
     "eyebrow": "Media",
     "title": "Presskit",
-    "description": "Ladda ner godkända logotyper och fotografier. Ersätt platshållare innan extern distribution.",
-    "labelContact": "Bolagskontakt",
-    "pressInquiries": "Pressförfrågningar",
-    "configureEmail": "Konfigurera NEXT_PUBLIC_PRESS_EMAIL eller kontakt-e-post",
+    "description": "Officiella logotyper, artistfotografier och godkända biografier för Frostmark och Wolfyslayer.",
+    "labelContact": "Presskontakt",
+    "pressInquiries": "För intervjuer, synk och mediebruk av material:",
     "portraits": "Artistporträtt",
     "viewArtist": "Artistsida",
     "logos": "Officiella logotyper",
     "assets": "Övrigt material",
     "download": "Ladda ner",
-    "downloadMissing": "URL för högupplöst nedladdning saknas",
     "bios": "Artistbiografier",
     "short": "Kort",
     "long": "Lång"
@@ -226,18 +225,15 @@
     "send": "Skicka meddelande",
     "sending": "Skickar…",
     "success": "Tack — ditt meddelande har mottagits. Vi återkommer när vi kan.",
-    "websiteHoneypot": "Webbplats",
-    "disabledStatic": "Kontaktformuläret är inte kopplat på den statiska webbplatsen ännu. Konfigurera NEXT_PUBLIC_CONTACT_FORM_ENDPOINT i GitHub Actions, eller använd e-postadressen på sidan när den är tillgänglig."
+    "websiteHoneypot": "Webbplats"
   },
   "contactErrors": {
     "network": "Nätverksfel. Försök igen.",
     "generic": "Meddelandet kunde inte skickas.",
     "rateLimit": "För många förfrågningar. Försök igen senare.",
     "invalidJson": "Ogiltig förfrågan.",
-    "storeFailed": "Meddelandet kunde inte sparas. Försök igen eller maila oss direkt.",
-    "deliveryFailed": "Leveransen misslyckades.",
-    "notConfigured": "Kontaktformuläret är inte konfigurerat. Sätt upp Supabase eller CONTACT_WEBHOOK_URL.",
-    "staticOnly": "På statisk hosting: sätt NEXT_PUBLIC_CONTACT_FORM_ENDPOINT (t.ex. Formspree) eller maila oss direkt."
+    "storeFailed": "Meddelandet kunde inte skickas. Försök igen eller maila oss direkt.",
+    "deliveryFailed": "Vi kunde inte skicka ditt meddelande. Försök igen senare eller maila oss direkt."
   },
   "validation": {
     "nameMin": "Namnet måste vara minst 2 tecken",

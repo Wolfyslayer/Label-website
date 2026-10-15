@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingLinks } from "@/components/music/streaming-links";
 import { Link } from "@/i18n/navigation";
 import { getPressAssets, getPublishedArtists } from "@/lib/content";
+import { getPublicPressEmail } from "@/lib/config/public-contact";
 import { pressAssetDownloadHref } from "@/lib/press/downloads";
-import { siteConfig } from "@/lib/config/site";
 import { buildAlternates } from "@/lib/metadata/alternates";
 import { pageOpenGraph } from "@/lib/metadata/open-graph";
 import { resolvePageLocale, type LocalePageParams } from "@/lib/i18n/page-locale";
@@ -31,8 +30,9 @@ export default async function PressPage({ params }: LocalePageParams) {
   const locale = await resolvePageLocale(params);
   const t = await getTranslations("pressPage");
   const [assets, artists] = await Promise.all([getPressAssets(locale), getPublishedArtists(locale)]);
-  const logos = assets.filter((a) => a.type === "logo");
-  const otherAssets = assets.filter((a) => a.type !== "logo");
+  const logos = assets.filter((a) => a.type === "logo" && !a.placeholder);
+  const otherAssets = assets.filter((a) => a.type !== "logo" && !a.placeholder);
+  const pressEmail = getPublicPressEmail();
 
   return (
     <div className="page-offset">
@@ -44,24 +44,20 @@ export default async function PressPage({ params }: LocalePageParams) {
           headingLevel={1}
         />
 
-        <section className="mb-16" aria-labelledby="press-contact-heading">
-          <h2 id="press-contact-heading" className="font-display text-2xl">
-            {t("labelContact")}
-          </h2>
-          <p className="mt-4 text-sm text-text-secondary">
-            {t("pressInquiries")}:{" "}
-            {siteConfig.pressEmail || siteConfig.contactEmail ? (
-              <a
-                href={`mailto:${siteConfig.pressEmail || siteConfig.contactEmail}`}
-                className="text-accent"
-              >
-                {siteConfig.pressEmail || siteConfig.contactEmail}
-              </a>
-            ) : (
-              <span className="text-text-muted">{t("configureEmail")}</span>
-            )}
-          </p>
-        </section>
+        {pressEmail ? (
+          <section className="mb-14 surface-panel p-5 sm:p-6" aria-labelledby="press-contact-heading">
+            <h2 id="press-contact-heading" className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
+              {t("labelContact")}
+            </h2>
+            <p className="mt-3 text-sm text-text-secondary">{t("pressInquiries")}</p>
+            <a
+              href={`mailto:${pressEmail}`}
+              className="mt-2 inline-flex min-h-11 items-center font-display text-lg text-accent transition-colors hover:text-text-primary"
+            >
+              {pressEmail}
+            </a>
+          </section>
+        ) : null}
 
         <section className="mb-16" aria-labelledby="press-portraits-heading">
           <h2 id="press-portraits-heading" className="mb-8 font-display text-2xl">
@@ -74,7 +70,6 @@ export default async function PressPage({ params }: LocalePageParams) {
                 className="overflow-hidden rounded-sm border border-border-subtle bg-charcoal/40"
               >
                 <div className="relative aspect-[4/5] bg-surface">
-                  {artist.image.placeholder ? <PlaceholderBanner /> : null}
                   <Image
                     src={artist.image.src}
                     alt={artist.image.alt}
@@ -83,9 +78,11 @@ export default async function PressPage({ params }: LocalePageParams) {
                     sizes="(max-width: 640px) 100vw, 50vw"
                   />
                 </div>
-                <div className="p-4">
+                <div className="p-4 sm:p-5">
                   <h3 className="font-display text-xl text-text-primary">{artist.name}</h3>
-                  <p className="mt-2 line-clamp-3 text-sm text-text-secondary">{artist.shortBio}</p>
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-text-secondary">
+                    {artist.shortBio}
+                  </p>
                   <Link
                     href={`/artists/${artist.slug}`}
                     className="mt-4 inline-flex min-h-11 items-center text-xs uppercase tracking-[0.2em] text-accent hover:text-text-primary"
@@ -112,7 +109,6 @@ export default async function PressPage({ params }: LocalePageParams) {
                     className="overflow-hidden rounded-sm border border-border-subtle bg-charcoal/40"
                   >
                     <div className="relative aspect-[4/3] bg-surface">
-                      {asset.placeholder ? <PlaceholderBanner /> : null}
                       <Image src={asset.src} alt={asset.alt} fill className="object-contain p-4" />
                     </div>
                     <div className="p-4">
@@ -121,9 +117,7 @@ export default async function PressPage({ params }: LocalePageParams) {
                         <Button href={downloadHref} external variant="ghost" size="sm" className="mt-3">
                           {t("download")}
                         </Button>
-                      ) : (
-                        <p className="mt-2 text-xs text-text-muted">{t("downloadMissing")}</p>
-                      )}
+                      ) : null}
                     </div>
                   </li>
                 );
@@ -146,7 +140,6 @@ export default async function PressPage({ params }: LocalePageParams) {
                     className="overflow-hidden rounded-sm border border-border-subtle bg-charcoal/40"
                   >
                     <div className="relative aspect-[4/3] bg-surface">
-                      {asset.placeholder ? <PlaceholderBanner /> : null}
                       <Image src={asset.src} alt={asset.alt} fill className="object-contain p-4" />
                     </div>
                     <div className="p-4">
@@ -155,9 +148,7 @@ export default async function PressPage({ params }: LocalePageParams) {
                         <Button href={downloadHref} external variant="ghost" size="sm" className="mt-3">
                           {t("download")}
                         </Button>
-                      ) : (
-                        <p className="mt-2 text-xs text-text-muted">{t("downloadMissing")}</p>
-                      )}
+                      ) : null}
                     </div>
                   </li>
                 );
@@ -186,7 +177,7 @@ export default async function PressPage({ params }: LocalePageParams) {
                 </div>
               </div>
               <div className="mt-6">
-                <StreamingLinks links={artist.streamingLinks} />
+                <StreamingLinks links={artist.streamingLinks} hideIfEmpty />
               </div>
             </article>
           ))}

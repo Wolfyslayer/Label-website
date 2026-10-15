@@ -34,7 +34,7 @@ export function SocialLinks({
   }
 
   if (!entries.length) {
-    return <p className={cn("text-xs text-text-muted", className)}>{t("socialEnv")}</p>;
+    return null;
   }
 
   return (

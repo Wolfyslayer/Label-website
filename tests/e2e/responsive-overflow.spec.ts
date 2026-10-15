@@ -80,7 +80,7 @@ test.describe("responsive overflow audit", () => {
       document.documentElement.style.fontSize = "125%";
     });
     await assertNoHorizontalOverflow(page);
-    await expect(page.getByRole("status")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("long search string on music catalog", async ({ page }) => {

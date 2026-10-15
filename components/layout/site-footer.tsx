@@ -78,9 +78,7 @@ export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks })
                     {siteConfig.contactEmail}
                   </a>
                 </li>
-              ) : (
-                <li className="text-text-muted">{tFooter("emailEnv")}</li>
-              )}
+              ) : null}
             </ul>
           </div>
         </div>

@@ -24,8 +24,9 @@ test.describe("accessibility smoke", () => {
 
   test("contact page accessibility when form disabled", async ({ page }) => {
     await page.goto("/en/contact");
-    await expect(page.getByRole("status")).toContainText(/not connected|inte kopplat/i);
-    await expect(page.locator("#contact-privacy")).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: /contact/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /send message/i })).toHaveCount(0);
+    await expect(page.locator("#contact-privacy")).toHaveCount(0);
   });
 
   test("reduced motion preference respected in CSS", async ({ page }) => {
