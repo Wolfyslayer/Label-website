@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "check:quality": "npm run lint && npm run typecheck",
     "sync-artist-images": "node scripts/sync-artist-images.mjs",
     "generate-brand-icons": "node scripts/generate-brand-icons.mjs",
     "sync:icons": "node scripts/sync-public-icons.mjs",
