@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-52CPRumFLza4Q86MIjuA8Y",
+  "slug": "hitta-hem-igen-6mijua8y",
+  "title": "Hitta Hem Igen",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-22",
+  "releaseAt": "2026-09-22T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27317db8fb7e63ada0a20197b3d",
+    "alt": {
+      "en": "Hitta Hem Igen — cover artwork",
+      "sv": "Hitta Hem Igen — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/52CPRumFLza4Q86MIjuA8Y"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/52CPRumFLza4Q86MIjuA8Y",
+  "spotifyAlbumId": "52CPRumFLza4Q86MIjuA8Y",
+  "trackIds": [
+    "track-spotify-0adsacVVnit2Ig07MpBkKG"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

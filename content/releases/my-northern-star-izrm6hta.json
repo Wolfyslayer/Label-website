@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-0VW6QHpMxH3HmCIzrm6hTa",
+  "slug": "my-northern-star-izrm6hta",
+  "title": "My Northern Star",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-27",
+  "releaseAt": "2026-06-27T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273dd8953e402752676826ad212",
+    "alt": {
+      "en": "My Northern Star — cover artwork",
+      "sv": "My Northern Star — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/0VW6QHpMxH3HmCIzrm6hTa"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/0VW6QHpMxH3HmCIzrm6hTa",
+  "spotifyAlbumId": "0VW6QHpMxH3HmCIzrm6hTa",
+  "trackIds": [
+    "track-spotify-2zyewcnD8JFtXkTDgc0Y8u"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

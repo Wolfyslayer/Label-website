@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-7LHye9xUKMqRhB3Ax3KBL9",
+  "slug": "vad-blir-kvar-3ax3kbl9",
+  "title": "Vad blir kvar?",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2732c49a0be5f2c5c7e067dc4ba",
+    "alt": {
+      "en": "Vad blir kvar? — cover artwork",
+      "sv": "Vad blir kvar? — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/7LHye9xUKMqRhB3Ax3KBL9"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/7LHye9xUKMqRhB3Ax3KBL9",
+  "spotifyAlbumId": "7LHye9xUKMqRhB3Ax3KBL9",
+  "trackIds": [
+    "track-spotify-6lKkftYTn9qKZSKu5Auvyz"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

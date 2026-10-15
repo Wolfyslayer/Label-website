@@ -1,0 +1,42 @@
+{
+  "id": "release-spotify-2eFzijVy9oMHOKke7R4ohz",
+  "slug": "dottrar-av-norden-ke7r4ohz",
+  "title": "Döttrar av norden",
+  "artistId": "artist-frostmark",
+  "type": "album",
+  "releaseDate": "2026-10-13",
+  "releaseAt": "2026-10-13T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2731566dea71e1487e090d18cfb",
+    "alt": {
+      "en": "Döttrar av norden — cover artwork",
+      "sv": "Döttrar av norden — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/2eFzijVy9oMHOKke7R4ohz"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/2eFzijVy9oMHOKke7R4ohz",
+  "spotifyAlbumId": "2eFzijVy9oMHOKke7R4ohz",
+  "trackIds": [
+    "track-spotify-6iAb0o494nV629hM8dVXjo",
+    "track-spotify-1HhrAZQKYb284AAiryBkQQ",
+    "track-spotify-32u1iiTDFDQi1rqufaTYj7",
+    "track-spotify-3pDuYYcWAWZRQ5w0qdITWE",
+    "track-spotify-65xU9EYgIjJYQX14tZipkP",
+    "track-spotify-3SI9sPJmEnmIxmPXpxPCmy",
+    "track-spotify-3GcHXy1EeR1eCZqOFOPRfb",
+    "track-spotify-7nncT0Tczo7eONkEPKu8cx",
+    "track-spotify-68AyuxegNWK3Lr9o8WnJGn",
+    "track-spotify-4V2SDIonL1dT8nEKvhN5xH"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

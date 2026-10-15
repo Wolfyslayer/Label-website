@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-14HTdnFensu3byEIhg8tWD",
+  "slug": "firelight-and-fate-eihg8twd",
+  "title": "Firelight and Fate",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-24",
+  "releaseAt": "2026-06-24T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27324d968a4b3019afce47591c0",
+    "alt": {
+      "en": "Firelight and Fate — cover artwork",
+      "sv": "Firelight and Fate — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/14HTdnFensu3byEIhg8tWD"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/14HTdnFensu3byEIhg8tWD",
+  "spotifyAlbumId": "14HTdnFensu3byEIhg8tWD",
+  "trackIds": [
+    "track-spotify-1qErHMRJZkrbaosthHKtD8"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

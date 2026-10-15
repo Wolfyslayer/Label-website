@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-3A3w7XfjHMBkoSSxssNS7N",
+  "slug": "till-the-ravens-sleep-sxssns7n",
+  "title": "Till The Ravens Sleep",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-27",
+  "releaseAt": "2026-06-27T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273e65fa79eceaace659502ce33",
+    "alt": {
+      "en": "Till The Ravens Sleep — cover artwork",
+      "sv": "Till The Ravens Sleep — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/3A3w7XfjHMBkoSSxssNS7N"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/3A3w7XfjHMBkoSSxssNS7N",
+  "spotifyAlbumId": "3A3w7XfjHMBkoSSxssNS7N",
+  "trackIds": [
+    "track-spotify-5QvZGRKETk9c1OegEzz5PQ"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

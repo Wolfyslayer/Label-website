@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-0M4X7bryZp059x4ejz5CFu",
+  "slug": "nar-muren-spricker-4ejz5cfu",
+  "title": "När muren spricker",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-29",
+  "releaseAt": "2026-09-29T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27319ca67f3a9fc186856b31dc6",
+    "alt": {
+      "en": "När muren spricker — cover artwork",
+      "sv": "När muren spricker — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/0M4X7bryZp059x4ejz5CFu"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/0M4X7bryZp059x4ejz5CFu",
+  "spotifyAlbumId": "0M4X7bryZp059x4ejz5CFu",
+  "trackIds": [
+    "track-spotify-5fid13mhpPQYFaz8JAkWlC"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

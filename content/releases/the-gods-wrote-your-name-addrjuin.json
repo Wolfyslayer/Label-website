@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-3bbNMWcj6gK9LnADDRJuin",
+  "slug": "the-gods-wrote-your-name-addrjuin",
+  "title": "The Gods Wrote Your Name",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-24",
+  "releaseAt": "2026-06-24T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27393d4bbd7295e198b07c93db9",
+    "alt": {
+      "en": "The Gods Wrote Your Name — cover artwork",
+      "sv": "The Gods Wrote Your Name — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/3bbNMWcj6gK9LnADDRJuin"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/3bbNMWcj6gK9LnADDRJuin",
+  "spotifyAlbumId": "3bbNMWcj6gK9LnADDRJuin",
+  "trackIds": [
+    "track-spotify-0PefelzCCTNHRN0UpQgfDL"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

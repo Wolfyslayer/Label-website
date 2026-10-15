@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-3wdEEKOrUWxj3YQ3sttxVZ",
+  "slug": "lat-dem-komma-hem-q3sttxvz",
+  "title": "Låt Dem Komma Hem",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27361932014bedc372ffeb1b5d9",
+    "alt": {
+      "en": "Låt Dem Komma Hem — cover artwork",
+      "sv": "Låt Dem Komma Hem — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/3wdEEKOrUWxj3YQ3sttxVZ"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/3wdEEKOrUWxj3YQ3sttxVZ",
+  "spotifyAlbumId": "3wdEEKOrUWxj3YQ3sttxVZ",
+  "trackIds": [
+    "track-spotify-44SPRs9zwStCbiEkHjKkld"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

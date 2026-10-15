@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-22XiDaclBsEwWwmFGi8lu6",
+  "slug": "before-we-even-met-mfgi8lu6",
+  "title": "Before We Even Met",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-09-05",
+  "releaseAt": "2026-09-05T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b27319267da7b27742a13b9cc724",
+    "alt": {
+      "en": "Before We Even Met — cover artwork",
+      "sv": "Before We Even Met — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/22XiDaclBsEwWwmFGi8lu6"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/22XiDaclBsEwWwmFGi8lu6",
+  "spotifyAlbumId": "22XiDaclBsEwWwmFGi8lu6",
+  "trackIds": [
+    "track-spotify-7lbXkBW42t6frqjIILqFeG"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

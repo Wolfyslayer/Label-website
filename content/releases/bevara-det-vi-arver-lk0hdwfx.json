@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-3rJ1mxiFKewdcELk0hdwfX",
+  "slug": "bevara-det-vi-arver-lk0hdwfx",
+  "title": "Bevara Det Vi Ärver",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273185797657a91fd8874b6add0",
+    "alt": {
+      "en": "Bevara Det Vi Ärver — cover artwork",
+      "sv": "Bevara Det Vi Ärver — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/3rJ1mxiFKewdcELk0hdwfX"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/3rJ1mxiFKewdcELk0hdwfX",
+  "spotifyAlbumId": "3rJ1mxiFKewdcELk0hdwfX",
+  "trackIds": [
+    "track-spotify-1ZL6zbsrzOKu02VVRPbDX6"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

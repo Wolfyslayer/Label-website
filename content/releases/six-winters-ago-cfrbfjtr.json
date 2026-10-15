@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-2LZ3hQUJpiUwGTcfrBfjtR",
+  "slug": "six-winters-ago-cfrbfjtr",
+  "title": "Six Winters Ago",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-24",
+  "releaseAt": "2026-06-24T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2734071ecbc14df0de6eb00f15b",
+    "alt": {
+      "en": "Six Winters Ago — cover artwork",
+      "sv": "Six Winters Ago — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/2LZ3hQUJpiUwGTcfrBfjtR"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/2LZ3hQUJpiUwGTcfrBfjtR",
+  "spotifyAlbumId": "2LZ3hQUJpiUwGTcfrBfjtR",
+  "trackIds": [
+    "track-spotify-47HIkDDn73KeRHsfmDDWkI"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

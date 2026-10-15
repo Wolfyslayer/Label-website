@@ -1,0 +1,42 @@
+{
+  "id": "release-spotify-5qLxYP3rGLGG1ntGTiXFrU",
+  "slug": "a-viking-love-story-tgtixfru",
+  "title": "A Viking Love Story",
+  "artistId": "artist-wolfyslayer",
+  "type": "album",
+  "releaseDate": "2026-06-30",
+  "releaseAt": "2026-06-30T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2739a54778d02751c0cb02d1a50",
+    "alt": {
+      "en": "A Viking Love Story — cover artwork",
+      "sv": "A Viking Love Story — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/5qLxYP3rGLGG1ntGTiXFrU"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/5qLxYP3rGLGG1ntGTiXFrU",
+  "spotifyAlbumId": "5qLxYP3rGLGG1ntGTiXFrU",
+  "trackIds": [
+    "track-spotify-6eqP6cWyR4krdhFudAODdn",
+    "track-spotify-6o4bgyDNBgdd1k2BHEx8g4",
+    "track-spotify-0Rhvcymfgus82FVrbt7hqO",
+    "track-spotify-6Wnu65tS6XDhg5e57e2zw8",
+    "track-spotify-1HKTayXgNQS8wIPM8cB6sr",
+    "track-spotify-46wdXSbdNXi9g45hQVQ17T",
+    "track-spotify-4b0CiSb6yTSMsL2BaDHX5K",
+    "track-spotify-6kBJz3AqAjw7p2IRwhVaEO",
+    "track-spotify-36Uw2LFfuF19WLWanztihu",
+    "track-spotify-6kVjxHbw70Xl32lNDvDF5k"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-0MQl8Cbj3dqWzBiSJxWVBp",
+  "slug": "vad-lamnar-vi-efter-oss-isjxwvbp",
+  "title": "Vad lämnar vi efter oss?",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-19",
+  "releaseAt": "2026-09-19T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273611cc97883e9a000ef4a3335",
+    "alt": {
+      "en": "Vad lämnar vi efter oss? — cover artwork",
+      "sv": "Vad lämnar vi efter oss? — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/0MQl8Cbj3dqWzBiSJxWVBp"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/0MQl8Cbj3dqWzBiSJxWVBp",
+  "spotifyAlbumId": "0MQl8Cbj3dqWzBiSJxWVBp",
+  "trackIds": [
+    "track-spotify-0KOo2HzoNHI2QZCBzzgMaQ"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

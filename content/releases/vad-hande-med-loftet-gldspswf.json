@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-12jiRNqhGMBt2YGlDSPSWf",
+  "slug": "vad-hande-med-loftet-gldspswf",
+  "title": "Vad hände med löftet?",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-09-30",
+  "releaseAt": "2026-09-30T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273ebe5d2aa8ccf589acc07bf69",
+    "alt": {
+      "en": "Vad hände med löftet? — cover artwork",
+      "sv": "Vad hände med löftet? — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/12jiRNqhGMBt2YGlDSPSWf"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/12jiRNqhGMBt2YGlDSPSWf",
+  "spotifyAlbumId": "12jiRNqhGMBt2YGlDSPSWf",
+  "trackIds": [
+    "track-spotify-7Ek2cG6jtIVmldrBV8truD"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

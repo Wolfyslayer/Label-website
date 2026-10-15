@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-5QoyizGXWjfgG54na1asVE",
+  "slug": "ett-folk-ett-hem-4na1asve",
+  "title": "Ett Folk, Ett Hem",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-14",
+  "releaseAt": "2026-10-14T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273ae2b1c567cddd8ee1bcf62d7",
+    "alt": {
+      "en": "Ett Folk, Ett Hem — cover artwork",
+      "sv": "Ett Folk, Ett Hem — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/5QoyizGXWjfgG54na1asVE"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/5QoyizGXWjfgG54na1asVE",
+  "spotifyAlbumId": "5QoyizGXWjfgG54na1asVE",
+  "trackIds": [
+    "track-spotify-15LXm2oakkpHLoX933vBN2"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

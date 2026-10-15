@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-2eOBU0IDLlTbQfDhj8cVKX",
+  "slug": "where-the-longships-sleep-dhj8cvkx",
+  "title": "Where The Longships Sleep",
+  "artistId": "artist-wolfyslayer",
+  "type": "single",
+  "releaseDate": "2026-06-27",
+  "releaseAt": "2026-06-27T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273476140b689c0f1e0e5a74a7a",
+    "alt": {
+      "en": "Where The Longships Sleep — cover artwork",
+      "sv": "Where The Longships Sleep — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/2eOBU0IDLlTbQfDhj8cVKX"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/2eOBU0IDLlTbQfDhj8cVKX",
+  "spotifyAlbumId": "2eOBU0IDLlTbQfDhj8cVKX",
+  "trackIds": [
+    "track-spotify-2PoZJztGjXvLmZgpXzXzE0"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}
