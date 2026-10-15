@@ -132,6 +132,7 @@ function validateAssetPaths(source: SiteContentSource): ContentValidationIssue[]
 
   function checkImage(context: string, id: string, src: string, placeholder: boolean) {
     if (placeholder) return;
+    if (src.startsWith("https://")) return;
     const full = join(publicRoot, src.replace(/^\//, ""));
     if (!existsSync(full)) {
       issues.push({ path: `${context}:${id}`, message: `Missing artwork file public${src}` });

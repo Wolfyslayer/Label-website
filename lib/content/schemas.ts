@@ -9,7 +9,13 @@ export const localizedStringSchema = z.object({
 });
 
 export const imageAssetSourceSchema = z.object({
-  src: z.string().min(1).regex(/^\//, "Image src must be a site path starting with /"),
+  src: z
+    .string()
+    .min(1)
+    .refine(
+      (s) => s.startsWith("/") || s.startsWith("https://"),
+      "Image src must be a site path (/) or https URL",
+    ),
   alt: localizedStringSchema,
   placeholder: z.boolean(),
 });
@@ -68,9 +74,13 @@ export const trackSchema = z.object({
   artistId: z.string().min(1),
   releaseId: z.string().min(1),
   trackNumber: z.number().int().positive(),
+  discNumber: z.number().int().positive().optional(),
   durationSeconds: z.number().int().positive().optional(),
   spotifyTrackUrl: httpsUrl.optional(),
+  spotifyTrackId: z.string().min(1).optional(),
 });
+
+export const releaseDatePrecisionSchema = z.enum(["year", "month", "day"]);
 
 export const releaseSourceSchema = z.object({
   id: z.string().min(1),
@@ -80,15 +90,18 @@ export const releaseSourceSchema = z.object({
   type: releaseTypeSchema,
   releaseDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD"),
   releaseAt: z.string().datetime({ message: "Use ISO 8601 UTC, e.g. 2026-11-20T00:00:00.000Z" }),
+  releaseDatePrecision: releaseDatePrecisionSchema.optional(),
   description: localizedStringSchema,
   credits: localizedStringSchema.optional(),
   cover: imageAssetSourceSchema,
   streamingLinks: streamingLinksSchema.default({}),
   spotifyAlbumUrl: httpsUrl.optional(),
+  spotifyAlbumId: z.string().min(1).optional(),
   trackIds: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
   status: contentStatusSchema,
   preSaveUrl: httpsUrl.optional(),
+  importSource: z.literal("spotify").optional(),
 });
 
 /** gray-matter parses YAML datetimes as JavaScript Date objects. */

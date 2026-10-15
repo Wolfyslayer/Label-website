@@ -13,12 +13,8 @@ excerpt:
 body:
   en: |
     This site is the official digital home of Wolfyslayer Records. Here you will find music, news, and updates for Frostmark and Wolfyslayer.
-
-    [Placeholder announcement — replace with your first official post.]
   sv: |
     Den här webbplatsen är Wolfyslayer Records officiella digitala hem. Här hittar du musik, nyheter och uppdateringar för Frostmark och Wolfyslayer.
-
-    [Platshållare — ersätt med ert första officiella inlägg.]
 cover:
   src: /assets/social/frostmark-square-1080.webp
   alt:

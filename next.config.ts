@@ -13,15 +13,32 @@ const nextConfig: NextConfig = {
   ...(basePath ? { basePath: `/${basePath}` } : {}),
   images: {
     unoptimized: staticExport,
-    remotePatterns: staticExport
-      ? undefined
-      : [
-          {
-            protocol: "https",
-            hostname: "*.supabase.co",
-            pathname: "/storage/v1/object/public/**",
-          },
-        ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.scdn.co",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "image-cdn-ak.spotifycdn.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "image-cdn-fa.spotifycdn.com",
+        pathname: "/**",
+      },
+      ...(staticExport
+        ? []
+        : [
+            {
+              protocol: "https" as const,
+              hostname: "*.supabase.co",
+              pathname: "/storage/v1/object/public/**",
+            },
+          ]),
+    ],
     formats: staticExport ? undefined : ["image/avif", "image/webp"],
   },
   ...(staticExport

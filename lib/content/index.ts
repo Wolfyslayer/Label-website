@@ -143,9 +143,11 @@ export async function getReleasedCatalog(locale: AppLocale): Promise<Release[]> 
 
 export async function getFeaturedRelease(locale: AppLocale): Promise<Release | null> {
   const source = await loadContentSource();
-  if (!source.featuredReleaseId) return null;
+  const { pickFeaturedReleaseId } = await import("@/lib/content/featured-release");
+  const id = pickFeaturedReleaseId(source.releases, source.featuredReleaseId);
+  if (!id) return null;
   const releases = await getPublishedReleases(locale);
-  return releases.find((r) => r.id === source.featuredReleaseId) ?? null;
+  return releases.find((r) => r.id === id) ?? null;
 }
 
 export async function getLabelInfo(locale: AppLocale): Promise<LabelInfo> {

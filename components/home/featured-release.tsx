@@ -52,7 +52,7 @@ export async function FeaturedReleaseSection({
               {release.title}
             </h3>
             <p className="mt-2 text-sm uppercase tracking-widest text-text-muted">
-              {formatReleaseDate(release.releaseDate, dateLocale)}
+              {formatReleaseDate(release.releaseDate, dateLocale, release.releaseDatePrecision)}
             </p>
             <p className="mt-6 text-base leading-relaxed text-text-secondary">{release.description}</p>
             <div className="mt-8 space-y-4">

@@ -17,9 +17,10 @@ test.describe("functional smoke (seed / no Supabase)", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
-  test("music catalog empty state without placeholder releases", async ({ page }) => {
+  test("music catalog has no placeholder releases", async ({ page }) => {
     await page.goto("/en/music");
-    await expect(page.getByText(/no released music in the catalog/i)).toBeVisible();
+    await expect(page.getByText(/\[Placeholder/i)).toHaveCount(0);
+    await expect(page.getByText(/frostmark-placeholder-release/i)).toHaveCount(0);
   });
 
   test("artist page and Spotify embed iframe", async ({ page }) => {
