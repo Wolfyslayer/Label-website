@@ -1,0 +1,111 @@
+# Delete branches after they merge to main, and prune ALL remotes already merged into main.
+#
+# Requires: Settings → Actions → General → Workflow permissions →
+# "Read and write permissions" (GITHUB_TOKEN can delete refs).
+
+name: Cleanup merged branches
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    # Weekly Sunday 06:00 UTC — backup sweep
+    - cron: "0 6 * * 0"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "List branches only (do not delete)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: cleanup-merged-branches
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  delete-pr-branch:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete merged PR head branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          HEAD_REPO="${{ github.event.pull_request.head.repo.full_name }}"
+          BASE_REPO="${{ github.repository }}"
+          BRANCH="${{ github.event.pull_request.head.ref }}"
+
+          if [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+            echo "Skipping fork branch ($HEAD_REPO)."
+            exit 0
+          fi
+          if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+            echo "Skipping protected default branch name."
+            exit 0
+          fi
+
+          echo "Deleting merged branch: $BRANCH"
+          gh api -X DELETE "repos/${BASE_REPO}/git/refs/heads/${BRANCH}" \
+            && echo "Deleted $BRANCH" \
+            || echo "Branch $BRANCH already gone or not deletable (check protection rules)."
+
+  prune-merged-remotes:
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prune all remote branches already merged into main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'true' || 'false' }}
+        run: |
+          set -euo pipefail
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune
+          git fetch origin main
+
+          # Branches we never auto-delete
+          PROTECTED='^(main|master|develop|release/.+|production)$'
+
+          mapfile -t MERGED < <(
+            git branch -r --merged origin/main \
+              | sed 's|^[[:space:]]*origin/||' \
+              | grep -vE '^HEAD$' \
+              | grep -vE "$PROTECTED" \
+              | sort -u
+          )
+
+          if [ "${#MERGED[@]}" -eq 0 ]; then
+            echo "No merged remote branches to prune."
+            exit 0
+          fi
+
+          echo "Already merged into main (${#MERGED[@]} branch(es)):"
+          printf '  - %s\n' "${MERGED[@]}"
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Dry run — no branches deleted."
+            exit 0
+          fi
+
+          deleted=0
+          failed=0
+          for branch in "${MERGED[@]}"; do
+            if gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${branch}" 2>/dev/null; then
+              echo "Deleted $branch"
+              deleted=$((deleted + 1))
+            else
+              echo "Could not delete $branch (protection, default branch, or already removed)."
+              failed=$((failed + 1))
+            fi
+          done
+          echo "Done. Deleted: $deleted, skipped/failed: $failed"
