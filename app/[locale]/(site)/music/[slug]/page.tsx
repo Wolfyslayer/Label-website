@@ -78,13 +78,13 @@ export default async function ReleaseDetailPage({ params }: Props) {
       <div className="page-offset">
         <Container className="pb-12 md:pb-16">
           <div className="grid gap-10 lg:grid-cols-[minmax(min(100%,380px),520px)_1fr] lg:items-start lg:gap-16">
-            <div className="relative mx-auto aspect-square w-full max-w-[min(100%,520px)] shadow-2xl shadow-void/50 lg:mx-0 lg:max-w-none">
+            <div className="relative mx-auto aspect-square w-full max-w-[min(100%,520px)] overflow-hidden rounded-md border border-border-subtle shadow-[0_30px_80px_-35px_rgba(0,0,0,0.85)] lg:mx-0 lg:max-w-none">
               {release.cover.placeholder ? <PlaceholderBanner /> : null}
               <Image
                 src={release.cover.src}
                 alt={release.cover.alt}
                 fill
-                className="rounded-sm object-cover shadow-2xl ring-1 ring-border"
+                className="object-cover"
                 priority
                 sizes="(max-width: 1024px) 90vw, 480px"
               />
@@ -101,7 +101,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
                   </Link>
                 ) : null}
               </div>
-              <h1 className="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] leading-tight text-text-primary">
+              <h1 className="mt-5 font-display text-[clamp(2.25rem,5vw,4.25rem)] leading-[1.08] tracking-tight text-text-primary">
                 {release.title}
               </h1>
               <p className="mt-3 text-sm uppercase tracking-widest text-text-muted">
@@ -138,7 +138,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
                 <div className="mt-5"><SpotifyEmbed url={spotifyUrl} title={`${release.title} — Spotify`} /></div>
               </section>
             ) : null}
-            <section className="min-w-0 rounded-sm border border-border-subtle bg-surface/30 p-5 sm:p-7">
+            <section className="surface-panel min-w-0 rounded-md p-5 sm:p-7">
               <h2 className="type-h3 font-display text-text-primary">{t("shareRelease")}</h2>
               <p className="mt-3 text-sm leading-relaxed text-text-secondary">{t("shareReleaseHint")}</p>
               <div className="mt-5"><ReleaseHubActions shareUrl={shareUrl} shareTitle={`${release.title}${artist ? ` — ${artist.name}` : ""}`} /></div>
