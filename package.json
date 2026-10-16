@@ -22,6 +22,7 @@
     "sync:icons": "node scripts/sync-public-icons.mjs",
     "validate:seo": "node scripts/validate-seo-export.mjs",
     "verify:assets": "node scripts/verify-asset-paths.mjs",
+    "verify:export": "node scripts/verify-export-integrity.mjs",
     "test:manager": "tsx scripts/test-manager-export.ts",
     "test:e2e": "playwright test",
     "test:e2e:responsive": "playwright test tests/e2e/responsive-overflow.spec.ts",
