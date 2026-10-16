@@ -18,6 +18,7 @@ export function labelOrganizationJsonLd(locale: AppLocale) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.fullName,
     alternateName: siteConfig.name,
     url: absolutePublicPath(locale, "/"),
