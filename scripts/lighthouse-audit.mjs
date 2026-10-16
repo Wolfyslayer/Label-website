@@ -1,85 +1,84 @@
 #!/usr/bin/env node
-/**
- * Runs Lighthouse against a running production server.
- * Usage: PLAYWRIGHT_PORT=3456 node scripts/lighthouse-audit.mjs
- * Requires: npm run build && npm run start -- -p 3456 (or set PLAYWRIGHT_BASE_URL)
- */
 import { execFileSync } from "node:child_process";
 import { accessSync, constants, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const base =
-  process.env.PLAYWRIGHT_BASE_URL?.replace(/\/$/, "") ??
-  `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? "3456"}`;
-
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const base = process.env.PLAYWRIGHT_BASE_URL?.replace(/\/$/, "") ?? "http://127.0.0.1:3456";
 const routes = ["/en", "/en/music", "/en/artists/frostmark", "/en/contact"];
-const outDir = join(dirname(fileURLToPath(import.meta.url)), "..", "test-results", "lighthouse");
-mkdirSync(outDir, { recursive: true });
-
-const summary = [];
-let failures = 0;
-
-// Allow CI to invoke Lighthouse without downloading packages or prompting interactively.
-const lighthouseBin = process.platform === "win32" ? "lighthouse.cmd" : "lighthouse";
-const lighthousePath = join(dirname(fileURLToPath(import.meta.url)), "..", "node_modules", ".bin", lighthouseBin);
-try {
-  accessSync(lighthousePath, constants.X_OK);
-} catch {
-  console.error("Lighthouse executable not found. Run npm ci before auditing.");
+const repeats = Number(process.env.LIGHTHOUSE_RUNS ?? "3");
+if (!Number.isInteger(repeats) || repeats < 1 || repeats > 5) {
+  console.error("LIGHTHOUSE_RUNS must be an integer from 1 to 5.");
   process.exit(1);
 }
+const outDir = join(root, "test-results", "lighthouse");
+mkdirSync(outDir, { recursive: true });
+const binary = join(root, "node_modules", ".bin", process.platform === "win32" ? "lighthouse.cmd" : "lighthouse");
+try { accessSync(binary, constants.X_OK); } catch { console.error("Run npm ci before auditing."); process.exit(1); }
 
+const median = (values) => {
+  const numbers = values.filter((n) => typeof n === "number" && Number.isFinite(n)).sort((a, b) => a - b);
+  if (!numbers.length) return null;
+  const mid = Math.floor(numbers.length / 2);
+  return numbers.length % 2 ? numbers[mid] : (numbers[mid - 1] + numbers[mid]) / 2;
+};
+const selectorFrom = (item) => item?.node?.selector ?? item?.node?.snippet ?? null;
+const summaries = [];
+let failures = 0;
 for (const path of routes) {
-  const url = `${base}${path}`;
-  const slug = path.replace(/\//g, "_") || "root";
-  const reportPath = join(outDir, `${slug}.json`);
-  try {
-    execFileSync(
-      lighthousePath,
-      [
-        url,
-        "--quiet",
-        "--chrome-flags=--headless --no-sandbox",
+  const url = base + path;
+  const slug = path.replace(/\//g, "_");
+  const samples = [];
+  for (let i = 1; i <= repeats; i++) {
+    const reportPath = join(outDir, `${slug}-run${i}.json`);
+    try {
+      execFileSync(binary, [
+        url, "--quiet", "--chrome-flags=--headless --no-sandbox",
         "--only-categories=performance,accessibility,best-practices,seo",
-        "--output=json",
-        `--output-path=${reportPath}`,
-        "--form-factor=mobile",
-        "--screenEmulation.mobile=true",
-      ],
-      { stdio: "pipe", env: process.env },
-    );
-    const report = JSON.parse(readFileSync(reportPath, "utf8"));
-    const perf = report.categories?.performance?.score;
-    const a11y = report.categories?.accessibility?.score;
-    const seo = report.categories?.seo?.score;
-    const bestPractices = report.categories?.["best-practices"]?.score;
-    const audits = report.audits ?? {};
-    if ([perf, a11y, seo, bestPractices].some((score) => typeof score !== "number")) {
-      throw new Error("Lighthouse report is missing one or more category scores");
+        "--output=json", `--output-path=${reportPath}`,
+        "--form-factor=mobile", "--screenEmulation.mobile=true",
+      ], { stdio: "pipe", env: process.env, timeout: 180000 });
+      const lhr = JSON.parse(readFileSync(reportPath, "utf8"));
+      const audits = lhr.audits ?? {};
+      const score = (key) => {
+        const n = lhr.categories?.[key]?.score;
+        if (typeof n !== "number") throw new Error(`Missing category ${key}`);
+        return Math.round(n * 100);
+      };
+      const lcpItems = audits["largest-contentful-paint-element"]?.details?.items ?? [];
+      const shiftItems = audits["layout-shift-elements"]?.details?.items ?? [];
+      samples.push({
+        run: i,
+        performanceScore: score("performance"),
+        accessibilityScore: score("accessibility"),
+        bestPracticesScore: score("best-practices"),
+        seoScore: score("seo"),
+        lcpMs: audits["largest-contentful-paint"]?.numericValue ?? null,
+        cls: audits["cumulative-layout-shift"]?.numericValue ?? null,
+        tbtMs: audits["total-blocking-time"]?.numericValue ?? null,
+        lcpElement: lcpItems.map((item) => selectorFrom(item)).find(Boolean) ?? null,
+        layoutShiftElements: shiftItems.slice(0, 5).map((item) => ({
+          selector: selectorFrom(item),
+          score: item.score ?? null,
+        })),
+      });
+    } catch (error) {
+      failures++;
+      const message = String(error.message ?? error);
+      console.error(`Audit failed: ${url}, run ${i}: ${message}`);
+      samples.push({ run: i, error: message });
     }
-    summary.push({
-      url,
-      performanceScore: perf != null ? Math.round(perf * 100) : null,
-      accessibilityScore: a11y != null ? Math.round(a11y * 100) : null,
-      seoScore: seo != null ? Math.round(seo * 100) : null,
-      bestPracticesScore: bestPractices != null ? Math.round(bestPractices * 100) : null,
-      lcpMs: audits["largest-contentful-paint"]?.numericValue ?? null,
-      cls: audits["cumulative-layout-shift"]?.numericValue ?? null,
-      tbtMs: audits["total-blocking-time"]?.numericValue ?? null,
-    });
-  } catch (err) {
-    failures += 1;
-    const error = String(err.message ?? err);
-    console.error(`Lighthouse audit failed for ${url}: ${error}`);
-    summary.push({ url, error });
   }
+  const valid = samples.filter((sample) => !sample.error);
+  const fields = ["performanceScore", "accessibilityScore", "bestPracticesScore", "seoScore", "lcpMs", "cls", "tbtMs"];
+  const row = { url, successfulRuns: valid.length, requestedRuns: repeats };
+  for (const field of fields) row[field] = median(valid.map((sample) => sample[field]));
+  row.lcpElements = [...new Set(valid.map((sample) => sample.lcpElement).filter(Boolean))];
+  row.layoutShiftElements = valid.flatMap((sample) => sample.layoutShiftElements ?? []).filter((item) => item.selector).slice(0, 12);
+  row.samples = samples;
+  summaries.push(row);
 }
-
-writeFileSync(join(outDir, "summary.json"), JSON.stringify(summary, null, 2));
-console.log(JSON.stringify(summary, null, 2));
-
-if (failures > 0) {
-  console.error(`Lighthouse failed on ${failures} of ${routes.length} routes.`);
-  process.exitCode = 1;
-}
+writeFileSync(join(outDir, "summary.json"), JSON.stringify(summaries, null, 2) + "\n");
+console.log(JSON.stringify(summaries, null, 2));
+if (failures) process.exitCode = 1;
