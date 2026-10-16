@@ -7,7 +7,7 @@ for (const locale of ["en", "sv"] as const) {
     expect(response?.ok()).toBeTruthy();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
-    await expect(page.locator('a[href*="/music"]').first()).toBeVisible();
+    await expect(page.locator('a[href*="/music"]:visible').first()).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, "no horizontal overflow at 390px").toBeLessThanOrEqual(2);
   });
