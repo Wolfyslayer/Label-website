@@ -7,6 +7,7 @@ import type { Artist } from "@/lib/types/content";
 import { cn } from "@/lib/utils/cn";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { artistMediaPaths } from "@/lib/assets/artist-media";
 
 export function ArtistCard({ artist, className }: { artist: Artist; className?: string }) {
   const t = useTranslations("artist");
@@ -26,16 +27,35 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
         {artist.heroImage?.placeholder || artist.image.placeholder ? (
           <PlaceholderBanner label={tCommon("placeholderPhoto")} />
         ) : null}
-        <Image
-          src={artist.heroImage?.src ?? artist.image.src}
-          alt={artist.heroImage?.alt ?? artist.image.alt}
-          fill
-          className={cn(
-            "object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.045]",
-            isFrost ? "object-[center_20%]" : "object-[center_15%]",
-          )}
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
+        {artist.slug === "frostmark" || artist.slug === "wolfyslayer" ? (
+          // Generated variants for the two official artist banners.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={artistMediaPaths[artist.slug].hero.replace("-1280x512.webp", "-768.webp")}
+            srcSet={`${artistMediaPaths[artist.slug].hero.replace("-1280x512.webp", "-480.webp")} 480w, ${artistMediaPaths[artist.slug].hero.replace("-1280x512.webp", "-768.webp")} 768w, ${artistMediaPaths[artist.slug].hero} 1280w`}
+            alt={artist.heroImage?.alt ?? artist.image.alt}
+            width={1280}
+            height={512}
+            loading="lazy"
+            decoding="async"
+            className={cn(
+              "absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.045]",
+              isFrost ? "object-[center_20%]" : "object-[center_15%]",
+            )}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        ) : (
+          <Image
+            src={artist.heroImage?.src ?? artist.image.src}
+            alt={artist.heroImage?.alt ?? artist.image.alt}
+            fill
+            className={cn(
+              "object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.045]",
+              isFrost ? "object-[center_20%]" : "object-[center_15%]",
+            )}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        )}
         <div
           className={cn(
             "absolute inset-0",
