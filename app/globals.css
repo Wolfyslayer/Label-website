@@ -201,3 +201,30 @@
     border-top: 1px solid var(--color-border-subtle);
   }
 }
+
+/* Phase 16.3: shared interaction polish with keyboard and motion safeguards. */
+@layer utilities {
+  .surface-panel {
+    box-shadow: 0 12px 40px -28px rgb(0 0 0 / 0.55);
+    transition: border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .surface-panel:hover {
+      border-color: var(--color-border);
+      box-shadow: 0 20px 48px -28px rgb(0 0 0 / 0.7);
+    }
+  }
+
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:not(:disabled), a[href] {
+    touch-action: manipulation;
+  }
+
+  :target {
+    scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  }
+}
