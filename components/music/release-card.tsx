@@ -41,9 +41,9 @@ export function ReleaseCard({
     >
       <Link
         href={`/music/${release.slug}`}
-        className="block rounded-sm focus-visible:outline-offset-4"
+        className="block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-silver"
       >
-        <div className="relative aspect-square overflow-hidden rounded-sm bg-surface shadow-lg shadow-void/60 ring-1 ring-border-subtle transition-[box-shadow,ring-color] duration-500 group-hover:shadow-xl group-hover:ring-border">
+        <div className="relative aspect-square overflow-hidden rounded-md bg-surface shadow-[0_18px_45px_-25px_rgba(0,0,0,0.8)] ring-1 ring-border-subtle transition-[box-shadow,ring-color] duration-500 group-hover:shadow-[0_25px_55px_-22px_rgba(0,0,0,0.9)] group-hover:ring-border">
           {release.cover.placeholder ? <PlaceholderBanner /> : null}
           <Image
             src={release.cover.src}
@@ -70,7 +70,7 @@ export function ReleaseCard({
               </span>
             ) : null}
           </div>
-          <h3 className="line-clamp-2 font-display text-base text-text-primary transition-colors group-hover:text-silver @[12rem]:text-lg">
+          <h3 className="line-clamp-2 font-display text-lg leading-snug text-text-primary transition-colors group-hover:text-silver @[12rem]:text-xl">
             {release.title}
           </h3>
           <p className="text-xs text-text-muted">
@@ -85,7 +85,7 @@ export function ReleaseCard({
             external
             variant="ghost"
             size="sm"
-            className="min-h-11 px-0 text-xs uppercase tracking-widest text-silver hover:text-text-primary"
+            className="min-h-11 px-1 text-xs uppercase tracking-widest text-silver hover:text-text-primary"
           >
             Spotify
             <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
