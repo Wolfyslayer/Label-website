@@ -36,7 +36,10 @@
   "streamingLinks": {
     "spotify": "https://open.spotify.com/artist/0edDVF0bL7PFu2Sc3ijDrP"
   },
-  "socialLinks": {},
+  "socialLinks": {
+    "instagram": "https://www.instagram.com/frostmarkmusic/",
+    "facebook": "https://www.facebook.com/frostmarkmusic"
+  },
   "featuredTrackIds": [],
   "status": "published"
 }
