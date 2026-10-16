@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mobile-vitals-diagnostics
-          path: test-results/vitals/diagnostics.json
+          path: test-results/vitals/*.json
           if-no-files-found: ignore
           retention-days: 14
       - name: Upload browser failure evidence

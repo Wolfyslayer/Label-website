@@ -23,7 +23,13 @@ const median = (values) => {
   const mid = Math.floor(numbers.length / 2);
   return numbers.length % 2 ? numbers[mid] : (numbers[mid - 1] + numbers[mid]) / 2;
 };
-const selectorFrom = (item) => item?.node?.selector ?? item?.node?.snippet ?? null;
+const selectorFrom = (item) => item?.node?.selector ?? item?.node?.snippet ?? item?.selector ?? null;
+const extractNode = (value) => {
+  if (!value || typeof value !== "object") return null;
+  if (value.type === "node" || value.selector || value.snippet) return selectorFrom(value);
+  if (Array.isArray(value)) return value.map(extractNode).find(Boolean) ?? null;
+  return Object.values(value).map(extractNode).find(Boolean) ?? null;
+};
 const summaries = [];
 let failures = 0;
 for (const path of routes) {
@@ -48,6 +54,8 @@ for (const path of routes) {
       };
       const lcpItems = audits["largest-contentful-paint-element"]?.details?.items ?? [];
       const shiftItems = audits["layout-shift-elements"]?.details?.items ?? [];
+      const lcpInsight = audits["lcp-discovery-insight"] ?? audits["largest-contentful-paint-element"];
+      const clsInsight = audits["cls-culprits-insight"] ?? audits["layout-shift-elements"];
       samples.push({
         run: i,
         performanceScore: score("performance"),
@@ -57,9 +65,9 @@ for (const path of routes) {
         lcpMs: audits["largest-contentful-paint"]?.numericValue ?? null,
         cls: audits["cumulative-layout-shift"]?.numericValue ?? null,
         tbtMs: audits["total-blocking-time"]?.numericValue ?? null,
-        lcpElement: lcpItems.map((item) => selectorFrom(item)).find(Boolean) ?? null,
-        layoutShiftElements: shiftItems.slice(0, 5).map((item) => ({
-          selector: selectorFrom(item),
+        lcpElement: lcpItems.map(extractNode).find(Boolean) ?? extractNode(lcpInsight?.details?.items) ?? null,
+        layoutShiftElements: (shiftItems.length ? shiftItems : (clsInsight?.details?.items ?? [])).slice(0, 5).map((item) => ({
+          selector: extractNode(item),
           score: item.score ?? null,
         })),
       });
