@@ -26,7 +26,7 @@ export function HomeHero() {
             fill
             className="object-cover object-[70%_20%] mix-blend-luminosity"
             sizes="100vw"
-            priority
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/92 to-void/55" />
         </div>
@@ -37,7 +37,7 @@ export function HomeHero() {
             fill
             className="object-cover object-left-top mix-blend-luminosity"
             sizes="520px"
-            priority
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-void via-void/80 to-transparent" />
         </div>
@@ -51,7 +51,7 @@ export function HomeHero() {
           <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.35em] text-accent-muted sm:text-xs">
             {siteConfig.fullName}
           </p>
-          <h1 className="type-display text-balance text-text-primary drop-shadow-[0_12px_35px_rgba(0,0,0,0.35)]">
+          <h1 className="type-display text-text-primary">
             <span className="block">WOLFY</span>
             <span className="block text-silver">SLAYER</span>
           </h1>
