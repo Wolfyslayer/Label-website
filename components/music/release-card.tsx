@@ -49,7 +49,7 @@ export function ReleaseCard({
             src={release.cover.src}
             alt={release.cover.alt}
             fill
-            sizes="(max-width: 320px) 42vw, (max-width: 480px) 45vw, (max-width: 1024px) 30vw, 22vw"
+            sizes="(max-width: 640px) calc((100vw - 3rem - 0.875rem) / 2), (max-width: 1024px) 30vw, 22vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             priority={priority}
             loading={priority ? undefined : "lazy"}
