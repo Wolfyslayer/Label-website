@@ -17,7 +17,7 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
     <Link
       href={`/artists/${artist.slug}`}
       className={cn(
-        "@container group relative flex min-h-[min(360px,68dvh)] flex-col justify-end overflow-hidden rounded-sm ring-1 ring-border-subtle transition-[box-shadow,ring-color] duration-500 hover:ring-frost/30 sm:min-h-[min(420px,75dvh)]",
+        "@container group relative flex min-h-[min(360px,68dvh)] flex-col justify-end overflow-hidden rounded-sm ring-1 ring-border-subtle transition-[box-shadow,ring-color,transform] duration-500 hover:ring-frost/30 motion-safe:hover:-translate-y-1 hover:shadow-[0_30px_60px_-35px_rgba(0,0,0,0.85)] sm:min-h-[min(420px,75dvh)]",
         !isFrost && "hover:ring-wolf/30",
         className,
       )}
@@ -31,7 +31,7 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
           alt={artist.heroImage?.alt ?? artist.image.alt}
           fill
           className={cn(
-            "object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]",
+            "object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.045]",
             isFrost ? "object-[center_20%]" : "object-[center_15%]",
           )}
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -45,9 +45,9 @@ export function ArtistCard({ artist, className }: { artist: Artist; className?: 
           )}
         />
       </div>
-      <div className="relative z-10 p-[clamp(1.5rem,4vw,2.5rem)]">
+      <div className="relative z-10 p-[clamp(1.5rem,4vw,3rem)]">
         <Badge variant={isFrost ? "frost" : "wolf"}>{t("badge")}</Badge>
-        <h2 className="mt-4 font-display text-[clamp(1.75rem,4vw,3rem)] text-text-primary">
+        <h2 className="mt-4 font-display text-[clamp(2rem,4vw,3.5rem)] leading-tight text-text-primary">
           {artist.name}
         </h2>
         <p className="mt-3 line-clamp-3 max-w-md text-sm leading-relaxed text-text-secondary @[22rem]:text-base">
