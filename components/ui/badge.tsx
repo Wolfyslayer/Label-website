@@ -11,8 +11,8 @@ export function Badge({
 }) {
   const styles = {
     default: "bg-surface-elevated text-text-secondary border-border",
-    frost: "bg-frost/10 text-frost border-frost/20",
-    wolf: "bg-wolf/10 text-wolf border-wolf/20",
+    frost: "bg-frost/20 text-silver border-silver/45",
+    wolf: "bg-wolf/20 text-[#e4c99d] border-[#b99b70]/55",
     outline: "bg-transparent text-text-muted border-border",
   };
   return (
