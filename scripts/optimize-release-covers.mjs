@@ -6,6 +6,7 @@
  * Commit the generated public/assets/releases/ files and lib/assets/release-cover-manifest.json.
  */
 import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { resolve, join } from "node:path";
 import sharp from "sharp";
 
@@ -20,6 +21,12 @@ const out = resolve("public/assets/releases");
 await mkdir(out, { recursive: true });
 const manifestPath = resolve("lib/assets/release-cover-manifest.json");
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+// Prevent a clean build from advertising previously generated files that are absent.
+for (const slug of Object.keys(manifest)) {
+  if (![240, 480, 640].every((width) => existsSync(join(out, `${slug}-${width}.webp`)))) {
+    delete manifest[slug];
+  }
+}
 for (const entry of entries) {
   const { slug, source } = entry;
   if (typeof slug !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || typeof source !== "string" || !source.trim()) {

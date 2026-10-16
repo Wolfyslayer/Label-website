@@ -1,24 +1,24 @@
 # Automatic release cover optimization
 
-The GitHub Pages static build runs `npm run prepare:release-covers` automatically, before `next build`.
+`npm run build:pages` runs `prepare:release-covers` before Next.js static export.
 
-## Add an owned album cover
+## Source priority
 
-1. Put an original cover you own or have permission to publish in `assets/cover-sources/`.
-2. Name it exactly after the release slug, e.g. `ett-folk-ett-hem.png`. Supported extensions: jpg, jpeg, png, webp.
-3. Commit the source file (or supply it in the build environment). The next static build creates 240, 480, and 640 px WebP variants in `public/assets/releases/` and updates `lib/assets/release-cover-manifest.json`.
-4. Release cards automatically use responsive `srcSet` when a matching manifest entry exists. Other covers continue using their original source.
+1. **Local originals:** Put your own source files in `assets/cover-sources/<release-slug>.jpg|jpeg|png|webp`. These always win.
+2. **Spotify fallback:** If no local file exists, the build reads `cover.src` from `content/releases/*.json`. Only HTTPS images hosted on `i.scdn.co`, `image-cdn-ak.spotifycdn.com`, or `image-cdn-fa.spotifycdn.com` are eligible. Use this only for cover art you own or have permission to reproduce.
+3. **Existing remote image:** When a download fails, the page still uses the original URL (unless older committed optimized assets already exist).
 
-**No Spotify image scraping:** This process uses only explicitly supplied artwork. Empty or missing `assets/cover-sources/` does not delete existing variants.
+The build generates 240/480/640px WebP images under `public/assets/releases/`, updates `lib/assets/release-cover-manifest.json`, and uses responsive `srcSet` in release cards. Downloads occur during builds, not in visitors' browsers. No Spotify credentials or scraping of Spotify pages are required.
 
-## Verification
+Set `SKIP_REMOTE_COVERS=1` to disable remote downloads. Network failures for individual covers are logged and skipped. Redirects are disabled; downloads are limited to 8MB with a 10-second timeout.
+
+## Checks before merge/deploy
 
 - Run `npm run check:quality` and `npm run build:pages`.
-- Confirm each manifest entry has all three generated WebP files in the static `out/assets/releases/` export.
-- Compare PageSpeed mobile image transferred bytes, LCP, CLS, and accessibility before/after deployment.
-- Check the image at 320 px and 390 px mobile widths and on high-density screens.
-- This does not modify third-party cache headers. Spotify fallback images are still unoptimized.
+- Confirm each manifest entry has 240, 480 and 640 WebP variants under `out/assets/releases/`.
+- Compare image transfer bytes and Lighthouse mobile LCP/CLS after deployment; inspect responsive image requests on high-DPI mobile.
+- Ensure your album cover licensing allows republishing from the Spotify-hosted copy.
 
-## Operational caveat
+**Operational note:** Build-generated images are part of that build's deployment artifact, not automatically committed to Git. Every deployment needs access to the original source or Spotify CDN. If the source is unavailable in a later build and the generated files were not committed, do not publish a manifest pointing to missing assets. A clean build should be used for final verification.
 
-Generated output created in CI exists in that deployment's build artifact, but is not automatically committed to Git. Keep source files available to every build, or commit generated variants and the manifest together. Do not merge a manifest that points at missing files.
+GitHub Pages cache headers cannot be controlled through Next.js `headers()` in static export.
