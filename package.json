@@ -26,7 +26,8 @@
     "test:manager": "tsx scripts/test-manager-export.ts",
     "test:e2e": "playwright test",
     "test:e2e:responsive": "playwright test tests/e2e/responsive-overflow.spec.ts",
-    "audit:lighthouse": "node scripts/lighthouse-audit.mjs"
+    "audit:lighthouse": "node scripts/lighthouse-audit.mjs",
+    "check:performance": "node scripts/check-performance-budgets.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
