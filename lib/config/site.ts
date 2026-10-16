@@ -28,7 +28,7 @@ export const siteConfig = {
   /** Public form endpoint (Formspree, etc.) for static hosting — no secrets. */
   contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT ?? "",
   social: {
-    instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM ?? "",
+    instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM ?? "https://www.instagram.com/wolfyslayerrecords/",
     youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE ?? "",
     spotify: process.env.NEXT_PUBLIC_SOCIAL_SPOTIFY ?? "",
     facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ?? "",
