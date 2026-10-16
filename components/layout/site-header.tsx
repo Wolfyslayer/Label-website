@@ -28,6 +28,7 @@ export function SiteHeader() {
   const [mounted, setMounted] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
   const dialogId = useId();
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function SiteHeader() {
   }, [pathname]);
 
   useEffect(() => {
+    if (open) previouslyFocusedRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -54,7 +56,7 @@ export function SiteHeader() {
 
   const closeMenu = useCallback(() => {
     setOpen(false);
-    menuButtonRef.current?.focus();
+    (previouslyFocusedRef.current?.isConnected ? previouslyFocusedRef.current : menuButtonRef.current)?.focus();
   }, []);
 
   useEffect(() => {
@@ -125,8 +127,9 @@ export function SiteHeader() {
           <button
             ref={menuButtonRef}
             type="button"
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-border text-text-primary xl:hidden"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-border text-text-primary transition-colors hover:border-silver/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silver xl:hidden"
             aria-expanded={open}
+            aria-haspopup="dialog"
             aria-controls={dialogId}
             onClick={() => setOpen((v) => !v)}
           >
@@ -154,7 +157,7 @@ export function SiteHeader() {
               aria-modal="true"
               aria-hidden={false}
               aria-label={t("mobilePrimary")}
-              className="fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-[90] overflow-y-auto border-t border-border-subtle bg-void/98 backdrop-blur-lg xl:hidden"
+              className="fixed inset-x-0 bottom-0 top-[calc(var(--header-height)+env(safe-area-inset-top))] z-[90] overflow-y-auto overscroll-contain border-t border-border-subtle bg-void/98 backdrop-blur-lg xl:hidden"
             >
               <Container className="flex min-h-full flex-col py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
                 <nav className="flex flex-col gap-0" aria-label={t("mobilePrimary")}>
@@ -163,7 +166,7 @@ export function SiteHeader() {
                       key={href}
                       href={href}
                       onClick={() => setOpen(false)}
-                      className="flex min-h-[3.25rem] items-center border-b border-border-subtle py-3 font-display text-[clamp(1.25rem,4.5vw,1.65rem)] leading-tight text-text-primary transition-colors active:text-silver"
+                      className="flex min-h-14 items-center border-b border-border-subtle py-3 font-display text-[clamp(1.25rem,4.5vw,1.65rem)] leading-tight text-text-primary transition-colors hover:text-silver focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silver active:text-silver"
                     >
                       {t(key)}
                     </Link>
