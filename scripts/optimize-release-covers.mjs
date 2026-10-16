@@ -18,7 +18,8 @@ const entries = JSON.parse(await readFile(resolve(input), "utf8"));
 if (!Array.isArray(entries)) throw new Error("Expected an array of {slug, source} entries");
 const out = resolve("public/assets/releases");
 await mkdir(out, { recursive: true });
-const manifest = {};
+const manifestPath = resolve("lib/assets/release-cover-manifest.json");
+const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 for (const entry of entries) {
   const { slug, source } = entry;
   if (typeof slug !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || typeof source !== "string" || !source.trim()) {
@@ -32,5 +33,5 @@ for (const entry of entries) {
   manifest[slug] = true;
   console.log(`Optimized ${slug}`);
 }
-await writeFile(resolve("lib/assets/release-cover-manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
+await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 console.log("Commit the generated files before deployment.");
