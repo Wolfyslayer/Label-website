@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { getOptimizedReleaseCover } from "@/lib/assets/release-cover";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
@@ -24,6 +25,7 @@ export async function FeaturedReleaseSection({
   const t = await getTranslations("home");
   const tMusic = await getTranslations("musicPage");
   const dateLocale = locale === "sv" ? "sv-SE" : "en-US";
+  const optimizedCover = getOptimizedReleaseCover(release.slug);
 
   return (
     <section className="border-y border-border-subtle bg-surface/35 py-[var(--space-section)]">
@@ -32,14 +34,30 @@ export async function FeaturedReleaseSection({
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
           <div className="group relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-md border border-border-subtle shadow-[0_32px_90px_-36px_rgba(0,0,0,0.85)] lg:max-w-none">
             {release.cover.placeholder ? <PlaceholderBanner /> : null}
-            <Image
-              src={release.cover.src}
-              alt={release.cover.alt}
-              fill
-              className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
-              sizes="(max-width: 1024px) 80vw, 40vw"
-              loading="lazy"
-            />
+            {optimizedCover ? (
+              // The static export serves the build-generated responsive WebP files directly.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={optimizedCover.src}
+                srcSet={optimizedCover.srcSet}
+                alt={release.cover.alt}
+                width={640}
+                height={640}
+                sizes="(max-width: 1024px) 80vw, 40vw"
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
+              />
+            ) : (
+              <Image
+                src={release.cover.src}
+                alt={release.cover.alt}
+                fill
+                className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
+                sizes="(max-width: 1024px) 80vw, 40vw"
+                loading="lazy"
+              />
+            )}
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-3">
