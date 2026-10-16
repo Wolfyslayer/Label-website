@@ -62,3 +62,13 @@ npm run build:node
 ```
 
 Restore `server-routes/cms-admin` → `app/admin`, `server-routes/api` → `app/api`, and `middleware.example.ts` → `middleware.ts` for full CMS locally.
+
+## Production cache policy (Phase 17.12)
+
+PageSpeed Insights currently reports approximately 10-minute browser cache lifetimes for some images, fonts, CSS and JS on the public domain. **GitHub Pages does not provide repository-level configuration of arbitrary HTTP `Cache-Control` response headers.** Adding a Next.js `headers()` option, `public/_headers`, or `vercel.json` to this static GitHub Pages deployment will not change the live response headers.
+
+Run `npm run audit:cache` to inspect the live HTML and representative image/SVG response headers. This is read-only and does not modify production. For complete coverage, inspect the hashed JS/CSS/font URLs in the PageSpeed report too.
+
+If long-lived caching for fingerprinted assets becomes a priority, put a configurable CDN/proxy in front of the site or migrate hosting. Set `public, max-age=31536000, immutable` **only for content-hashed URLs** (e.g. Next.js `/_next/static/` files). For unversioned files under `/assets/`, keep shorter TTLs or introduce content-hashed filenames and update references before increasing TTL. HTML should remain short-lived/revalidated to avoid stale deployments. Verify the actual response headers on the custom domain after any hosting changes.
+
+The synthetic GitHub Actions Lighthouse test serves `out/` locally and does **not** validate the live host's cache policy. Do not interpret local Lighthouse differences as proof of cache improvements.
