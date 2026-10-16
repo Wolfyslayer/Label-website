@@ -50,3 +50,33 @@ jobs:
             .next/
           if-no-files-found: ignore
           retention-days: 3
+
+  browser-smoke:
+    name: Mobile and keyboard smoke tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run mobile and keyboard smoke tests
+        run: npx playwright test tests/e2e/quality-smoke.spec.ts
+      - name: Upload browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-smoke-debug
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 3
