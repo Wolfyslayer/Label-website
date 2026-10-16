@@ -40,6 +40,8 @@ jobs:
         run: npm run build:pages
       - name: Validate SEO and exported files
         run: npm run validate:seo
+      - name: Verify exported links and resources
+        run: npm run verify:export
       - name: Upload export for debugging on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -48,6 +50,7 @@ jobs:
           path: |
             out/
             .next/
+            test-results/export-integrity.json
           if-no-files-found: ignore
           retention-days: 3
 
@@ -71,7 +74,7 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Run mobile and keyboard smoke tests
-        run: npx playwright test tests/e2e/quality-smoke.spec.ts
+        run: npx playwright test tests/e2e/quality-smoke.spec.ts tests/e2e/accessibility-basics.spec.ts
       - name: Upload browser failure evidence
         if: failure()
         uses: actions/upload-artifact@v4
