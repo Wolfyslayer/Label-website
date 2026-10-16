@@ -55,7 +55,7 @@ export function HomeHero() {
             <span className="block">WOLFY</span>
             <span className="block text-silver">SLAYER</span>
           </h1>
-          <p className="mt-7 max-w-xl text-balance text-base leading-relaxed text-text-secondary sm:text-lg">
+          <p className="mt-7 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg">
             {t("heroTagline")}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
