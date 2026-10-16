@@ -85,7 +85,7 @@ export default async function ArtistDetailPage({ params }: Props) {
 
       <Container className="pt-8">
         <nav aria-label={tDisc("artistNavigation")} className="flex flex-wrap items-center gap-2 border-b border-border-subtle pb-6">
-          <a href="#artist-intro" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("introduction")}</a>
+          <a href="#artist-intro" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary transition-colors hover:border-silver/50 hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silver">{t("introduction")}</a>
           {latest ? <a href="#artist-latest-release" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("latestRelease")}</a> : null}
           {albumsAndEps.length ? <a href="#artist-albums" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("albumsAndEps")}</a> : null}
           {singles.length ? <a href="#artist-singles" className="inline-flex min-h-11 items-center rounded-sm border border-border px-4 text-sm text-text-secondary hover:text-text-primary">{t("singles")}</a> : null}
@@ -177,7 +177,7 @@ export default async function ArtistDetailPage({ params }: Props) {
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-[calc(var(--header-height)+1.5rem)] lg:self-start">
-            <div className="surface-panel p-5 sm:p-6">
+            <div className="surface-panel rounded-md p-5 sm:p-6">
               <h2 className="text-xs uppercase tracking-widest text-text-muted">{t("stream")}</h2>
               <div className="mt-4">
                 <StreamingLinks links={artist.streamingLinks} />
