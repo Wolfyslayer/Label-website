@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Deterministic static-export asset budget report.
- * Run after npm run build:pages. Warning mode is the safe default.
- * Set PERF_BUDGET_STRICT=1 to fail CI when budgets are exceeded.
+ * Run after npm run build:pages. Exceeding calibrated JS/CSS budgets fails CI.
+ * Set PERF_BUDGET_STRICT=0 to run in warning-only mode.
  */
 import { existsSync, readdirSync, statSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve, relative, extname } from "node:path";
@@ -11,11 +11,11 @@ const out = resolve("out");
 if (!existsSync(out)) throw new Error("Missing out/; run npm run build:pages first.");
 
 const budgets = {
-  totalJavaScriptKiB: 1500,
-  totalCssKiB: 350,
-  largestJavaScriptKiB: 350,
-  largestCssKiB: 180,
-  largestImageKiB: 900,
+  totalJavaScriptKiB: 1400,
+  totalCssKiB: 100,
+  largestJavaScriptKiB: 260,
+  largestCssKiB: 90,
+  largestImageKiB: 3200,
 };
 const assets = [];
 function walk(dir) {
@@ -44,11 +44,12 @@ const metrics = {
 const exceeded = Object.entries(budgets).filter(([name, limit]) => metrics[name] > limit)
   .map(([name, limit]) => ({ metric: name, actualKiB: metrics[name], budgetKiB: limit }));
 const report = {
-  note: "Uncompressed static export totals, NOT page download sizes or Lighthouse scores. Images include all routes and assets.",
+  note: "Uncompressed static export totals, NOT page download sizes or Lighthouse scores. Image threshold is informational for archived originals.",
   budgetsKiB: budgets,
   metricsKiB: metrics,
   largestAssets: { javascript: js, css, image },
   exceeded,
+  baselineSource: "GitHub Actions run 38853909963, 2026-10-16",
   assetCount: assets.length,
 };
 const dir = resolve("test-results/performance");
@@ -57,5 +58,5 @@ writeFileSync(join(dir, "budget-report.json"), JSON.stringify(report, null, 2) +
 console.log(JSON.stringify(report, null, 2));
 if (exceeded.length) {
   console.warn(`Performance budget warning: ${exceeded.length} threshold(s) exceeded.`);
-  if (process.env.PERF_BUDGET_STRICT === "1") process.exitCode = 1;
+  if (process.env.PERF_BUDGET_STRICT !== "0") process.exitCode = 1;
 } else console.log("Performance size budgets passed.");
