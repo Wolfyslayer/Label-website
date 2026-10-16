@@ -38,7 +38,7 @@ export async function FeaturedReleaseSection({
               fill
               className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
               sizes="(max-width: 1024px) 80vw, 40vw"
-              priority
+              loading="lazy"
             />
           </div>
           <div>

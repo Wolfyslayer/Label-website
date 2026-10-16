@@ -89,7 +89,6 @@ export default async function HomePage({ params }: LocalePageParams) {
                   key={release.id}
                   release={release}
                   artist={artistById.get(release.artistId)}
-                  priority={i < 2}
                 />
               ))}
             </div>

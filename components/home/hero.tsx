@@ -1,16 +1,12 @@
-"use client";
-
 import { LabelLogo } from "@/components/layout/label-logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { siteBrandPaths } from "@/lib/assets/site-brand";
 import { siteConfig } from "@/lib/config/site";
-import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export function HomeHero() {
-  const reduced = useReducedMotion();
   const t = useTranslations("home");
 
   return (
@@ -48,12 +44,7 @@ export function HomeHero() {
       </div>
 
       <Container className="relative z-10">
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-3xl xl:max-w-4xl"
-        >
+        <div className="max-w-3xl xl:max-w-4xl">
           <div className="mb-8 md:hidden">
             <LabelLogo compact />
           </div>
@@ -76,7 +67,7 @@ export function HomeHero() {
             </Button>
           </div>
           <div aria-hidden="true" className="mt-14 flex items-center gap-4 sm:mt-20"><span className="h-px w-12 bg-silver/45" /><span className="h-1.5 w-1.5 rotate-45 border border-silver/60" /><span className="h-px w-24 bg-silver/20" /></div>
-        </motion.div>
+        </div>
       </Container>
     </section>
   );
