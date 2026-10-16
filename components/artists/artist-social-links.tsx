@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 
 const iconMap: Record<string, LucideIcon | null> = {
   instagram: Instagram,
+  spotify: Music2,
   youtube: Youtube,
   facebook: Facebook,
   x: null,
@@ -16,7 +17,7 @@ const iconMap: Record<string, LucideIcon | null> = {
 export function ArtistSocialLinks({ artist, className }: { artist: Artist; className?: string }) {
   const t = useTranslations("artist");
   const tFooter = useTranslations("footer");
-  const entries = Object.entries(artist.socialLinks).filter(([, url]) => url?.trim());
+  const entries = Object.entries({ spotify: artist.spotifyArtistUrl, ...artist.socialLinks }).filter(([, url]) => url?.trim());
 
   function socialLabel(key: string) {
     try {
