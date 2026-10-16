@@ -1,42 +1,73 @@
 /**
- * Build-time cover generation for artwork owned by the label.
- * Place source files at assets/cover-sources/<release-slug>.jpg|jpeg|png|webp.
- * This script intentionally never fetches images from Spotify or the internet.
- * With no source files, it preserves existing committed generated assets.
+ * Build-time responsive cover preparation.
+ * Local, owned files take priority. Published Spotify CDN artwork referenced by
+ * content/releases/*.json is a fallback for the label's own releases.
+ * Failed downloads retain the original remote image in the UI.
  */
 import { existsSync } from "node:fs";
-import { readdir, mkdtemp, writeFile, rm } from "node:fs/promises";
+import { readdir, mkdtemp, writeFile, rm, readFile, stat } from "node:fs/promises";
 import { join, resolve, extname, basename } from "node:path";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 
 const dir = resolve("assets/cover-sources");
+const releasesDir = resolve("content/releases");
 const extensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
-if (!existsSync(dir)) {
-  console.log("No owned cover source directory; skipping image generation.");
-  process.exit(0);
-}
-const names = (await readdir(dir)).filter((name) => extensions.has(extname(name).toLowerCase())).sort();
-if (!names.length) {
-  console.log("No owned cover source files; keeping existing manifest.");
-  process.exit(0);
-}
-const entries = names.map((name) => ({
-  slug: basename(name, extname(name)),
-  source: join(dir, name),
-}));
-const slugs = new Set();
-for (const { slug } of entries) {
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slugs.has(slug)) {
-    throw new Error(`Invalid or duplicate release slug: ${slug}`);
+const validSlug = (slug) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+const entries = new Map();
+if (existsSync(dir)) {
+  for (const name of (await readdir(dir)).sort()) {
+    if (!extensions.has(extname(name).toLowerCase())) continue;
+    const slug = basename(name, extname(name));
+    if (!validSlug(slug) || entries.has(slug)) throw new Error(`Invalid or duplicate local cover slug: ${slug}`);
+    entries.set(slug, { slug, source: join(dir, name) });
   }
-  slugs.add(slug);
 }
 const temp = await mkdtemp(join(tmpdir(), "release-covers-"));
-const input = join(temp, "covers.json");
+let downloaded = 0;
 try {
-  await writeFile(input, JSON.stringify(entries));
-  execFileSync(process.execPath, ["scripts/optimize-release-covers.mjs", input], { stdio: "inherit" });
+  if (existsSync(releasesDir) && process.env.SKIP_REMOTE_COVERS !== "1") {
+    for (const name of (await readdir(releasesDir)).filter((n) => n.endsWith(".json") && !n.startsWith("_")).sort()) {
+      let release;
+      try {
+        release = JSON.parse(await readFile(join(releasesDir, name), "utf8"));
+      } catch (error) {
+        console.warn(`Skipping invalid release JSON ${name}: ${error.message}`);
+        continue;
+      }
+      const slug = release.slug;
+      const rawUrl = release.cover?.src;
+      if (!validSlug(slug ?? "") || entries.has(slug) || typeof rawUrl !== "string") continue;
+      let url;
+      try { url = new URL(rawUrl); } catch { continue; }
+      if (url.protocol !== "https:" || !["i.scdn.co", "image-cdn-ak.spotifycdn.com", "image-cdn-fa.spotifycdn.com"].includes(url.hostname)) continue;
+      // Restrict fetches to known Spotify CDN hosts; do not follow redirects to arbitrary hosts.
+      try {
+        const response = await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(10000) });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const type = response.headers.get("content-type") ?? "";
+        if (!type.startsWith("image/")) throw new Error("Non-image response");
+        const length = Number(response.headers.get("content-length") || 0);
+        if (length > 8_000_000) throw new Error("Image exceeds 8 MB");
+        const bytes = Buffer.from(await response.arrayBuffer());
+        if (bytes.length > 8_000_000) throw new Error("Image exceeds 8 MB");
+        const source = join(temp, `${slug}.source`);
+        await writeFile(source, bytes);
+        entries.set(slug, { slug, source });
+        downloaded++;
+      } catch (error) {
+        console.warn(`Could not fetch Spotify cover for ${slug}; retaining remote fallback: ${error.message}`);
+      }
+    }
+  }
+  if (entries.size === 0) {
+    console.log("No covers to optimize; retaining existing assets.");
+  } else {
+    const input = join(temp, "covers.json");
+    await writeFile(input, JSON.stringify([...entries.values()]));
+    execFileSync(process.execPath, ["scripts/optimize-release-covers.mjs", input], { stdio: "inherit" });
+  }
+  console.log(`Prepared ${entries.size} release covers (${downloaded} from Spotify CDN).`);
 } finally {
   await rm(temp, { recursive: true, force: true });
 }
