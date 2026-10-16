@@ -15,7 +15,8 @@
     "openMenu": "Öppna meny",
     "closeMenu": "Stäng meny",
     "primary": "Huvudnavigering",
-    "mobilePrimary": "Mobil navigering"
+    "mobilePrimary": "Mobil navigering",
+    "merch": "Merch"
   },
   "lang": {
     "label": "Språk",
@@ -299,5 +300,15 @@
     "seconds": "Sek",
     "aria": "Nedräkning till release"
   },
-  "notFoundArtist": "Artist hittades inte"
+  "notFoundArtist": "Artist hittades inte",
+  "merch": {
+    "eyebrow": "OFFICIELL MERCH",
+    "title": "Bär musiken",
+    "description": "Officiell merch från Wolfyslayer Records, Frostmark och Wolfyslayer. Kollektionerna är under utveckling.",
+    "soon": "Kollektionen kommer snart",
+    "notice": "Vi förbereder våra första produkter. Inga beställningar tas emot ännu.",
+    "label": "Wolfyslayer Records",
+    "frostmark": "Frostmark",
+    "wolfyslayer": "Wolfyslayer"
+  }
 }
