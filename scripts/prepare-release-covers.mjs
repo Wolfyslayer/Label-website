@@ -5,7 +5,7 @@
  * Failed downloads retain the original remote image in the UI.
  */
 import { existsSync } from "node:fs";
-import { readdir, mkdtemp, writeFile, rm, readFile, stat } from "node:fs/promises";
+import { readdir, mkdtemp, writeFile, rm, readFile } from "node:fs/promises";
 import { join, resolve, extname, basename } from "node:path";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
