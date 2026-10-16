@@ -20,21 +20,28 @@ export async function ArtistHero({ artist }: { artist: Artist }) {
   const heroSrc =
     assetSet?.background ?? artist.heroImage?.src ?? artist.image.src;
   const portraitSrc = assetSet?.portrait ?? artist.image.src;
+  const mobileHeroSrc = assetSet?.hero ?? heroSrc;
 
   return (
     <section className="relative min-h-[min(92dvh,920px)] overflow-hidden pt-[calc(var(--header-height)+env(safe-area-inset-top))]">
       <div className="absolute inset-0">
-        <Image
-          src={heroSrc}
-          alt=""
-          fill
-          priority
-          className={cn(
-            "object-cover scale-105",
-            isFrost ? "object-[center_25%]" : "object-[center_20%]",
-          )}
-          sizes="100vw"
-        />
+        <picture>
+          <source media="(max-width: 767px)" srcSet={mobileHeroSrc} />
+          {/* Use the smaller existing banner on mobile; preserve the full desktop background. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={heroSrc}
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            width={1920}
+            height={1080}
+            className={cn(
+              "absolute inset-0 h-full w-full object-cover scale-105",
+              isFrost ? "object-[center_25%]" : "object-[center_20%]",
+            )}
+          />
+        </picture>
         <div
           className={cn(
             "absolute inset-0",
