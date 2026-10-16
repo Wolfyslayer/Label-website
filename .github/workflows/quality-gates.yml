@@ -1,0 +1,52 @@
+name: Quality gates
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, types, assets and static export
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Lint and typecheck
+        run: npm run check:quality
+      - name: Verify official assets
+        run: npm run verify:assets
+      - name: Build GitHub Pages export
+        run: npm run build:pages
+      - name: Validate SEO and exported files
+        run: npm run validate:seo
+      - name: Upload export for debugging on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-export-debug
+          path: |
+            out/
+            .next/
+          if-no-files-found: ignore
+          retention-days: 3
