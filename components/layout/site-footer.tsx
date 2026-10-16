@@ -27,7 +27,7 @@ export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks })
   const contactEmail = getPublicContactEmail();
 
   return (
-    <footer className="border-t border-border-subtle bg-charcoal pb-[env(safe-area-inset-bottom)]">
+    <footer role="contentinfo" className="border-t border-border-subtle bg-charcoal pb-[env(safe-area-inset-bottom)]">
       <Container className="py-[var(--space-section)]">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
@@ -43,18 +43,18 @@ export function SiteFooter({ socialLinks }: { socialLinks?: PublicSocialLinks })
             <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
               {tFooter("explore")}
             </h2>
-            <ul className="mt-4 space-y-2">
+            <nav aria-label={tFooter("explore")}><ul className="mt-4 space-y-2">
               {footerHrefs.map(({ href, labelKey, ns }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="inline-flex min-h-11 items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
+                    className="inline-flex min-h-11 items-center text-sm text-text-secondary transition-colors hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-silver"
                   >
                     {ns === "footer" ? tFooter(labelKey) : tNav(labelKey)}
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul></nav>
           </div>
           <div>
             <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
