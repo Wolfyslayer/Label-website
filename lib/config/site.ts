@@ -31,7 +31,7 @@ export const siteConfig = {
     instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM ?? "https://www.instagram.com/wolfyslayerrecords/",
     youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE ?? "",
     spotify: process.env.NEXT_PUBLIC_SOCIAL_SPOTIFY ?? "",
-    facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ?? "",
+    facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ?? "https://www.facebook.com/WolfyslayerRecords/",
     x: process.env.NEXT_PUBLIC_SOCIAL_X ?? "",
   },
   pressEmail: process.env.NEXT_PUBLIC_PRESS_EMAIL ?? "",
