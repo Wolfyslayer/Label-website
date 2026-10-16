@@ -2,9 +2,9 @@ import { test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 
 const routes = ["/en/", "/en/artists/frostmark/", "/en/contact/"];
-const report: Array<Record<string, unknown>> = [];
 
-test.beforeAll(() => mkdirSync("test-results/vitals", { recursive: true }));
+
+
 
 for (const route of routes) {
   test(`collect layout shift and long task diagnostics: ${route}`, async ({ page }) => {
@@ -38,7 +38,7 @@ for (const route of routes) {
       } catch { /* unsupported browser */ }
     });
     const response = await page.goto(route, { waitUntil: "load" });
-    await page.waitForTimeout(1800);
+    await page.waitForTimeout(3500);
     const details = await page.evaluate(() => {
       const vitals = (window as Window & { __vitals?: { shifts: { value: number; sources: string[]; time: number }[]; longTasks: { duration: number; time: number }[] } }).__vitals;
       const shifts = vitals?.shifts ?? [];
@@ -51,7 +51,8 @@ for (const route of routes) {
         longestTasks: [...longTasks].sort((a, b) => b.duration - a.duration).slice(0, 8),
       };
     });
-    report.push({ route, httpStatus: response?.status() ?? null, ...details });
-    writeFileSync("test-results/vitals/diagnostics.json", JSON.stringify(report, null, 2) + "\n");
+    mkdirSync("test-results/vitals", { recursive: true });
+    const filename = route.replaceAll("/", "_") + ".json";
+    writeFileSync(`test-results/vitals/${filename}`, JSON.stringify({ route, httpStatus: response?.status() ?? null, ...details }, null, 2) + "\n");
   });
 }
