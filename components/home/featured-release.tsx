@@ -29,14 +29,14 @@ export async function FeaturedReleaseSection({
     <section className="border-y border-border-subtle bg-surface/35 py-[var(--space-section)]">
       <Container>
         <SectionHeader eyebrow={t("featuredEyebrow")} title={t("featuredTitle")} align="left" />
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative mx-auto aspect-square w-full max-w-md lg:max-w-none">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+          <div className="group relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-md border border-border-subtle shadow-[0_32px_90px_-36px_rgba(0,0,0,0.85)] lg:max-w-none">
             {release.cover.placeholder ? <PlaceholderBanner /> : null}
             <Image
               src={release.cover.src}
               alt={release.cover.alt}
               fill
-              className="rounded-sm object-cover shadow-2xl ring-1 ring-border"
+              className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
               sizes="(max-width: 1024px) 80vw, 40vw"
               priority
             />
@@ -48,13 +48,13 @@ export async function FeaturedReleaseSection({
                 <Badge variant={artist.theme === "frost" ? "frost" : "wolf"}>{artist.name}</Badge>
               ) : null}
             </div>
-            <h3 className="mt-6 font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight text-text-primary">
+            <h3 className="mt-6 font-display text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.1] tracking-tight text-text-primary">
               {release.title}
             </h3>
             <p className="mt-2 text-sm uppercase tracking-widest text-text-muted">
               {formatReleaseDate(release.releaseDate, dateLocale, release.releaseDatePrecision)}
             </p>
-            <p className="mt-6 text-base leading-relaxed text-text-secondary">{release.description}</p>
+            <p className="mt-6 max-w-prose text-base leading-relaxed text-text-secondary md:text-lg">{release.description}</p>
             <div className="mt-8 space-y-4">
               <StreamingLinks links={release.streamingLinks} />
               <Button href={`/music/${release.slug}`} variant="secondary">
