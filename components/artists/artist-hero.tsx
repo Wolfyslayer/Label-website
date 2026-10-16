@@ -75,7 +75,7 @@ export async function ArtistHero({ artist }: { artist: Artist }) {
                 fill
                 className="object-cover object-[center_12%]"
                 sizes="(max-width: 1024px) 320px, 360px"
-                priority
+                loading="lazy"
               />
             </div>
           </div>
