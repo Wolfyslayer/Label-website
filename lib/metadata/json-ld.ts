@@ -36,10 +36,12 @@ export function musicGroupJsonLd(artist: Artist, locale: AppLocale) {
   return {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
+    "@id": `${absolutePublicPath(locale, `/artists/${artist.slug}`)}#artist`,
     name: artist.name,
     description: artist.shortBio,
     url: absolutePublicPath(locale, `/artists/${artist.slug}`),
     image: absoluteAssetUrl(artist.image.src),
+    memberOf: { "@id": `${siteConfig.url}/#organization` },
     ...(sameAs.length ? { sameAs } : {}),
   };
 }
@@ -53,11 +55,12 @@ export function musicAlbumJsonLd(
   return {
     "@context": "https://schema.org",
     "@type": "MusicAlbum",
+    "@id": `${absolutePublicPath(locale, `/music/${release.slug}`)}#album`,
     name: release.title,
     datePublished: release.releaseDate,
     url: absolutePublicPath(locale, `/music/${release.slug}`),
     image: absoluteAssetUrl(release.cover.src),
-    ...(artist ? { byArtist: { "@type": "MusicGroup", name: artist.name } } : {}),
+    ...(artist ? { byArtist: { "@type": "MusicGroup", "@id": `${absolutePublicPath(locale, `/artists/${artist.slug}`)}#artist`, name: artist.name } } : {}),
     track: tracks.map((tr) => ({
       "@type": "MusicRecording",
       name: tr.title,
