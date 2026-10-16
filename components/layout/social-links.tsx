@@ -3,11 +3,12 @@
 import type { PublicSocialLinks } from "@/lib/content/site-settings";
 import { siteConfig } from "@/lib/config/site";
 import { cn } from "@/lib/utils/cn";
-import { Instagram, Music2, Youtube } from "lucide-react";
+import { Facebook, Instagram, Music2, Youtube } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const icons = {
   instagram: Instagram,
+  facebook: Facebook,
   youtube: Youtube,
   spotify: Music2,
 };
