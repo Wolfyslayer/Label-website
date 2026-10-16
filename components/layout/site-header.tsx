@@ -14,6 +14,7 @@ import { createPortal } from "react-dom";
 const navHrefs = [
   { href: "/artists", key: "artists" as const },
   { href: "/music", key: "music" as const },
+  { href: "/merch", key: "merch" as const },
   { href: "/upcoming", key: "upcoming" as const },
   { href: "/news", key: "news" as const },
   { href: "/about", key: "about" as const },
