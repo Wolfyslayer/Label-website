@@ -1,0 +1,65 @@
+name: Mobile Lighthouse monitoring
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-monitoring
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    name: Mobile Lighthouse reports (non-blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      PLAYWRIGHT_BASE_URL: "http://127.0.0.1:3456"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build static site
+        run: npm run build:pages
+      - name: Start static server
+        run: |
+          npx --yes serve@14 out -l 3456 > /tmp/lighthouse-server.log 2>&1 &
+          echo $! > /tmp/lighthouse-server.pid
+      - name: Wait for server
+        run: |
+          for i in $(seq 1 45); do
+            if curl --fail --silent --output /dev/null http://127.0.0.1:3456/en/; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/lighthouse-server.log
+          exit 1
+      - name: Run mobile Lighthouse audit
+        id: audit
+        continue-on-error: true
+        run: npm run audit:lighthouse
+      - name: Publish run summary
+        if: always()
+        run: |
+          if [ -f test-results/lighthouse/summary.json ]; then
+            node scripts/lighthouse-summary.mjs >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Lighthouse summary missing. Check build/server/audit logs." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload Lighthouse JSON reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-lighthouse-reports
+          path: test-results/lighthouse/
+          if-no-files-found: ignore
+          retention-days: 30
