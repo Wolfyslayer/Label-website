@@ -42,6 +42,16 @@ jobs:
         run: npm run validate:seo
       - name: Verify exported links and resources
         run: npm run verify:export
+      - name: Report static asset size budgets
+        run: npm run check:performance
+      - name: Upload performance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-budget-report
+          path: test-results/performance/budget-report.json
+          if-no-files-found: ignore
+          retention-days: 14
       - name: Upload export for debugging on failure
         if: failure()
         uses: actions/upload-artifact@v4
