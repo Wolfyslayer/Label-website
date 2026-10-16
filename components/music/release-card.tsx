@@ -49,6 +49,7 @@ export function ReleaseCard({
           {release.cover.placeholder ? <PlaceholderBanner /> : null}
           {optimizedCover ? (
             // Generated, committed WebP variants work on GitHub Pages without an image server.
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={optimizedCover.src}
               srcSet={optimizedCover.srcSet}
