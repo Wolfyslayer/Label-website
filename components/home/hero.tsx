@@ -1,10 +1,9 @@
 import { LabelLogo } from "@/components/layout/label-logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { siteBrandPaths } from "@/lib/assets/site-brand";
 import { siteConfig } from "@/lib/config/site";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+
 
 export function HomeHero() {
   const t = useTranslations("home");
@@ -20,24 +19,33 @@ export function HomeHero() {
 
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <div className="absolute inset-0 opacity-[0.18] md:hidden">
-          <Image
-            src={siteBrandPaths.labelHeroBanner}
+          {/* Generated mobile-sized hero variant; decorative image stays lazy. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/banners/label-hero-768.webp"
+            srcSet="/assets/banners/label-hero-480.webp 480w, /assets/banners/label-hero-768.webp 768w, /assets/banners/label-hero-1280x512.webp 1280w"
             alt=""
-            fill
-            className="object-cover object-[70%_20%] mix-blend-luminosity"
+            width={1280}
+            height={512}
             sizes="100vw"
             loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-[70%_20%] mix-blend-luminosity"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/92 to-void/55" />
         </div>
         <div className="absolute right-0 top-0 hidden h-full w-[min(42vw,520px)] opacity-40 md:block">
-          <Image
-            src={siteBrandPaths.labelHeroBanner}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/banners/label-hero-768.webp"
+            srcSet="/assets/banners/label-hero-480.webp 480w, /assets/banners/label-hero-768.webp 768w, /assets/banners/label-hero-1280x512.webp 1280w"
             alt=""
-            fill
-            className="object-cover object-left-top mix-blend-luminosity"
+            width={1280}
+            height={512}
             sizes="520px"
             loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-left-top mix-blend-luminosity"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-void via-void/80 to-transparent" />
         </div>
