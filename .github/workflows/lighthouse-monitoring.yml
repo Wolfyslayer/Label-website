@@ -21,6 +21,7 @@ jobs:
       CI: "true"
       NEXT_TELEMETRY_DISABLED: "1"
       PLAYWRIGHT_BASE_URL: "http://127.0.0.1:3456"
+      LIGHTHOUSE_RUNS: "3"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
