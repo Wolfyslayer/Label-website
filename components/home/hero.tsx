@@ -60,11 +60,11 @@ export function HomeHero() {
           <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.35em] text-accent-muted sm:text-xs">
             {siteConfig.fullName}
           </p>
-          <h1 className="type-display text-balance text-text-primary">
+          <h1 className="type-display text-balance text-text-primary drop-shadow-[0_12px_35px_rgba(0,0,0,0.35)]">
             <span className="block">WOLFY</span>
             <span className="block text-silver">SLAYER</span>
           </h1>
-          <p className="mt-6 max-w-xl text-balance leading-relaxed text-text-secondary">
+          <p className="mt-7 max-w-xl text-balance text-base leading-relaxed text-text-secondary sm:text-lg">
             {t("heroTagline")}
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
@@ -75,6 +75,7 @@ export function HomeHero() {
               {t("meetArtists")}
             </Button>
           </div>
+          <div aria-hidden="true" className="mt-14 flex items-center gap-4 sm:mt-20"><span className="h-px w-12 bg-silver/45" /><span className="h-1.5 w-1.5 rotate-45 border border-silver/60" /><span className="h-px w-24 bg-silver/20" /></div>
         </motion.div>
       </Container>
     </section>
