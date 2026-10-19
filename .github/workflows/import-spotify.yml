@@ -55,6 +55,25 @@ jobs:
             echo "::warning::YOUTUBE_API_KEY missing; skipping YouTube Music enrichment."
           fi
 
+      - name: Match missing YouTube Music tracks and create review report
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_SEARCH_LIMIT: "70"
+        run: |
+          if [ -n "$YOUTUBE_API_KEY" ]; then
+            npm run auto-match:youtube-music
+          else
+            echo "::warning::YOUTUBE_API_KEY missing; skipping automatic candidate search."
+          fi
+
+      - name: Upload YouTube Music review report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtube-music-auto-review
+          path: youtube-music-auto-review.md
+          if-no-files-found: ignore
+
       - name: Validate content
         run: npm run validate:content
 
@@ -79,7 +98,7 @@ jobs:
           body: |
             Automated catalog refresh from Spotify (Client Credentials).
 
-            Automatically imported catalog changes. The import, content validation, tests, lint, typecheck and build must pass before this PR is created.
+            Automatically imported catalog changes, including unique strict YouTube Music Topic-channel matches. Uncertain matches are only reported in the workflow artifact. The import, content validation, tests, lint, typecheck and build must pass before this PR is created.
             See [docs/SPOTIFY_IMPORT.md](../blob/main/docs/SPOTIFY_IMPORT.md) for details.
 
             The workflow automatically merges only allowed catalog JSON updates. Unexpected file changes and deletions require manual review.
