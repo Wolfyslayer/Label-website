@@ -29,7 +29,8 @@
     "test:e2e:responsive": "playwright test tests/e2e/responsive-overflow.spec.ts",
     "audit:lighthouse": "node scripts/lighthouse-audit.mjs",
     "audit:cache": "node scripts/audit-production-cache.mjs",
-    "check:performance": "node scripts/check-performance-budgets.mjs"
+    "check:performance": "node scripts/check-performance-budgets.mjs",
+    "manage:youtube-music": "tsx scripts/import-youtube-link-manager.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
