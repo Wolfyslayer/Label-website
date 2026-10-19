@@ -39,11 +39,23 @@ async function main() {
   const pending = tracks.slice(0, limit);
   const lines = ["# Automated YouTube Music matching", "", `Missing before run: ${tracks.length}; searched: ${pending.length}; search cap: ${limit}.`, "", "Only exact artist Topic-channel, title and duration matches are saved. All other results need human review.", "", "| Artist | Track | Decision | Candidate |", "|---|---|---|---|"];
   let linked = 0;
+  let quotaReached = false;
   for (const { file, value: track } of pending) {
     const artist = artists[track.artistId];
-    const response = await api<{ items?: SearchItem[] }>("search", {
-      part: "snippet", q: `${artist} ${track.title}`, type: "video", maxResults: "10"
-    });
+    let response: { items?: SearchItem[] };
+    try {
+      response = await api<{ items?: SearchItem[] }>("search", {
+        part: "snippet", q: `${artist} ${track.title}`, type: "video", maxResults: "10"
+      });
+    } catch (error) {
+      if (/HTTP (403|429)[\\s\\S]*?(quota|limit)|quota[\\s\\S]*?(exceeded|limit)/i.test(String(error))) {
+        quotaReached = true;
+        lines.push(`| ${artist} | ${escape(track.title)} | Deferred: YouTube API quota exhausted | — |`);
+        console.warn("YouTube API quota exhausted. Keeping previous successful matches and continuing Spotify catalog validation.");
+        break;
+      }
+      throw error;
+    }
     const ids = [...new Set((response.items ?? []).map((x) => x.id?.videoId).filter((id): id is string => !!id))];
     const details = ids.length ? await api<{ items?: VideoItem[] }>("videos", {
       part: "snippet,contentDetails", id: ids.join(",")
@@ -68,7 +80,7 @@ async function main() {
       lines.push(`| ${artist} | ${escape(track.title)} | Review (${unique.length} qualifying matches) | ${candidates || "None"} |`);
     }
   }
-  lines.splice(4, 0, `Automatically linked: ${linked}; still missing: ${tracks.length - linked}.`, "");
+  lines.splice(4, 0, `Automatically linked: ${linked}; still missing: ${tracks.length - linked}; quota exhausted: ${quotaReached}.`, "");
   writeFileSync("youtube-music-auto-review.md", lines.join("\n") + "\n");
   console.log(`YouTube Music: searched ${pending.length}, linked ${linked}, missing ${tracks.length - linked}. Report generated.`);
 }

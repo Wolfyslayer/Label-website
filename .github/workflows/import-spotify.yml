@@ -58,7 +58,7 @@ jobs:
       - name: Match missing YouTube Music tracks and create review report
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          YOUTUBE_SEARCH_LIMIT: "70"
+          YOUTUBE_SEARCH_LIMIT: "10"
         run: |
           if [ -n "$YOUTUBE_API_KEY" ]; then
             npm run auto-match:youtube-music
