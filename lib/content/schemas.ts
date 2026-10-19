@@ -77,7 +77,8 @@ export const trackSchema = z.object({
   discNumber: z.number().int().positive().optional(),
   durationSeconds: z.number().int().positive().optional(),
   spotifyTrackUrl: httpsUrl.optional(),
-  spotifyTrackId: z.string().min(1).optional(),\n  youtubeMusicTrackUrl: httpsUrl.optional(),
+  spotifyTrackId: z.string().min(1).optional(),
+  youtubeMusicTrackUrl: httpsUrl.optional(),
 });
 
 export const releaseDatePrecisionSchema = z.enum(["year", "month", "day"]);
