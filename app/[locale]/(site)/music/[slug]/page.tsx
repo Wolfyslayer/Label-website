@@ -71,6 +71,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
   const related = getRelatedReleasesForRelease(allReleases, release, 4);
 
   const spotifyUrl = getReleaseSpotifyUrl(release, tracks);
+  const youtubeDirectUrl = release.streamingLinks.youtubeMusic || (tracks.length === 1 ? tracks[0]?.youtubeMusicTrackUrl : undefined);
   const shareUrl = `${siteConfig.url.replace(/\/$/, "")}/${locale}/releases/${release.slug}`;
 
   return (
@@ -124,8 +125,8 @@ export default async function ReleaseDetailPage({ params }: Props) {
                     <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
                   </Button>
                 ) : null}
-                <Button href={release.streamingLinks.youtubeMusic || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="outline" size="sm" className="min-h-11">
-                  {release.streamingLinks.youtubeMusic ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}
+                <Button href={youtubeDirectUrl || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="outline" size="sm" className="min-h-11">
+                  {youtubeDirectUrl ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}
                   <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
                 </Button>
                 <Button href={`/releases/${release.slug}`} variant="secondary" size="sm" className="min-h-11">
@@ -153,7 +154,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
             <section className="mt-14 max-w-3xl lg:max-w-none lg:pr-8">
               <h2 className="type-h3 font-display text-text-primary">{t("tracklist")}</h2>
               <div className="mt-6">
-                <ReleaseTracklist tracks={tracks} />
+                <ReleaseTracklist tracks={tracks} artistName={artist?.name} />
               </div>
             </section>
           ) : null}
