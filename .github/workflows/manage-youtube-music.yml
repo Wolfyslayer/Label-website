@@ -1,0 +1,64 @@
+name: YouTube Music Link Manager
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Report missing links or set a verified direct link"
+        required: true
+        type: choice
+        options:
+          - report
+          - set-track
+          - set-release
+      spotify_id:
+        description: "Spotify track or album ID (for set actions)"
+        required: false
+        type: string
+      youtube_music_url:
+        description: "Verified direct YouTube Music URL (for set actions)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  manage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Report or update verified link
+        env:
+          ACTION: ${{ inputs.action }}
+          SPOTIFY_ID: ${{ inputs.spotify_id }}
+          MUSIC_URL: ${{ inputs.youtube_music_url }}
+        run: npm run manage:youtube-music -- "$ACTION" "$SPOTIFY_ID" "$MUSIC_URL"
+      - name: Upload missing-link report
+        if: ${{ inputs.action == 'report' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtube-music-coverage
+          path: youtube-music-coverage.md
+      - name: Validate updated content
+        if: ${{ inputs.action != 'report' }}
+        run: npm run validate:content
+      - name: Open reviewable pull request
+        if: ${{ inputs.action != 'report' }}
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: manual/youtube-music-links
+          delete-branch: true
+          commit-message: "content: update verified YouTube Music link"
+          title: "Verified YouTube Music direct link"
+          body: |
+            Manually confirmed YouTube Music direct URL, submitted through GitHub Actions.
+            Please verify the destination corresponds to the correct artist, track or release before merging.
+            No automatic merge is enabled for this workflow.
+          labels: content
