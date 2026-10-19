@@ -74,6 +74,11 @@ jobs:
           path: youtube-music-auto-review.md
           if-no-files-found: ignore
 
+      - name: Keep review report out of catalog pull request
+        run: |
+          # Artifact upload has already completed; exclude report from git changes.
+          rm -f youtube-music-auto-review.md
+
       - name: Validate content
         run: npm run validate:content
 
