@@ -61,6 +61,7 @@ jobs:
         run: npm run build
 
       - name: Create pull request
+        id: catalog_pr
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore(content): refresh catalog from Spotify"
@@ -68,12 +69,43 @@ jobs:
           body: |
             Automated catalog refresh from Spotify (Client Credentials).
 
-            Review release titles, dates, artwork URLs, and track lists before merging.
+            Automatically imported catalog changes. The import, content validation, tests, lint, typecheck and build must pass before this PR is created.
             See [docs/SPOTIFY_IMPORT.md](../blob/main/docs/SPOTIFY_IMPORT.md) for details.
 
-            **Do not merge** until you have verified the catalog on a preview build.
+            The workflow automatically merges only allowed catalog JSON updates. Unexpected file changes and deletions require manual review.
           branch: automation/spotify-catalog-import
           delete-branch: true
           labels: |
             content
             spotify
+
+      - name: Merge validated catalog PR
+        if: ${{ steps.catalog_pr.outputs.pull-request-number != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.catalog_pr.outputs.pull-request-number }}
+        run: |
+          set -euo pipefail
+          # Only the fixed automation branch may be merged by this workflow.
+          head_ref="$(gh pr view "$PR_NUMBER" --json headRefName --jq '.headRefName')"
+          if [ "$head_ref" != "automation/spotify-catalog-import" ]; then
+            echo "::error::Unexpected PR head: $head_ref"
+            exit 1
+          fi
+          # Fail closed: do not merge edits outside the generated catalog or deletions.
+          files="$(gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files" --jq '.[] | [.filename, .status] | @tsv')"
+          if [ -z "$files" ]; then
+            echo "No changed files; skipping merge."
+            exit 0
+          fi
+          while IFS=$'\t' read -r path status; do
+            case "$path" in
+              content/releases/*.json|content/tracks/*.json|content/site.json) ;;
+              *) echo "::error::Unexpected changed file: $path"; exit 1 ;;
+            esac
+            if [ "$status" = "removed" ]; then
+              echo "::error::Deletion requires manual review: $path"
+              exit 1
+            fi
+          done <<< "$files"
+          gh pr merge "$PR_NUMBER" --squash --delete-branch
