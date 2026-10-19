@@ -97,7 +97,8 @@ export function ReleaseCard({
           </p>
         </div>
       </Link>
-      <div className="mt-2 flex flex-wrap items-center gap-x-4">\n      {spotifyUrl ? (
+      <div className="mt-2 flex flex-wrap items-center gap-x-4">
+      {spotifyUrl ? (
         <div className="mt-2">
           <Button
             href={spotifyUrl}
@@ -110,6 +111,12 @@ export function ReleaseCard({
             <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
           </Button>
         </div>
-      ) : null}\n      <Button href={release.streamingLinks.youtubeMusic || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="ghost" size="sm" className="min-h-11 px-1 text-xs uppercase tracking-widest text-silver hover:text-text-primary">\n        {release.streamingLinks.youtubeMusic ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}\n        <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />\n      </Button>\n      </div>\n    </motion.article>
+      ) : null}
+      <Button href={release.streamingLinks.youtubeMusic || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="ghost" size="sm" className="min-h-11 px-1 text-xs uppercase tracking-widest text-silver hover:text-text-primary">
+        {release.streamingLinks.youtubeMusic ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}
+        <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
+      </Button>
+      </div>
+    </motion.article>
   );
 }
