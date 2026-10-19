@@ -62,7 +62,8 @@ async function main() {
       const response = await get("videos", { part: "snippet,contentDetails", id: ids.slice(i, i + 50).join(",") });
       for (const item of response.items ?? []) {
         if (item.snippet?.channelId !== info.id) continue;
-        if (!item.id || !item.snippet?.title) continue;\n        videos.push({ id: item.id, title: item.snippet.title, duration: seconds(item.contentDetails?.duration ?? "") });
+        if (!item.id || !item.snippet?.title) continue;
+        videos.push({ id: item.id, title: item.snippet.title, duration: seconds(item.contentDetails?.duration ?? "") });
       }
     }
     let matched = 0;

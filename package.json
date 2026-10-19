@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "validate:content": "tsx scripts/validate-content.ts",
-    "import:spotify": "tsx scripts/import-spotify.ts",\n    "import:youtube-music": "tsx scripts/import-youtube-music.ts",
+    "import:spotify": "tsx scripts/import-spotify.ts",
+    "import:youtube-music": "tsx scripts/import-youtube-music.ts",
     "prepare:release-covers": "node scripts/prepare-release-covers.mjs",
     "prepare:hero-images": "node scripts/prepare-hero-images.mjs",
     "verify:release-covers": "node scripts/verify-release-covers.mjs",
