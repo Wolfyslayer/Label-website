@@ -52,3 +52,9 @@ export function spotifyArtistEmbedUrl(url: string): string | null {
     return null;
   }
 }
+
+/** Search fallback, not a verified direct track or album link. */
+export function youtubeMusicSearchUrl(title: string, artistName: string): string {
+  const query = [artistName.trim(), title.trim()].filter(Boolean).join(" ");
+  return `https://music.youtube.com/search?q=${encodeURIComponent(query)}`;
+}
