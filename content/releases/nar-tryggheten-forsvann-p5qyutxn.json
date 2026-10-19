@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-5R51x0brvg7Qo7p5QyUTxN",
+  "slug": "nar-tryggheten-forsvann-p5qyutxn",
+  "title": "När Tryggheten Försvann",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-19",
+  "releaseAt": "2026-10-19T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2730a582861f3cc46cf6811c423",
+    "alt": {
+      "en": "När Tryggheten Försvann — cover artwork",
+      "sv": "När Tryggheten Försvann — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/5R51x0brvg7Qo7p5QyUTxN"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/5R51x0brvg7Qo7p5QyUTxN",
+  "spotifyAlbumId": "5R51x0brvg7Qo7p5QyUTxN",
+  "trackIds": [
+    "track-spotify-4ZBQLdnhrXTG3y1lhRjKjV"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

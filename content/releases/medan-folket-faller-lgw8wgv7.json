@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-3p9Xqd9pXOvXT6lgW8Wgv7",
+  "slug": "medan-folket-faller-lgw8wgv7",
+  "title": "Medan Folket Faller",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-19",
+  "releaseAt": "2026-10-19T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b2738f8080fcb38f6c2a14c9a069",
+    "alt": {
+      "en": "Medan Folket Faller — cover artwork",
+      "sv": "Medan Folket Faller — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/3p9Xqd9pXOvXT6lgW8Wgv7"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/3p9Xqd9pXOvXT6lgW8Wgv7",
+  "spotifyAlbumId": "3p9Xqd9pXOvXT6lgW8Wgv7",
+  "trackIds": [
+    "track-spotify-4G0DRoNkmO7tUDgHlj5Sge"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}

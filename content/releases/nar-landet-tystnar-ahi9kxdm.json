@@ -1,0 +1,33 @@
+{
+  "id": "release-spotify-7wnBXLDJXlw0hrahI9KXDM",
+  "slug": "nar-landet-tystnar-ahi9kxdm",
+  "title": "När Landet Tystnar",
+  "artistId": "artist-frostmark",
+  "type": "single",
+  "releaseDate": "2026-10-19",
+  "releaseAt": "2026-10-19T12:00:00.000Z",
+  "releaseDatePrecision": "day",
+  "description": {
+    "en": "Official release available on Spotify.",
+    "sv": "Officiell release tillgänglig på Spotify."
+  },
+  "cover": {
+    "src": "https://i.scdn.co/image/ab67616d0000b273d1e8d85b81d6543b0168eb34",
+    "alt": {
+      "en": "När Landet Tystnar — cover artwork",
+      "sv": "När Landet Tystnar — omslagsbild"
+    },
+    "placeholder": false
+  },
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/album/7wnBXLDJXlw0hrahI9KXDM"
+  },
+  "spotifyAlbumUrl": "https://open.spotify.com/album/7wnBXLDJXlw0hrahI9KXDM",
+  "spotifyAlbumId": "7wnBXLDJXlw0hrahI9KXDM",
+  "trackIds": [
+    "track-spotify-7cJVLNJrzsMqSczJdbbV8r"
+  ],
+  "featured": false,
+  "status": "published",
+  "importSource": "spotify"
+}
