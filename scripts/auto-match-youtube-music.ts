@@ -48,7 +48,7 @@ async function main() {
         part: "snippet", q: `${artist} ${track.title}`, type: "video", maxResults: "10"
       });
     } catch (error) {
-      if (/HTTP (403|429).*?(quota|limit)|quota.*?(exceeded|limit)/is.test(String(error))) {
+      if (/HTTP (403|429)[\\s\\S]*?(quota|limit)|quota[\\s\\S]*?(exceeded|limit)/i.test(String(error))) {
         quotaReached = true;
         lines.push(`| ${artist} | ${escape(track.title)} | Deferred: YouTube API quota exhausted | — |`);
         console.warn("YouTube API quota exhausted. Keeping previous successful matches and continuing Spotify catalog validation.");
