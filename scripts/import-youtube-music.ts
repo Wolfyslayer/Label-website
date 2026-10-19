@@ -20,12 +20,18 @@ const seconds = (iso: string) => {
   const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso);
   return m ? Number(m[1] || 0) * 3600 + Number(m[2] || 0) * 60 + Number(m[3] || 0) : null;
 };
+type YouTubeItem = {
+  id?: string;
+  snippet?: { title?: string; channelId?: string };
+  contentDetails?: { relatedPlaylists?: { uploads?: string }; videoId?: string; duration?: string };
+};
+type YouTubeResponse = { items?: YouTubeItem[]; nextPageToken?: string };
 async function get(endpoint: string, params: Record<string, string>) {
   const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);
   for (const [key, value] of Object.entries({ ...params, key: apiKey! })) url.searchParams.set(key, value);
   const res = await fetch(url);
   if (!res.ok) throw new Error(`YouTube API ${endpoint}: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
-  return res.json() as Promise<any>;
+  return res.json() as Promise<YouTubeResponse>;
 }
 async function main() {
   if (!apiKey) throw new Error("Missing YOUTUBE_API_KEY GitHub Actions secret.");
@@ -47,7 +53,7 @@ async function main() {
     let pageToken: string | undefined;
     for (let page = 0; page < 5; page++) {
       const response = await get("playlistItems", { part: "contentDetails", playlistId: playlist, maxResults: "50", ...(pageToken ? { pageToken } : {}) });
-      ids.push(...(response.items ?? []).map((item: any) => item.contentDetails?.videoId).filter(Boolean));
+      ids.push(...(response.items ?? []).map((item) => item.contentDetails?.videoId).filter(Boolean));
       pageToken = response.nextPageToken;
       if (!pageToken) break;
     }
@@ -56,7 +62,7 @@ async function main() {
       const response = await get("videos", { part: "snippet,contentDetails", id: ids.slice(i, i + 50).join(",") });
       for (const item of response.items ?? []) {
         if (item.snippet?.channelId !== info.id) continue;
-        videos.push({ id: item.id, title: item.snippet.title, duration: seconds(item.contentDetails?.duration ?? "") });
+        if (!item.id || !item.snippet?.title) continue;\n        videos.push({ id: item.id, title: item.snippet.title, duration: seconds(item.contentDetails?.duration ?? "") });
       }
     }
     let matched = 0;
