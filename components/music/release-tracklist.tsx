@@ -16,7 +16,7 @@ export async function ReleaseTracklist({ tracks }: { tracks: Track[] }) {
     <ol className="surface-panel divide-y divide-border-subtle">
       {tracks.map((track) => {
         const duration = formatDuration(track.durationSeconds);
-        const spotify = track.spotifyTrackUrl?.trim();
+        const spotify = track.spotifyTrackUrl?.trim();\n        const youtube = track.youtubeMusicTrackUrl?.trim();
         return (
           <li
             key={track.id}
