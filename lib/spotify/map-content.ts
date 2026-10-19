@@ -143,7 +143,7 @@ export function mapSpotifyTracksToContent(
       discNumber: t.disc_number,
       durationSeconds,
       spotifyTrackUrl,
-      spotifyTrackId: t.id,
+      spotifyTrackId: t.id,\n      youtubeMusicTrackUrl: existing?.youtubeMusicTrackUrl,
     };
   });
 }
