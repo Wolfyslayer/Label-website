@@ -23,7 +23,7 @@ import { musicAlbumJsonLd } from "@/lib/metadata/json-ld";
 import { JsonLd } from "@/components/seo/json-ld";
 import { releaseShareMetadata } from "@/lib/metadata/release-share";
 import { formatReleaseDate } from "@/lib/utils/date";
-import { getReleaseSpotifyUrl } from "@/lib/utils/streaming";
+import { getReleaseSpotifyUrl, youtubeMusicSearchUrl } from "@/lib/utils/streaming";
 import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
@@ -124,7 +124,7 @@ export default async function ReleaseDetailPage({ params }: Props) {
                     <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
                   </Button>
                 ) : null}
-                <Button href={`/releases/${release.slug}`} variant="secondary" size="sm" className="min-h-11">
+                <Button href={release.streamingLinks.youtubeMusic || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="outline" size="sm" className="min-h-11">\n                  {release.streamingLinks.youtubeMusic ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}\n                  <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />\n                </Button>\n                <Button href={`/releases/${release.slug}`} variant="secondary" size="sm" className="min-h-11">
                   {t("smartLink")}
                 </Button>
               </div>
