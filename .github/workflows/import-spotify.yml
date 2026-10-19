@@ -45,6 +45,16 @@ jobs:
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
         run: npm run import:spotify
 
+      - name: Enrich verified YouTube Music track links
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          if [ -n "$YOUTUBE_API_KEY" ]; then
+            npm run import:youtube-music
+          else
+            echo "::warning::YOUTUBE_API_KEY missing; skipping YouTube Music enrichment."
+          fi
+
       - name: Validate content
         run: npm run validate:content
 
