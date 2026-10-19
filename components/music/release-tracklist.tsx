@@ -1,6 +1,7 @@
 import { ExternalLink } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import type { Track } from "@/lib/types/content";
+import { youtubeMusicSearchUrl } from "@/lib/utils/streaming";
 
 function formatDuration(seconds?: number) {
   if (seconds == null || !Number.isFinite(seconds) || seconds < 0) return null;
@@ -9,7 +10,7 @@ function formatDuration(seconds?: number) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-export async function ReleaseTracklist({ tracks }: { tracks: Track[] }) {
+export async function ReleaseTracklist({ tracks, artistName }: { tracks: Track[]; artistName?: string }) {
   const t = await getTranslations("releasePage");
 
   return (
@@ -18,6 +19,7 @@ export async function ReleaseTracklist({ tracks }: { tracks: Track[] }) {
         const duration = formatDuration(track.durationSeconds);
         const spotify = track.spotifyTrackUrl?.trim();
         const youtube = track.youtubeMusicTrackUrl?.trim();
+        const youtubeHref = youtube || youtubeMusicSearchUrl(track.title, artistName ?? "");
         return (
           <li
             key={track.id}
@@ -41,6 +43,9 @@ export async function ReleaseTracklist({ tracks }: { tracks: Track[] }) {
                 <ExternalLink className="h-4 w-4" aria-hidden />
               </a>
             ) : null}
+            <a href={youtubeHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 shrink-0 items-center px-1 text-xs text-silver hover:text-text-primary" aria-label={`${youtube ? "YouTube Music" : "Search YouTube Music"}: ${track.title}`}>
+              {youtube ? "YouTube Music" : "YouTube-sök"} <ExternalLink className="ml-1 h-3 w-3" aria-hidden />
+            </a>
             {duration ? (
               <span className="shrink-0 tabular-nums text-xs text-text-muted sm:hidden">{duration}</span>
             ) : null}
