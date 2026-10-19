@@ -1,0 +1,47 @@
+name: YouTube Music Candidate Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      artist:
+        description: "Artist to search for missing tracks"
+        required: true
+        type: choice
+        options:
+          - frostmark
+          - wolfyslayer
+      limit:
+        description: "Number of missing tracks to inspect (max 10; 100 search quota units per track)"
+        required: true
+        default: "5"
+        type: choice
+        options:
+          - "1"
+          - "5"
+          - "10"
+
+permissions:
+  contents: read
+
+jobs:
+  suggestions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Search unlinked tracks (suggestions only)
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          CANDIDATE_ARTIST: ${{ inputs.artist }}
+          CANDIDATE_LIMIT: ${{ inputs.limit }}
+        run: npm run suggest:youtube-music
+      - name: Upload candidate report
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtube-music-candidates-${{ inputs.artist }}
+          path: youtube-music-candidates.md
+          if-no-files-found: error
