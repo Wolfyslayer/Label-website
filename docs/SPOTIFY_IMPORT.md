@@ -47,10 +47,10 @@ In the repository **Settings → Secrets and variables → Actions**:
 1. Open the repo on GitHub (app or browser). The workflow also checks daily at 06:23 UTC (GitHub may delay scheduled jobs).
 2. **Actions** → **Import Spotify catalog** → **Run workflow** → **Run workflow**.
 3. Wait for the job to finish (green check).
-4. Open the **pull request** created by the workflow (`automation/spotify-catalog-import`).
-5. Review files under `content/releases/` and `content/tracks/`, then merge when satisfied.
+4. If the import changes the catalog, the workflow creates or updates `automation/spotify-catalog-import` and merges its PR automatically after validation, tests, lint, typecheck and build succeed, provided it contains only allowed catalog JSON changes and no deletions.
+5. If the workflow reports an unexpected file or deletion, review the PR manually; it will not be auto-merged.
 
-The workflow runs `validate:content`, lint, typecheck, and `build` before opening the PR. It does **not** push to `main` directly.
+The workflow is scheduled daily at **06:23 UTC** (08:23 CEST / 07:23 CET), though GitHub may delay scheduled runs. It can also be triggered manually. The automatic merge uses `GITHUB_TOKEN`; GitHub generally does not trigger other `push`-based Actions workflows from pushes made with that token. Verify that the website deployment workflow is dispatched separately or uses a different authorized credential before relying on hands-off publishing.
 
 ## Review checklist
 
