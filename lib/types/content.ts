@@ -84,7 +84,7 @@ export interface Track {
   discNumber?: number;
   durationSeconds?: number;
   spotifyTrackUrl?: string;
-  spotifyTrackId?: string;
+  spotifyTrackId?: string;\n  youtubeMusicTrackUrl?: string;
 }
 
 export interface ReleaseSource {
