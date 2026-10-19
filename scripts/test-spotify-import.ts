@@ -247,7 +247,9 @@ async function testImportPaginationAndIdempotency() {
 
   const first = await importSpotifyCatalog("token", { fetchImpl, http: { minDelayMs: 0, maxRetries: 1 } });
   assert.equal(first.stats.reduce((n, s) => n + s.albumsImported, 0), 2);
-  assert.equal(first.tracks.length, 2);
+  // Existing Spotify releases are intentionally preserved when absent from a mocked response.
+  // Check only the two newly imported mock tracks, regardless of catalog size.
+  assert.equal(first.tracks.filter((track) => ["ft1", "wt1"].includes(track.spotifyTrackId ?? "")).length, 2);
   assert.ok(first.featuredReleaseId);
 
   const second = await importSpotifyCatalog("token", { fetchImpl, http: { minDelayMs: 0, maxRetries: 1 } });
