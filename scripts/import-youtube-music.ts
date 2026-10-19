@@ -53,7 +53,7 @@ async function main() {
     let pageToken: string | undefined;
     for (let page = 0; page < 5; page++) {
       const response = await get("playlistItems", { part: "contentDetails", playlistId: playlist, maxResults: "50", ...(pageToken ? { pageToken } : {}) });
-      ids.push(...(response.items ?? []).map((item) => item.contentDetails?.videoId).filter(Boolean));
+      ids.push(...(response.items ?? []).map((item) => item.contentDetails?.videoId).filter((id): id is string => typeof id === "string" && id.length > 0));
       pageToken = response.nextPageToken;
       if (!pageToken) break;
     }
