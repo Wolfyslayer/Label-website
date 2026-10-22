@@ -87,6 +87,8 @@ export interface Track {
   spotifyTrackUrl?: string;
   spotifyTrackId?: string;
   youtubeMusicTrackUrl?: string;
+  /** Recording identity; may be shared across different releases. */
+  isrc?: string;
 }
 
 export interface ReleaseSource {
@@ -105,6 +107,8 @@ export interface ReleaseSource {
   streamingLinks: StreamingLinks;
   spotifyAlbumUrl?: string;
   spotifyAlbumId?: string;
+  /** Release identity; unique to the single/EP/album, not the recording. */
+  upc?: string;
   trackIds: string[];
   featured: boolean;
   status: ContentStatus;
