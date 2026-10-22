@@ -1,0 +1,35 @@
+name: Discover Apple Music release candidates
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: Maximum releases to search (1-35)
+        default: '15'
+        type: string
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Search Apple Music release listings
+        env:
+          APPLE_DISCOVERY_LIMIT: ${{ inputs.limit }}
+        run: npx tsx scripts/discover-apple-music-releases.ts
+      - name: Validate suggestions with release matching rules
+        run: npx tsx scripts/review-release-streaming-candidates.ts apple-music-release-candidates.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apple-music-release-review
+          path: |
+            apple-music-release-candidates.json
+            apple-music-discovery-report.md
+            release-streaming-review.md
+          retention-days: 30
