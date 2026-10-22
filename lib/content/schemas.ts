@@ -100,7 +100,7 @@ export const releaseSourceSchema = z.object({
   streamingLinks: streamingLinksSchema.default({}),
   spotifyAlbumUrl: httpsUrl.optional(),
   spotifyAlbumId: z.string().min(1).optional(),
-  upc: z.string().regex(/^\\d{12,14}$/).optional(),
+  upc: z.string().regex(/^\d{12,14}$/).optional(),
   trackIds: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
   status: contentStatusSchema,
