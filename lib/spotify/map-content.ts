@@ -106,7 +106,7 @@ export function mapAlbumToRelease(
     },
     spotifyAlbumUrl,
     spotifyAlbumId,
-    upc: (() => { const incoming = "external_ids" in album ? album.external_ids?.upc?.trim() : undefined; const previous = existing?.upc?.trim(); return [incoming, previous].find(value => value !== undefined && /^\d{12,13}$/.test(value)); })(),
+    upc: (() => { const incoming = "external_ids" in album ? album.external_ids?.upc?.trim() : undefined; const previous = existing?.upc?.trim(); return [incoming, previous].find(value => value !== undefined && /^\d{12,14}$/.test(value)); })(),
     trackIds,
     featured: existing?.featured ?? false,
     status: "published",
