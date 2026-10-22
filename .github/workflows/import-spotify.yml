@@ -73,6 +73,28 @@ jobs:
             echo "::warning::YOUTUBE_API_KEY missing; skipping YouTube Music enrichment."
           fi
 
+      - name: Enrich missing YouTube Music links with MusicLink
+        env:
+          MUSICLINK_API_KEY: ${{ secrets.MUSICLINK_API_KEY }}
+          MUSICLINK_BATCH_SIZE: "10"
+        run: |
+          if [ -n "$MUSICLINK_API_KEY" ]; then
+            npx tsx scripts/enrich-musiclink.ts
+          else
+            echo "::warning::MUSICLINK_API_KEY missing; skipping MusicLink enrichment."
+          fi
+
+      - name: Upload MusicLink enrichment report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: musiclink-enrichment-report
+          path: musiclink-enrichment-report.md
+          if-no-files-found: ignore
+
+      - name: Remove MusicLink report from catalog changes
+        run: rm -f musiclink-enrichment-report.md
+
       - name: Match missing YouTube Music tracks and create review report
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
