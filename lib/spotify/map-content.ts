@@ -106,6 +106,7 @@ export function mapAlbumToRelease(
     },
     spotifyAlbumUrl,
     spotifyAlbumId,
+    upc: ("external_ids" in album && /^\\d{12,14}$/.test(album.external_ids?.upc ?? "") ? album.external_ids?.upc : undefined) ?? existing?.upc,
     trackIds,
     featured: existing?.featured ?? false,
     status: "published",
@@ -145,6 +146,7 @@ export function mapSpotifyTracksToContent(
       spotifyTrackUrl,
       spotifyTrackId: t.id,
       youtubeMusicTrackUrl: existing?.youtubeMusicTrackUrl,
+      isrc: existing?.isrc,
     };
   });
 }
