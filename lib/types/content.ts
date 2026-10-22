@@ -15,7 +15,8 @@ export type StreamingPlatform =
   | "bandcamp"
   | "soundcloud"
   | "deezer"
-  | "tidal";
+  | "tidal"
+  | "amazonMusic";
 
 export type StreamingLinks = Partial<Record<StreamingPlatform, string>>;
 
