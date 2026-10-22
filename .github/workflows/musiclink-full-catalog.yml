@@ -1,0 +1,47 @@
+name: MusicLink full catalog discovery
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: Number of platform lookups per batch (1-35)
+        default: '10'
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: musiclink-full-catalog
+  cancel-in-progress: false
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Restore previous progress artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=musiclink-full-catalog-progress&per_page=20" --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | reverse | .[0].id // empty')
+          if [ -n "$id" ]; then
+            gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > progress.zip
+            unzip -o -q progress.zip 'musiclink-release-progress.json'
+          fi
+      - name: Discover next batch
+        env:
+          MUSICLINK_API_KEY: ${{ secrets.MUSICLINK_API_KEY }}
+          MUSICLINK_RELEASE_LIMIT: ${{ inputs.limit }}
+        run: npx tsx scripts/discover-all-musiclink-releases.ts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musiclink-full-catalog-progress
+          path: |
+            musiclink-release-progress.json
+            musiclink-release-candidates.json
+            musiclink-release-preview.md
+          retention-days: 90
