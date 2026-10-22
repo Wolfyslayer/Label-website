@@ -29,13 +29,18 @@ function byDateDesc(a: string, b: string) {
 }
 
 async function loadContentSource(): Promise<SiteContentSource> {
-  if (isSupabaseConfigured()) {
+  // The public static catalog is sourced from the imported content/ files.
+  // A configured Supabase project must not silently replace it with empty tables.
+  // Database-backed content is opt-in for environments explicitly using the CMS.
+  if (process.env.CONTENT_SOURCE === "supabase" && isSupabaseConfigured()) {
     try {
       const { fetchContentFromDb } = await import("@/lib/content/db");
       const dbContent = await fetchContentFromDb();
-      if (dbContent) return dbContent;
+      if (dbContent && dbContent.artists.length > 0 && dbContent.releases.length > 0) {
+        return dbContent;
+      }
     } catch {
-      // Fall back to seed when DB is unavailable
+      // Fall back to the imported static catalog.
     }
   }
   return seedContent;
