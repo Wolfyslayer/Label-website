@@ -15,7 +15,10 @@ permissions:
 jobs:
   lookup:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
+    concurrency:
+      group: musiclink-isrc-lookup
+      cancel-in-progress: false
     steps:
       - name: Checkout catalog
         uses: actions/checkout@v4
@@ -26,11 +29,24 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Restore saved ISRC matches
+        uses: actions/cache/restore@v4
+        with:
+          path: .musiclink-isrc-cache
+          key: musiclink-isrc-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            musiclink-isrc-v1-
       - name: Lookup ISRC for existing Spotify tracks
         env:
           MUSICLINK_API_KEY: ${{ secrets.MUSICLINK_API_KEY }}
           MUSICLINK_ISRC_LIMIT: ${{ inputs.limit }}
         run: npx tsx scripts/lookup-musiclink-isrc.ts
+      - name: Save successful ISRC matches for next run
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .musiclink-isrc-cache
+          key: musiclink-isrc-v1-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Upload ISRC results
         if: always()
         uses: actions/upload-artifact@v4
