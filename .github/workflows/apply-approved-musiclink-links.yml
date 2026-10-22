@@ -1,0 +1,30 @@
+name: Apply approved MusicLink release links
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx tsx scripts/apply-approved-musiclink-release-links.ts
+      - run: npm run validate:content
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/approved-musiclink-links
+          delete-branch: true
+          commit-message: 'catalog: add manually approved MusicLink release links'
+          title: 'Catalog: add approved release streaming links'
+          body: |
+            Links come only from scripts/data/approved-musiclink-release-links.json.
+            Approval must follow a manual review of each exact release identity.
+            Existing streaming links are preserved. Review changes before merging.
+          add-paths: content/releases/*.json
