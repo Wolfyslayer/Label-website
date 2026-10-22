@@ -6,6 +6,7 @@
 import { writeFileSync } from "node:fs";
 import { fetchClientCredentialsToken, requireSpotifyCredentials } from "../lib/spotify/auth";
 import { importSpotifyCatalog } from "../lib/spotify/import-catalog";
+import { fetchAlbumWithTracks } from "../lib/spotify/api";
 
 type SpotifyTrack = { id: string; external_ids?: { isrc?: string } };
 type SpotifyAlbum = { id: string; external_ids?: { upc?: string; ean?: string } };
@@ -28,13 +29,23 @@ async function main() {
   const albumIds = [...new Set(catalog.releases.map(r => r.spotifyAlbumId).filter((id): id is string => !!id))];
   const tracks = new Map<string, SpotifyTrack>();
   const albums = new Map<string, SpotifyAlbum>();
-  for (let i = 0; i < trackIds.length; i += 50) {
-    const response = await spotifyGet<{ tracks: (SpotifyTrack | null)[] }>(token, "tracks?ids=" + trackIds.slice(i, i + 50).join(","));
-    for (const track of response.tracks) if (track?.id) tracks.set(track.id, track);
+  // Spotify may reject /v1/tracks with HTTP 403 for this application.
+  // Album metadata is already available to the importer; reuse its supported endpoint.
+  for (const albumId of albumIds) {
+    try {
+      const album = await fetchAlbumWithTracks(token, albumId);
+      albums.set(albumId, { id: albumId, external_ids: (album as typeof album & { external_ids?: SpotifyAlbum["external_ids"] }).external_ids });
+    } catch (error) {
+      console.warn("Album identifiers unavailable for " + albumId + ": " + String(error));
+    }
   }
-  for (let i = 0; i < albumIds.length; i += 20) {
-    const response = await spotifyGet<{ albums: (SpotifyAlbum | null)[] }>(token, "albums?ids=" + albumIds.slice(i, i + 20).join(","));
-    for (const album of response.albums) if (album?.id) albums.set(album.id, album);
+  try {
+    for (let i = 0; i < trackIds.length; i += 50) {
+      const response = await spotifyGet<{ tracks: (SpotifyTrack | null)[] }>(token, "tracks?ids=" + trackIds.slice(i, i + 50).join(","));
+      for (const track of response.tracks) if (track?.id) tracks.set(track.id, track);
+    }
+  } catch (error) {
+    console.warn("Spotify track identifier endpoint denied access; exporting available UPCs and blank ISRC cells instead: " + String(error).slice(0, 140));
   }
   const albumByRelease = new Map(catalog.releases.map(r => [r.id, r]));
   const names: Record<string, string> = { "artist-frostmark": "Frostmark", "artist-wolfyslayer": "Wolfyslayer" };
