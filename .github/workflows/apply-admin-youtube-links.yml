@@ -1,0 +1,34 @@
+name: Apply approved YouTube links
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: admin-youtube-links
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Apply authenticated admin proposals
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx scripts/apply-admin-youtube-proposals.ts
+      - run: npm run validate:content
+      - run: npm run typecheck
+      - name: Open review PR (never auto-merge)
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/admin-youtube-links
+          delete-branch: true
+          title: "Admin-reviewed YouTube Music link updates"
+          commit-message: "chore(content): apply admin YouTube Music links"
+          body: "YouTube Music track links submitted by allowlisted Supabase admins. Review track IDs and direct links before merging. No auto-merge."
