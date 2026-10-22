@@ -1,0 +1,35 @@
+name: Verify MusicLink release UPCs
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Download latest MusicLink catalog candidates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=musiclink-full-catalog-progress&per_page=100" --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | reverse | .[0].id // empty')
+          if [ -z "$id" ]; then echo "Missing discovery artifact"; exit 1; fi
+          gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > catalog.zip
+          unzip -o -q catalog.zip 'musiclink-release-candidates.json'
+      - name: Compare candidate UPC with catalog UPC
+        run: npx tsx scripts/verify-musiclink-upc.ts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musiclink-upc-verification
+          path: |
+            musiclink-upc-approved.json
+            musiclink-upc-review.json
+            musiclink-upc-report.md
+          retention-days: 90
