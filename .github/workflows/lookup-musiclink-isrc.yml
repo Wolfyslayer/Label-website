@@ -1,0 +1,43 @@
+name: Lookup ISRC with MusicLink
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Maximum Spotify tracks to look up (1-100)"
+        required: false
+        default: "20"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  lookup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout catalog
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Lookup ISRC for existing Spotify tracks
+        env:
+          MUSICLINK_API_KEY: ${{ secrets.MUSICLINK_API_KEY }}
+          MUSICLINK_ISRC_LIMIT: ${{ inputs.limit }}
+        run: npx tsx scripts/lookup-musiclink-isrc.ts
+      - name: Upload ISRC results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: musiclink-isrc-results
+          path: |
+            musiclink-isrc.csv
+            musiclink-isrc-report.md
+          if-no-files-found: warn
+          retention-days: 30
