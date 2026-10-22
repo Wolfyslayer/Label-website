@@ -1,0 +1,52 @@
+name: Import UPC-matched MusicLink links
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Download latest UPC resolver results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          id=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=musiclink-resolve-upc-results&per_page=100" --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | reverse | .[0].id // empty')
+          if [ -z "$id" ]; then echo "No UPC resolver artifact"; exit 1; fi
+          gh api "repos/${{ github.repository }}/actions/artifacts/$id/zip" > results.zip
+          unzip -o -q results.zip 'musiclink-resolve-upc-approved.json' 'musiclink-resolve-upc-review.json'
+      - name: Require UPC-matched approvals and exclude unresolved releases
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const approvals=JSON.parse(fs.readFileSync('musiclink-resolve-upc-approved.json','utf8'));
+          const reviews=JSON.parse(fs.readFileSync('musiclink-resolve-upc-review.json','utf8'));
+          if(!Array.isArray(approvals)||!Array.isArray(reviews))throw Error('Invalid artifact');
+          const excluded=new Set(reviews.filter(x=>x.reason==='no_matching_upc'||x.reason==='ambiguous_upc'||x.reason==='track_count_mismatch').map(x=>x.releaseId));
+          const filtered=approvals.filter(x=>x.approved===true&&x.upc&&!excluded.has(x.releaseId)&&['appleMusic','deezer','tidal','amazonMusic','youtubeMusic'].includes(x.platform));
+          fs.writeFileSync('musiclink-upc-import.json',JSON.stringify(filtered,null,2)+'\n');
+          console.log('Import candidates: '+filtered.length+'; excluded conflicting releases: '+excluded.size);
+          NODE
+      - run: npx tsx scripts/apply-approved-musiclink-release-links.ts musiclink-upc-import.json
+      - run: npm run validate:content
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/upc-musiclink-import
+          delete-branch: true
+          commit-message: 'catalog: import UPC-matched streaming release links'
+          title: 'Catalog: import UPC-matched MusicLink release links'
+          body: |
+            Imports candidate links from the latest MusicLink UPC resolution artifact.
+            Each imported record's UPC is checked against its catalog release UPC.
+            Conflicting releases are excluded; existing links are preserved.
+            Review platform destinations before merging.
+          add-paths: content/releases/*.json
