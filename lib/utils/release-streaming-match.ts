@@ -44,7 +44,7 @@ export function evaluateReleaseCandidate(
   const expectedIsrcs = tracks.filter(t => release.trackIds.includes(t.id)).map(t => t.isrc).filter((s): s is string => !!s);
   const observedIsrcs = candidate.trackIsrcs ?? [];
   if (expectedIsrcs.length && observedIsrcs.length) {
-    if (!expectedIsrcs.every(code => observedIsrcs.includes(code))) {
+    if (expectedIsrcs.length !== release.trackIds.length || observedIsrcs.length !== release.trackIds.length) return { status: "review", reason: "incomplete_recording_identifiers" };\n    if (!expectedIsrcs.every(code => observedIsrcs.includes(code))) {
       return { status: "rejected", reason: "recording_mismatch" };
     }
     return { status: "verified", reason: "upc_and_recordings", url: candidate.url };
