@@ -36,6 +36,7 @@ export const streamingLinksSchema = z
     soundcloud: optionalHttpsUrl,
     deezer: optionalHttpsUrl,
     tidal: optionalHttpsUrl,
+    amazonMusic: optionalHttpsUrl,
   })
   .partial()
   .strict();
