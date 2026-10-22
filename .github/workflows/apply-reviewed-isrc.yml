@@ -1,0 +1,35 @@
+name: Apply reviewed ISRC to catalog PR
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  import-isrc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Preview exact Spotify ID matches
+        run: npx tsx scripts/import-reviewed-isrc.ts
+      - name: Apply reviewed ISRC to matching track files
+        run: npx tsx scripts/import-reviewed-isrc.ts --apply
+      - name: Create catalog change pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/apply-reviewed-isrc
+          delete-branch: true
+          commit-message: 'catalog: apply reviewed ISRC by exact Spotify track ID'
+          title: 'Catalog: apply 71 reviewed ISRC lookup results'
+          body: |
+            Generated from scripts/data/musiclink-isrc-reviewed.txt.
+            Each code is mapped by exact Spotify track ID, never title or shared ISRC.
+            Existing conflicting ISRC values are not overwritten.
+            Review recording metadata before merging. No streaming URLs are changed.
+          add-paths: content/tracks/*.json
