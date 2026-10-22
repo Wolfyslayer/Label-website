@@ -1,0 +1,30 @@
+name: Test MusicLink YouTube Music matching
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Test five missing YouTube Music links
+        env:
+          MUSICLINK_API_KEY: ${{ secrets.MUSICLINK_API_KEY }}
+        run: npx tsx scripts/test-musiclink.ts
+      - name: Upload diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: musiclink-test-report
+          path: musiclink-test-report.md
+          if-no-files-found: warn
+          retention-days: 14
