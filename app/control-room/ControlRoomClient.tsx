@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ArrowUpRight, CheckCircle2, Clock3, Disc3, ExternalLink, Link2, LogOut, Music2, RefreshCw, Search, ShieldCheck, Youtube } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { Track } from "@/lib/types/content";
 
@@ -17,6 +18,9 @@ const validLink = (raw: string) => {
 export default function ControlRoom({ tracks }: { tracks: Track[] }) {
   const [userId, setUserId] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [tab, setTab] = useState<"overview" | "links" | "queue" | "tools">("overview");
+  const [onlyPending, setOnlyPending] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [artist, setArtist] = useState("all");
@@ -27,57 +31,44 @@ export default function ControlRoom({ tracks }: { tracks: Track[] }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   useEffect(() => {
-    if (!client) return;
-    const refresh = async () => {
-      const { data: { user } } = await client.auth.getUser();
-      setUserId(user?.id ?? null);
-      if (!user) { setAuthorized(false); return; }
-      const { data } = await client.from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
-      setAuthorized(!!data);
-    };
-    void refresh();
-    const { data: { subscription } } = client.auth.onAuthStateChange(() => { void refresh(); });
-    return () => subscription.unsubscribe();
-  }, []);
-  useEffect(() => {
-    if (!client || !authorized) return;
-    void client.from("youtube_link_proposals").select("track_id,youtube_url,updated_at").then(({ data }) => setPending(data ?? []));
-  }, [authorized]);
-  const filtered = useMemo(() => tracks.filter(t =>
-    (artist === "all" || t.artistId === artist) &&
-    (!missing || !t.youtubeMusicTrackUrl) &&
-    (t.title.toLowerCase().includes(query.toLowerCase()) || (t.spotifyTrackId ?? "").includes(query))
-  ), [artist, query, missing]);
-  const signIn = async (e: React.FormEvent) => {
-    e.preventDefault(); if (!client) return;
-    setBusy(true); setMessage("");
-    const { error } = await client.auth.signInWithPassword({ email, password });
-    setPassword(""); setBusy(false);
-    if (error) setMessage("Inloggningen misslyckades.");
-  };
-  const save = async (track: Track) => {
-    if (!client || !userId || !authorized) return;
-    const url = (editing[track.id] ?? "").trim();
-    if (!validLink(url)) { setMessage("Använd en direktlänk: https://music.youtube.com/watch?v=VIDEO_ID"); return; }
-    setBusy(true); setMessage("");
-    const { error } = await client.from("youtube_link_proposals").upsert({
-      track_id: track.id, spotify_track_id: track.spotifyTrackId, youtube_url: url, proposed_by: userId
-    }, { onConflict: "track_id" });
-    if (error) setMessage("Kunde inte spara förslaget. Kontrollera adminbehörighet och databas.");
-    else {
-      setPending(p => [...p.filter(x => x.track_id !== track.id), { track_id: track.id, youtube_url: url, updated_at: new Date().toISOString() }]);
-      setMessage("Sparat för granskning. Kör GitHub Actions: Apply approved YouTube links för att publicera.");
-    }
-    setBusy(false);
-  };
-  if (!client) return <main className="mx-auto max-w-lg p-10"><h1 className="text-2xl font-bold">Control Room</h1><p>Supabase är inte konfigurerat.</p></main>;
-  return <main className="mx-auto max-w-6xl min-h-screen p-5 md:p-10 space-y-6">
-    <header className="flex items-center justify-between gap-4"><div><p className="text-sm opacity-60">WOLF YSLAYER RECORDS</p><h1 className="text-3xl font-bold">Control Room</h1></div>{userId && <button className="rounded-lg border px-4 py-2" onClick={() => void client.auth.signOut()}>Logga ut</button>}</header>
-    {!userId ? <form onSubmit={e => void signIn(e)} className="max-w-md space-y-4 rounded-2xl border p-6"><h2 className="text-xl font-semibold">Säker inloggning</h2><input className="w-full rounded-lg border bg-transparent p-3" type="email" required placeholder="E-post" autoComplete="username" value={email} onChange={e => setEmail(e.target.value)}/><input className="w-full rounded-lg border bg-transparent p-3" type="password" required placeholder="Lösenord" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)}/><button disabled={busy} className="rounded-lg bg-white px-5 py-3 text-black disabled:opacity-50">Logga in</button></form> :
-    !authorized ? <section className="rounded-xl border p-6"><h2 className="font-semibold">Åtkomst nekad</h2><p>Kontot saknar administratörsbehörighet.</p></section> :
-    <><section className="grid grid-cols-2 gap-3 md:grid-cols-4">{[["Låtar", tracks.length],["Saknar YouTube", tracks.filter(t=>!t.youtubeMusicTrackUrl).length],["Länkade",tracks.filter(t=>!!t.youtubeMusicTrackUrl).length],["Väntar på publicering",pending.length]].map(([name,n])=><div key={name} className="rounded-xl border p-4"><p className="text-sm opacity-60">{name}</p><p className="text-2xl font-bold">{n}</p></div>)}</section>
-    <section className="rounded-2xl border p-5 space-y-4"><h2 className="text-xl font-semibold">YouTube Music Link Manager</h2><p className="text-sm opacity-70">Klistra in korrekt YouTube Music-länk. Ändringar sparas som skyddade förslag och publiceras via GitHub Actions.</p><div className="flex flex-wrap gap-3"><input aria-label="Sök låt" className="min-w-48 flex-1 rounded-lg border bg-transparent p-3" placeholder="Sök låt eller Spotify-ID" value={query} onChange={e=>setQuery(e.target.value)}/><select aria-label="Artist" className="rounded-lg border bg-transparent p-3" value={artist} onChange={e=>setArtist(e.target.value)}><option value="all">Alla artister</option><option value="artist-frostmark">Frostmark</option><option value="artist-wolfyslayer">Wolfyslayer</option></select><label className="flex items-center gap-2"><input type="checkbox" checked={missing} onChange={e=>setMissing(e.target.checked)}/>Bara saknade</label></div>
-    <div className="max-h-[65vh] space-y-3 overflow-auto">{filtered.map(t=><div key={t.id} className="rounded-xl border p-4 space-y-2"><div className="flex flex-wrap justify-between gap-2"><div><h3 className="font-semibold">{t.title}</h3><p className="text-xs opacity-60">{t.artistId === "artist-frostmark" ? "Frostmark" : "Wolfyslayer"} · {t.durationSeconds ?? "?"} sek</p></div><span className="text-xs opacity-70">{pending.some(p=>p.track_id===t.id) ? "Väntar på publicering" : t.youtubeMusicTrackUrl ? "Länkad" : "Saknar länk"}</span></div><div className="flex flex-wrap gap-2"><input aria-label={`YouTube-länk för ${t.title}`} className="min-w-48 flex-1 rounded-lg border bg-transparent p-2" placeholder="https://music.youtube.com/watch?v=..." value={editing[t.id] ?? pending.find(p=>p.track_id===t.id)?.youtube_url ?? t.youtubeMusicTrackUrl ?? ""} onChange={e=>setEditing(s=>({...s,[t.id]:e.target.value}))}/><button disabled={busy} className="rounded-lg border px-4 py-2 disabled:opacity-50" onClick={()=>void save(t)}>Spara förslag</button></div></div>)}</div></section></>}
-    {message && <p role="status" className="rounded-lg border p-3">{message}</p>}
+    const linked = tracks.filter(t => !!t.youtubeMusicTrackUrl).length;
+  const missingCount = tracks.length - linked;
+  const completion = tracks.length ? Math.round(linked / tracks.length * 100) : 0;
+  const nav = [
+    { id: "overview", label: "Översikt", icon: Disc3 },
+    { id: "links", label: "Länkhantering", icon: Link2 },
+    { id: "queue", label: "Att granska", icon: Clock3 },
+    { id: "tools", label: "Verktyg", icon: RefreshCw },
+  ] as const;
+  const field = "min-h-11 w-full rounded-sm border border-border bg-void/70 px-4 py-2.5 text-text-primary placeholder:text-text-muted/60 focus-visible:outline-silver";
+  const action = "inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-silver/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-silver transition-colors hover:bg-silver/10 disabled:cursor-not-allowed disabled:opacity-40";
+  const card = "border border-border-subtle bg-surface/80 p-5 sm:p-6";
+  if (!client) return <main className="mx-auto max-w-lg p-10"><h1 className="font-display text-2xl">Control Room</h1><p>Supabase är inte konfigurerat.</p></main>;
+  if (checking) return <main className="flex min-h-screen items-center justify-center text-text-muted" role="status">Verifierar säker session…</main>;
+  return <main className="min-h-screen bg-void text-text-primary">
+    <div className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-gradient-to-b from-frost/20 to-transparent" aria-hidden="true" />
+    <div className="relative mx-auto max-w-[90rem] px-4 pb-20 pt-8 sm:px-8 lg:px-12">
+      <header className="mb-9 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
+        <div><p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.35em] text-wolf-glow">Wolfyslayer Records / Private</p><h1 className="font-display text-3xl tracking-wide text-silver sm:text-4xl">CONTROL ROOM</h1><p className="mt-2 text-sm text-text-muted">Musikkatalog · YouTube Music · Administration</p></div>
+        <div className="flex items-center gap-2"><span className="inline-flex items-center gap-2 border border-success/30 bg-success/5 px-3 py-2 text-xs text-success"><ShieldCheck size={15}/> Säker anslutning</span>{userId && <button className={action} onClick={() => void client.auth.signOut()}><LogOut size={15}/> Logga ut</button>}</div>
+      </header>
+      {!userId ? <section className="mx-auto mt-16 max-w-md border border-border bg-surface p-7 sm:p-10"><ShieldCheck className="mb-5 text-wolf-glow" size={32}/><h2 className="font-display text-2xl text-silver">ADMIN LOGIN</h2><p className="mb-7 mt-2 text-sm text-text-muted">Endast behöriga administratörer.</p><form onSubmit={e => void signIn(e)} className="space-y-4"><label className="block space-y-2 text-xs uppercase tracking-widest text-text-muted">E-post<input className={field} type="email" required autoComplete="username" value={email} onChange={e=>setEmail(e.target.value)}/></label><label className="block space-y-2 text-xs uppercase tracking-widest text-text-muted">Lösenord<input className={field} type="password" required autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)}/></label><button disabled={busy} className={action+" w-full"}>Logga in <ArrowUpRight size={16}/></button></form></section> :
+      !authorized ? <section className={card}><h2 className="font-display text-xl">Åtkomst nekad</h2><p className="mt-2 text-text-muted">Ditt konto saknar administratörsbehörighet.</p></section> :
+      <div className="grid gap-7 lg:grid-cols-[230px_minmax(0,1fr)]">
+        <nav aria-label="Administration" className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:pb-0">{nav.map(item => <button key={item.id} onClick={()=>{setTab(item.id);setOnlyPending(item.id==="queue");if(item.id==="queue")setMissing(false);}} aria-current={tab===item.id?"page":undefined} className={"flex min-h-12 shrink-0 items-center gap-3 border px-4 text-left text-xs font-semibold uppercase tracking-wider transition-colors "+(tab===item.id?"border-wolf-glow/60 bg-wolf/15 text-silver":"border-transparent text-text-muted hover:border-border hover:text-silver")}><item.icon size={17}/>{item.label}</button>)}</nav>
+        <div className="min-w-0 space-y-6">
+          {(tab==="overview" || tab==="links" || tab==="queue") && <>
+            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+              {([{label:"Totalt antal låtar",value:tracks.length,icon:Music2},{label:"YouTube-länkade",value:linked,icon:CheckCircle2},{label:"Saknade länkar",value:missingCount,icon:Youtube},{label:"Väntar på granskning",value:pending.length,icon:Clock3}]).map(item=><div key={item.label} className={card}><item.icon className="mb-4 text-wolf-glow" size={20}/><p className="font-display text-3xl text-silver">{item.value}</p><p className="mt-1 text-xs text-text-muted">{item.label}</p></div>)}
+            </div>
+            {tab==="overview" && <section className={card}><div className="mb-4 flex items-center justify-between gap-3"><h2 className="font-display text-xl text-silver">Katalogens täckning</h2><span className="text-2xl font-semibold text-wolf-glow">{completion}%</span></div><div className="h-2 overflow-hidden bg-charcoal" role="progressbar" aria-valuenow={completion} aria-valuemin={0} aria-valuemax={100} aria-label="YouTube Music-täckning"><div className="h-full bg-wolf-glow" style={{width:completion+"%"}} /></div><p className="mt-3 text-sm text-text-muted">{missingCount} låtar saknar direktlänk. Koppla dem manuellt eller granska importerade förslag.</p><button className={action+" mt-5"} onClick={()=>{setTab("links");setMissing(true);setOnlyPending(false)}}>Hantera saknade länkar <ArrowUpRight size={15}/></button></section>}
+            {(tab==="links" || tab==="queue") && <section className={card+" space-y-5"}><div><p className="text-[10px] uppercase tracking-[0.3em] text-wolf-glow">Catalog editor</p><h2 className="mt-2 font-display text-2xl text-silver">{tab==="queue"?"Förslag som väntar":"YouTube Music Link Manager"}</h2><p className="mt-2 text-sm text-text-muted">Spara en verifierad direktlänk. Ändringen skickas till granskning innan publicering.</p></div><div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]"><label className="relative"><Search size={17} className="absolute left-3 top-3.5 text-text-muted"/><input aria-label="Sök låt" className={field+" pl-10"} placeholder="Sök titel eller Spotify-ID" value={query} onChange={e=>setQuery(e.target.value)}/></label><select aria-label="Filtrera artist" className={field} value={artist} onChange={e=>setArtist(e.target.value)}><option value="all">Alla artister</option><option value="artist-frostmark">Frostmark</option><option value="artist-wolfyslayer">Wolfyslayer</option></select></div><label className="flex items-center gap-3 text-sm text-text-muted"><input type="checkbox" checked={missing} onChange={e=>setMissing(e.target.checked)}/>Visa bara låtar utan publicerad länk</label><p className="text-xs text-text-muted" role="status">{filtered.length} låtar visas</p>
+            <div className="max-h-[70vh] space-y-3 overflow-auto">{filtered.map(t=>{const proposal=pending.find(p=>p.track_id===t.id);return <article key={t.id} className="border border-border bg-void/60 p-4"><div className="mb-3 flex flex-wrap items-start justify-between gap-2"><div><h3 className="font-semibold text-silver">{t.title}</h3><p className="mt-1 text-xs text-text-muted">{t.artistId==="artist-frostmark"?"Frostmark":"Wolfyslayer"} · {t.durationSeconds?Math.floor(t.durationSeconds/60)+":"+String(t.durationSeconds%60).padStart(2,"0"):"Okänd längd"}</p></div><span className={"border px-2 py-1 text-[10px] uppercase tracking-wider "+(proposal?"border-wolf/60 text-wolf-glow":t.youtubeMusicTrackUrl?"border-success/30 text-success":"border-border text-text-muted")}>{proposal?"Väntar":t.youtubeMusicTrackUrl?"Länkad":"Saknas"}</span></div><div className="flex flex-wrap items-center gap-3 pb-3 text-xs">{t.spotifyTrackUrl && <a className="inline-flex items-center gap-1 text-text-muted hover:text-silver" href={t.spotifyTrackUrl} target="_blank" rel="noopener noreferrer">Spotify <ExternalLink size={12}/></a>}{t.youtubeMusicTrackUrl && <a className="inline-flex items-center gap-1 text-text-muted hover:text-silver" href={t.youtubeMusicTrackUrl} target="_blank" rel="noopener noreferrer">Publicerad YouTube <ExternalLink size={12}/></a>}{proposal && <a className="inline-flex items-center gap-1 text-wolf-glow hover:text-silver" href={proposal.youtube_url} target="_blank" rel="noopener noreferrer">Granska förslag <ExternalLink size={12}/></a>}</div><div className="flex flex-col gap-2 sm:flex-row"><input aria-label={"YouTube-länk för "+t.title} className={field+" min-w-0 flex-1"} placeholder="https://music.youtube.com/watch?v=..." value={editing[t.id] ?? proposal?.youtube_url ?? t.youtubeMusicTrackUrl ?? ""} onChange={e=>setEditing(s=>({...s,[t.id]:e.target.value}))}/><button disabled={busy} className={action} onClick={()=>void save(t)}>Spara förslag</button></div></article>})}{filtered.length===0 && <p className="py-10 text-center text-text-muted">Inga låtar matchar filtreringen.</p>}</div></section>}
+          </>}
+          {tab==="tools" && <section className={card+" space-y-6"}><div><p className="text-[10px] uppercase tracking-[0.3em] text-wolf-glow">Operations</p><h2 className="mt-2 font-display text-2xl text-silver">Import & publicering</h2><p className="mt-2 text-sm text-text-muted">Öppna säkra GitHub-flöden för importer, förslagsgranskning och publicering. Ingen åtgärd körs automatiskt här.</p></div><div className="grid gap-3 sm:grid-cols-2">{[{title:"Spotify & YouTube-import",desc:"Kontrollera den schemalagda katalogimporten.",url:"https://github.com/Wolfyslayer/Label-website/actions/workflows/import-spotify.yml"},{title:"Publicera länkförslag",desc:"Skapa PR av sparade YouTube Music-länkar.",url:"https://github.com/Wolfyslayer/Label-website/actions/workflows/apply-admin-youtube-links.yml"},{title:"Granska ändringar",desc:"Öppna pull requests före publicering.",url:"https://github.com/Wolfyslayer/Label-website/pulls"},{title:"Drift & deploy",desc:"Kontrollera senaste GitHub Pages-deploy.",url:"https://github.com/Wolfyslayer/Label-website/actions/workflows/deploy-github-pages.yml"}].map(item=><a key={item.title} href={item.url} target="_blank" rel="noopener noreferrer" className="group border border-border p-5 transition-colors hover:border-wolf-glow"><ArrowUpRight className="mb-3 text-wolf-glow" size={19}/><h3 className="font-semibold text-silver">{item.title}</h3><p className="mt-2 text-sm text-text-muted">{item.desc}</p></a>)}</div></section>}
+        </div>
+      </div>}
+      {message && <p role="status" className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-xl border border-wolf/60 bg-charcoal p-4 text-sm shadow-xl">{message}<button className="ml-3 underline" onClick={()=>setMessage("")}>Stäng</button></p>}
+    </div>
   </main>;
 }
