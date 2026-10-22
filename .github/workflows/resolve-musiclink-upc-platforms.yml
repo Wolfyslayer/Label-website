@@ -1,0 +1,29 @@
+name: Resolve all release platforms by UPC
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Resolve album platforms with UPC match
+        env:
+          MUSICLINK_API_KEY: ${{ secrets.MUSICLINK_API_KEY }}
+        run: npx tsx scripts/resolve-musiclink-upc-platforms.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: musiclink-resolve-upc-results
+          path: |
+            musiclink-resolve-upc-approved.json
+            musiclink-resolve-upc-review.json
+            musiclink-resolve-upc-report.md
+          retention-days: 90
