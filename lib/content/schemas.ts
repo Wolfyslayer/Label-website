@@ -80,6 +80,7 @@ export const trackSchema = z.object({
   spotifyTrackUrl: httpsUrl.optional(),
   spotifyTrackId: z.string().min(1).optional(),
   youtubeMusicTrackUrl: httpsUrl.optional(),
+  isrc: z.string().regex(/^[A-Z]{2}[A-Z0-9]{3}[0-9]{7}$/).optional(),
 });
 
 export const releaseDatePrecisionSchema = z.enum(["year", "month", "day"]);
@@ -99,6 +100,7 @@ export const releaseSourceSchema = z.object({
   streamingLinks: streamingLinksSchema.default({}),
   spotifyAlbumUrl: httpsUrl.optional(),
   spotifyAlbumId: z.string().min(1).optional(),
+  upc: z.string().regex(/^\\d{12,14}$/).optional(),
   trackIds: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
   status: contentStatusSchema,
