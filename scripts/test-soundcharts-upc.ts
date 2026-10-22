@@ -52,7 +52,7 @@ async function main() {
     let status = "HTTP " + response.status, uuid = "";
     if (response.ok) {
       const payload = await response.json() as { object?: { uuid?: string; upc?: string }; uuid?: string };
-      const album = payload.object ?? payload;
+      const album: { uuid?: string; upc?: string } = payload.object ?? payload;
       uuid = album.uuid ?? "";
       status = album.upc && album.upc !== upc ? "UPC mismatch — review" : "Found";
     } else if (response.status === 403) status = "403 — endpoint not included in plan";
