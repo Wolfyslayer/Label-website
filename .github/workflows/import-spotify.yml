@@ -45,6 +45,24 @@ jobs:
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
         run: npm run import:spotify
 
+      - name: Export ISRC and UPC from Spotify metadata
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+        run: npx tsx scripts/export-spotify-identifiers.ts
+
+      - name: Upload ISRC and UPC CSV artifact
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotify-isrc-upc
+          path: spotify-identifiers.csv
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Remove CSV before preparing catalog PR
+        run: rm -f spotify-identifiers.csv
+
       - name: Enrich verified YouTube Music track links
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
