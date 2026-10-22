@@ -20,6 +20,7 @@ const approved:Approved[]=[];const review:Review[]=[];
 const releases=readdirSync("content/releases").filter(f=>f.endsWith(".json")).map(f=>JSON.parse(readFileSync(join("content/releases",f),"utf8")) as ReleaseSource).filter(r=>r.spotifyAlbumUrl);
 const normalize=(v:string)=>v.replace(/\D/g,"").replace(/^0+(?=\d)/,"");
 const sleep=(ms:number)=>new Promise(resolve=>setTimeout(resolve,ms));
+async function main(){
 for(const release of releases){
  const fail=(reason:string,observedUpc?:string)=>review.push({releaseId:release.id,title:release.title,reason,expectedUpc:release.upc,observedUpc});
  if(!release.upc||!/^\d{8,14}$/.test(release.upc)){fail("missing_catalog_upc");continue;}
@@ -53,3 +54,5 @@ writeFileSync("musiclink-resolve-upc-approved.json",JSON.stringify(approved,null
 writeFileSync("musiclink-resolve-upc-review.json",JSON.stringify(review,null,2)+"\n");
 writeFileSync("musiclink-resolve-upc-report.md",["# MusicLink UPC-based multi-platform resolution","","Release identity: Spotify album UPC must match MusicLink album UPC. ISRC is never used.","","- Releases checked: "+releases.length,"- UPC-matched candidate links: "+approved.length,"- Releases requiring review: "+review.length,"","No links were published. Review the output before applying.",""].join("\n"));
 console.log("UPC resolve: "+approved.length+" candidate links; "+review.length+" releases for review.");
+}
+main().catch(error=>{console.error(error);process.exitCode=1;});
