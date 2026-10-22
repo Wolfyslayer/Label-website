@@ -56,6 +56,7 @@ export type SpotifyAlbumTracksPage = {
 
 export type SpotifyFullAlbum = SpotifySimplifiedAlbum & {
   tracks: SpotifyAlbumTracksPage;
+  external_ids?: { upc?: string; ean?: string };
 };
 
 export type FetchLike = typeof fetch;
