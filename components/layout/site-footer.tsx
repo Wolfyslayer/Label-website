@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 const footerHrefs = [
   { href: "/artists", labelKey: "artists" as const, ns: "nav" as const },
   { href: "/music", labelKey: "music" as const, ns: "nav" as const },
+  { href: "/merch", labelKey: "merch" as const, ns: "nav" as const },
   { href: "/upcoming", labelKey: "upcoming" as const, ns: "nav" as const },
   { href: "/news", labelKey: "news" as const, ns: "nav" as const },
   { href: "/about", labelKey: "about" as const, ns: "nav" as const },

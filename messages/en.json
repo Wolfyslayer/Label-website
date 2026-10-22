@@ -15,7 +15,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "primary": "Primary navigation",
-    "mobilePrimary": "Mobile navigation"
+    "mobilePrimary": "Mobile navigation",
+    "merch": "Merch"
   },
   "lang": {
     "label": "Language",
@@ -299,5 +300,15 @@
     "seconds": "Sec",
     "aria": "Release countdown"
   },
-  "notFoundArtist": "Artist not found"
+  "notFoundArtist": "Artist not found",
+  "merch": {
+    "eyebrow": "OFFICIAL MERCH",
+    "title": "Wear the music",
+    "description": "Official merchandise from Wolfyslayer Records, Frostmark and Wolfyslayer. Collections are in development.",
+    "soon": "Collection coming soon",
+    "notice": "We're preparing our first products. Orders are not available yet.",
+    "label": "Wolfyslayer Records",
+    "frostmark": "Frostmark",
+    "wolfyslayer": "Wolfyslayer"
+  }
 }
