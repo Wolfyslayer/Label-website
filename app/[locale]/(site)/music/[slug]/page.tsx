@@ -23,8 +23,8 @@ import { musicAlbumJsonLd } from "@/lib/metadata/json-ld";
 import { JsonLd } from "@/components/seo/json-ld";
 import { releaseShareMetadata } from "@/lib/metadata/release-share";
 import { formatReleaseDate } from "@/lib/utils/date";
-import { getReleaseSpotifyUrl, youtubeMusicSearchUrl } from "@/lib/utils/streaming";
-import { ExternalLink } from "lucide-react";
+import { getReleaseSpotifyUrl } from "@/lib/utils/streaming";
+
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -118,17 +118,11 @@ export default async function ReleaseDetailPage({ params }: Props) {
                 </p>
               ) : null}
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-                <StreamingLinks links={release.streamingLinks} />
-                {spotifyUrl ? (
-                  <Button href={spotifyUrl} external variant="outline" size="sm" className="min-h-11">
-                    {t("listenSpotify")}
-                    <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-                  </Button>
-                ) : null}
-                <Button href={youtubeDirectUrl || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="outline" size="sm" className="min-h-11">
-                  {youtubeDirectUrl ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}
-                  <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-                </Button>
+                <StreamingLinks links={{
+                  ...release.streamingLinks,
+                  ...(spotifyUrl ? { spotify: spotifyUrl } : {}),
+                  ...(youtubeDirectUrl ? { youtubeMusic: youtubeDirectUrl } : {}),
+                }} hideIfEmpty />
                 <Button href={`/releases/${release.slug}`} variant="secondary" size="sm" className="min-h-11">
                   {t("smartLink")}
                 </Button>
