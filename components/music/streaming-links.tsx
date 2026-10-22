@@ -13,6 +13,7 @@ const logos: Partial<Record<StreamingPlatform, string>> = {
   tidal: "tidal",
   soundcloud: "soundcloud",
   bandcamp: "bandcamp",
+  amazonMusic: "amazonmusic",
 };
 
 export function StreamingLinks({
