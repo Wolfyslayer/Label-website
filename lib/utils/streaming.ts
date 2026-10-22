@@ -8,6 +8,7 @@ export const platformLabels: Record<StreamingPlatform, string> = {
   soundcloud: "Soundcloud",
   deezer: "Deezer",
   tidal: "Tidal",
+  amazonMusic: "Amazon Music",
 };
 
 export function getConfiguredStreamingLinks(links: StreamingLinks) {
