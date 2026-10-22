@@ -58,7 +58,7 @@ async function main() {
       track.spotifyTrackId ?? "", tracks.get(track.spotifyTrackId ?? "")?.external_ids?.isrc ?? "",
       albumId, ids?.upc ?? "", ids?.ean ?? ""]);
   }
-  writeFileSync("spotify-identifiers.csv", rows.map(row => row.map(csv).join(",")).join("\n") + "\n", "utf8");
+  writeFileSync("spotify-identifiers.csv", "\uFEFF" + rows.map(row => row.map(csv).join(",")).join("\n") + "\n", "utf8");
   console.log("Identifier artifact: " + (rows.length - 1) + " tracks, " + tracks.size + " Spotify track metadata results, " + albums.size + " album metadata results.");
   console.log("Missing ISRC values: " + rows.slice(1).filter(row => !row[4]).length + ". Missing UPC values: " + rows.slice(1).filter(row => !row[6]).length + ".");
 }
