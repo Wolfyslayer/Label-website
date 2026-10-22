@@ -8,5 +8,6 @@
   "discNumber": 1,
   "durationSeconds": 207,
   "spotifyTrackUrl": "https://open.spotify.com/track/3GcHXy1EeR1eCZqOFOPRfb",
-  "spotifyTrackId": "3GcHXy1EeR1eCZqOFOPRfb"
+  "spotifyTrackId": "3GcHXy1EeR1eCZqOFOPRfb",
+  "youtubeMusicTrackUrl": "https://music.youtube.com/watch?v=25NLRLJHKas"
 }
