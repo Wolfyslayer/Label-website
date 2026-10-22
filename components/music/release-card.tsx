@@ -2,15 +2,14 @@
 
 import { Badge } from "@/components/ui/badge";
 import { getOptimizedReleaseCover } from "@/lib/assets/release-cover";
-import { Button } from "@/components/ui/button";
+import { StreamingLinks } from "@/components/music/streaming-links";
 import { PlaceholderBanner } from "@/components/ui/placeholder-banner";
 import type { Artist, Release } from "@/lib/types/content";
-import { getReleaseSpotifyUrl, youtubeMusicSearchUrl } from "@/lib/utils/streaming";
+import { getReleaseSpotifyUrl } from "@/lib/utils/streaming";
 import { formatReleaseDate } from "@/lib/utils/date";
 import { useLocale, useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { motion, useReducedMotion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 
@@ -97,25 +96,14 @@ export function ReleaseCard({
           </p>
         </div>
       </Link>
-      <div className="mt-2 flex flex-wrap items-center gap-x-4">
-      {spotifyUrl ? (
-        <div className="mt-2">
-          <Button
-            href={spotifyUrl}
-            external
-            variant="ghost"
-            size="sm"
-            className="min-h-11 px-1 text-xs uppercase tracking-widest text-silver hover:text-text-primary"
-          >
-            Spotify
-            <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-          </Button>
-        </div>
-      ) : null}
-      <Button href={release.streamingLinks.youtubeMusic || youtubeMusicSearchUrl(release.title, artist?.name ?? "")} external variant="ghost" size="sm" className="min-h-11 px-1 text-xs uppercase tracking-widest text-silver hover:text-text-primary">
-        {release.streamingLinks.youtubeMusic ? "YouTube Music" : (locale === "sv" ? "Sök på YouTube Music" : "Search YouTube Music")}
-        <ExternalLink className="h-3.5 w-3.5 opacity-60" aria-hidden />
-      </Button>
+      <div className="mt-3">
+        <StreamingLinks
+          links={{
+            ...release.streamingLinks,
+            ...(spotifyUrl ? { spotify: spotifyUrl } : {}),
+          }}
+          hideIfEmpty
+        />
       </div>
     </motion.article>
   );
