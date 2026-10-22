@@ -31,7 +31,54 @@ export default function ControlRoom({ tracks }: { tracks: Track[] }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   useEffect(() => {
-    const linked = tracks.filter(t => !!t.youtubeMusicTrackUrl).length;
+    if (!client) { setChecking(false); return; }
+    let active = true;
+    const refresh = async () => {
+      const { data: { user } } = await client.auth.getUser();
+      if (!active) return;
+      setUserId(user?.id ?? null);
+      if (!user) { setAuthorized(false); setChecking(false); return; }
+      const { data } = await client.from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
+      if (active) { setAuthorized(!!data); setChecking(false); }
+    };
+    void refresh();
+    const { data: { subscription } } = client.auth.onAuthStateChange(() => { void refresh(); });
+    return () => { active = false; subscription.unsubscribe(); };
+  }, []);
+  useEffect(() => {
+    if (!client || !authorized) { setPending([]); return; }
+    void client.from("youtube_link_proposals").select("track_id,youtube_url,updated_at").then(({ data }) => setPending(data ?? []));
+  }, [authorized]);
+  const filtered = useMemo(() => tracks.filter(t =>
+    (artist === "all" || t.artistId === artist) &&
+    (!missing || !t.youtubeMusicTrackUrl) &&
+    (!onlyPending || pending.some(p => p.track_id === t.id)) &&
+    (t.title.toLowerCase().includes(query.toLowerCase()) || (t.spotifyTrackId ?? "").includes(query))
+  ), [tracks, artist, missing, onlyPending, pending, query]);
+  const signIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!client) return;
+    setBusy(true); setMessage("");
+    const { error } = await client.auth.signInWithPassword({ email, password });
+    setPassword(""); setBusy(false);
+    if (error) setMessage("Inloggningen misslyckades.");
+  };
+  const save = async (track: Track) => {
+    if (!client || !userId || !authorized) return;
+    const url = (editing[track.id] ?? pending.find(p => p.track_id === track.id)?.youtube_url ?? track.youtubeMusicTrackUrl ?? "").trim();
+    if (!validLink(url)) { setMessage("Använd en direktlänk: https://music.youtube.com/watch?v=VIDEO_ID"); return; }
+    setBusy(true); setMessage("");
+    const { error } = await client.from("youtube_link_proposals").upsert({
+      track_id: track.id, spotify_track_id: track.spotifyTrackId, youtube_url: url, proposed_by: userId
+    }, { onConflict: "track_id" });
+    if (error) setMessage("Kunde inte spara förslaget. Kontrollera adminbehörighet och databas.");
+    else {
+      setPending(p => [...p.filter(x => x.track_id !== track.id), { track_id: track.id, youtube_url: url, updated_at: new Date().toISOString() }]);
+      setMessage("Sparat för granskning. Kör GitHub Actions: Apply approved YouTube links för att publicera.");
+    }
+    setBusy(false);
+  };
+  const linked = tracks.filter(t => !!t.youtubeMusicTrackUrl).length;
   const missingCount = tracks.length - linked;
   const completion = tracks.length ? Math.round(linked / tracks.length * 100) : 0;
   const nav = [
