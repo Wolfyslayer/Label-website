@@ -20,7 +20,7 @@ export type MatchResult =
   | { status: "review"; reason: string }
   | { status: "rejected"; reason: string };
 
-const normalized = (s: string) => s.normalize("NFKC").toLowerCase().replace(/[^\\p{L}\\p{N}]+/gu, " ").trim();
+const normalized = (s: string) => s.normalize("NFKC").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 
 export function evaluateReleaseCandidate(
   release: ReleaseSource,
@@ -29,7 +29,7 @@ export function evaluateReleaseCandidate(
 ): MatchResult {
   if (candidate.artistId !== release.artistId) return { status: "rejected", reason: "artist_mismatch" };
   if (candidate.releaseType !== release.type) return { status: "rejected", reason: "release_type_mismatch" };
-  if (!/^https:\\/\\/[^\\s]+$/.test(candidate.url)) return { status: "rejected", reason: "invalid_url" };
+  if (!/^https:\/\/[^\s]+$/.test(candidate.url)) return { status: "rejected", reason: "invalid_url" };
   if (candidate.title && normalized(candidate.title) !== normalized(release.title)) {
     return { status: "review", reason: "release_title_mismatch" };
   }
